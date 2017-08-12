@@ -13,7 +13,6 @@ namespace AnimeCentralWeb.Controllers
         {
             ViewData["Message"] = "Your application description page.";
 
-
             return View();
         }
 
