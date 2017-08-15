@@ -1,4 +1,7 @@
-﻿using AnimeCentralWeb.Domain;
+﻿using AnimeCentralWeb.Data;
+using AnimeCentralWeb.Domain;
+using AnimeCentralWeb.Models.DomainViewModels;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,11 +12,29 @@ using System.Xml.Linq;
 
 namespace AnimeCentralWeb.Controllers
 {
-    public class HomeController : Controller
+    public class AnimeController : Controller
     {
-        public IActionResult Index()
+        public AnimeCentralDbContext Context;
+        public IMapper AutoMapper;
+        public AnimeController(AnimeCentralDbContext context)
         {
-            return View();
+            Context = context;
+            AutoMapper = Mapper.Instance;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddAnime(AnimeViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var anime = AutoMapper.Map<AnimeViewModel, Anime>(model);
+
+                await Context.Anime.AddAsync(anime);
+                await Context.SaveChangesAsync();
+
+                return Ok();
+            }
+            return BadRequest();
         }
 
         public async Task<IActionResult> SearchAnime(string searchText)
@@ -60,6 +81,12 @@ namespace AnimeCentralWeb.Controllers
             }
 
             return new JsonResult(animeList);
+        }
+
+        [HttpGet]
+        public ActionResult GetAnimePartial()
+        {
+            return PartialView("Partials/_AddAnimePartial");
         }
     }
 }

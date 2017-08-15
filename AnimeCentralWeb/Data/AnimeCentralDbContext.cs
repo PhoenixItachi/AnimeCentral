@@ -5,12 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using AnimeCentralWeb.Models;
+using AnimeCentralWeb.Domain;
 
 namespace AnimeCentralWeb.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class AnimeCentralDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public DbSet<Anime> Anime { get; set; }
+        public DbSet<Episode> Episodes { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Source> Sources { get; set; }
+
+
+        public AnimeCentralDbContext(DbContextOptions<AnimeCentralDbContext> options)
             : base(options)
         {
         }

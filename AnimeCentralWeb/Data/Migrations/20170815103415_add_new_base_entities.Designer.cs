@@ -8,9 +8,10 @@ using AnimeCentralWeb.Data;
 namespace AnimeCentralWeb.Data.Migrations
 {
     [DbContext(typeof(AnimeCentralDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170815103415_add_new_base_entities")]
+    partial class add_new_base_entities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -20,8 +21,6 @@ namespace AnimeCentralWeb.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("BigImage");
 
                     b.Property<string>("EpisodeLength");
 
@@ -323,7 +322,7 @@ namespace AnimeCentralWeb.Data.Migrations
             modelBuilder.Entity("AnimeCentralWeb.Domain.Source", b =>
                 {
                     b.HasOne("AnimeCentralWeb.Domain.Episode", "Episode")
-                        .WithMany("Sources")
+                        .WithMany()
                         .HasForeignKey("EpisodeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

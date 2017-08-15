@@ -1,0 +1,35 @@
+@model AnimeCentralWeb.Models.DomainViewModels.AnimeViewModel
+
+
+<div class="content">
+    <div class="content-header">
+        <div class="title">@Model.Title</div>
+        <div class="description">@Model.Type</div>
+    </div>
+    <div class="content-body anime">
+        <i class="fa fa-times close-pop-up" aria-hidden="true"></i>
+        <table>
+            <tr>
+                <td>
+                    <div class="anime-details">
+                        <div class="cover">
+                            <img src="@Model.Image" />
+                            <span class="score">@Model.Score</span>
+                        </div>
+                        <div class="details">
+                            <label asp-for="NoOfEpisodes"></label>: <span class="noOfEpisodes">@Model.NoOfEpisodes</span><br />
+                            <label asp-for="Status"></label>: <span class="noOfEpisodes">@Model.Status</span><br />
+                            <label asp-for="Synonyms"></label>: <span class="noOfEpisodes">@Model.Synonyms</span><br />
+                        </div>
+                    </div>
+                </td>
+                <td class="anime-description">
+                    <label asp-for="Synopsis"></label>
+                    <div>@Html.Raw(Model.Synopsis.Replace("\\n", string.Empty))</div>
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+</div>

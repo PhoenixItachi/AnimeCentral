@@ -1,0 +1,29 @@
+@model AnimeCentralWeb.Models.DomainViewModels.AnimeViewModel
+
+<form asp-controller="Anime" asp-action="AddAnime">
+    <div class="form-control">
+        <label asp-for="Title"></label><input asp-for="Title" />
+    </div>
+
+    <div class="form-control">
+        <label asp-for="Synonyms"></label><input asp-for="Synonyms" />
+    </div>
+
+    <div class="form-control">
+        <label asp-for="Score"></label><input asp-for="Score" />
+
+    </div>
+
+    <div class="form-control">
+        <label asp-for="Image"></label><input asp-for="Image" />
+    </div>
+
+    <div class="form-control">
+        <label asp-for="Status"></label><input asp-for="Status" />
+    </div>
+
+    <div class="form-control">
+        <label asp-for="Type"></label><input asp-for="Type" />
+    </div>
+
+</form>

@@ -12,6 +12,8 @@ using Microsoft.Extensions.Logging;
 using AnimeCentralWeb.Data;
 using AnimeCentralWeb.Models;
 using AnimeCentralWeb.Services;
+using AutoMapper;
+using AnimeCentralWeb.AutoMapper;
 
 namespace AnimeCentralWeb
 {
@@ -40,11 +42,11 @@ namespace AnimeCentralWeb
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<AnimeCentralDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<AnimeCentralDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
@@ -52,6 +54,9 @@ namespace AnimeCentralWeb
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            // Configure AutoMapper
+            Mapper.Initialize(c => c.AddProfiles(new [] { typeof(ModelViewToDomainConfigurationProfile), typeof(DomainToModelViewConfigurationProfile) }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
