@@ -39,41 +39,10 @@ namespace AnimeCentralWeb.Controllers
 
         public async Task<IActionResult> SearchAnime(string searchText)
         {
-            var malApiUrl = "https://myanimelist.net/api/anime/search.xml";
-            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(malApiUrl + "?q=" + searchText);
-
-            var authHeaderBytes = System.Text.Encoding.UTF8.GetBytes("PhoenixItachi:juventus32");
-            var authHeader = Convert.ToBase64String(authHeaderBytes);
-
-            wr.Headers[HttpRequestHeader.Authorization] = "Basic " + authHeader;
-            HttpWebResponse response = await wr.GetResponseAsync() as HttpWebResponse;
-            List<Anime> animeList = new List<Anime>();
+            var animeList = new List<Anime>();
             try
             {
-                if (response.StatusCode == HttpStatusCode.NoContent)
-                {
-                    return new JsonResult(new { more = false });
-                }
-
-                var responseStream = response.GetResponseStream();
-
-                var xml = XDocument.Load(responseStream);
-                var list = xml.Descendants("entry").ToList()?.Take(5);
-                foreach (var anime in list)
-                {
-                    var animeObj = new Anime()
-                    {
-                        Title = anime.Element("title").Value,
-                        NoOfEpisodes = anime.Element("episodes").Value,
-                        Status = anime.Element("status").Value,
-                        Type = anime.Element("type").Value,
-                        Score = anime.Element("score").Value,
-                        Image = anime.Element("image").Value,
-                        Synonyms = anime.Element("synonyms").Value,
-                        Synopsis = anime.Element("synopsis").Value
-                    };
-                    animeList.Add(animeObj);
-                }
+                animeList = await GetAnimeFromMAL(searchText);
             }
             catch (Exception e)
             {
@@ -83,10 +52,74 @@ namespace AnimeCentralWeb.Controllers
             return new JsonResult(animeList);
         }
 
+        private async Task<List<Anime>> GetAnimeFromMAL(string searchText)
+        {
+            var malApiUrl = "https://myanimelist.net/api/anime/search.xml";
+            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(malApiUrl + "?q=" + searchText);
+
+            var authHeaderBytes = System.Text.Encoding.UTF8.GetBytes("PhoenixItachi:juventus32");
+            var authHeader = Convert.ToBase64String(authHeaderBytes);
+
+            wr.Headers[HttpRequestHeader.Authorization] = "Basic " + authHeader;
+            HttpWebResponse response = await wr.GetResponseAsync() as HttpWebResponse;
+            List<Anime> animeList = new List<Anime>();
+
+            if (response.StatusCode == HttpStatusCode.NoContent)
+            {
+                return animeList;
+            }
+
+            var responseStream = response.GetResponseStream();
+
+            var xml = XDocument.Load(responseStream);
+            var list = xml.Descendants("entry").ToList();
+            foreach (var anime in list)
+            {
+                var animeObj = new Anime()
+                {
+                    MalId = Int32.Parse(anime.Element("id").Value),
+                    Title = anime.Element("title").Value,
+                    NoOfEpisodes = anime.Element("episodes").Value,
+                    Status = anime.Element("status").Value,
+                    Type = anime.Element("type").Value,
+                    Score = anime.Element("score").Value,
+                    Image = anime.Element("image").Value,
+                    Synonyms = anime.Element("synonyms").Value,
+                    Synopsis = anime.Element("synopsis").Value
+                };
+                animeList.Add(animeObj);
+            }
+
+            return animeList;
+        }
+
         [HttpGet]
         public ActionResult GetAnimePartial()
         {
             return PartialView("Partials/_AddAnimePartial");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetAnimeForm(int malId, string title)
+        {
+            if (string.IsNullOrEmpty(title))
+                return BadRequest("Missing Anime Title");
+
+            if (malId == 0)
+                return BadRequest("Missing Anime MAL id.");
+
+            if (Context.Anime.Any(x => x.MalId == malId))
+                return BadRequest("Anime already exists");
+
+            var animeSearchList = await GetAnimeFromMAL(title);
+            var animeMal = animeSearchList.FirstOrDefault(x => x.MalId == malId);
+
+            if (animeMal == null)
+                return BadRequest("Anime doesn't exist");
+
+            var model = AutoMapper.Map<Anime, AnimeViewModel>(animeMal);
+
+            return PartialView("Partials/_AddAnimeForm", model);
         }
     }
 }

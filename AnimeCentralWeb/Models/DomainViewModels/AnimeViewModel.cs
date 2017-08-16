@@ -26,5 +26,8 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         public string Synonyms { get; set; }
         [Required]
         public string Synopsis { get; set; }
+        [Required]
+        public string Genre { get; set; }
+        public int MalId { get; set; }
     }
 }

@@ -28,7 +28,7 @@
     height: 100%;
     transition: all 300ms ease-in-out;
     background: radial-gradient(black 15%, transparent 16%) 0 0, radial-gradient(black 15%, transparent 16%) 8px 8px, radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px, radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
-    background-color: rgba(28,28,28,0.7);
+    background-color: rgba(28,28,28,0.9);
     background-size: 16px 16px;
 
     .content {
@@ -36,6 +36,11 @@
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
+        width: 50%;
+        opacity: 0;
+        &:last-child{
+            opacity: 1;
+        }
 
         .content-header {
             color: white;
@@ -71,9 +76,7 @@
                 text-shadow: 2px 2px black;
             }
 
-            .anime-search-results{
-                position: unset;
-            }
+            
         }
 
         .spinner {
@@ -118,5 +121,35 @@
     .anime-description {
         padding: 5px;
         vertical-align: top;
+    }
+}
+
+.content-body.add-anime-partial {
+    width: 100% !important;
+    padding: 20px;
+
+    .anime-search {
+        display: block;
+        text-align: center;
+
+        .anime-search-input {
+            background: transparent;
+            width: 100%;
+            border: 1px solid black;
+        }
+
+        .anime-search-results {
+
+            .result-list {
+                overflow: auto;
+            }
+        }
+
+
+        .spinner {
+            div {
+                background-color: white;
+            }
+        }
     }
 }

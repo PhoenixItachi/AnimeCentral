@@ -22,6 +22,8 @@ namespace AnimeCentralWeb.Domain
         public string BigImage { get; set; }
         public string Synonyms { get; set; }
         public string Synopsis { get; set; }
+        public string Genres { get; set; }
+        public int MalId { get; set; }
 
         public virtual List<Review> Reviews { get; set; }
         public virtual List<Episode> Episodes { get; set; }

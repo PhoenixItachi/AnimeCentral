@@ -154,9 +154,8 @@ $(document).on("input", ".add-anime-partial .anime-search-input", function () {
   var noResult = partial.find(".no-results");
   var animeSearchResult = partial.find(".anime-search-results");
   var resultList = partial.find(".result-list");
-  var result = partial.find(".result");
+  var result = getResultTemplate();
   var searchValue = partial.find(".search-value");
-
 
   spinner.show();
   clearTimeout(searchTimeOut);
@@ -172,6 +171,13 @@ $(document).on("input", ".add-anime-partial .anime-search-input", function () {
   }
 
   animeSearchResult.show();
+  var resultListTop = resultList.offset().top - $(window).scrollTop();
+  var distanceToBottom = $(window).innerHeight() - resultListTop;
+  console.log("Result list to top: " + resultListTop);
+  console.log("Window scrool top" + $(window).scrollTop());
+
+  resultList.css("max-height", distanceToBottom - spinner.height() - noResult.height());
+
   searchValue.text(animeSearchTitle);
   searchTimeOut = setTimeout(function () {
     $.ajax({
@@ -190,17 +196,42 @@ $(document).on("input", ".add-anime-partial .anime-search-input", function () {
           resultTemplate.find(".anime-image img").attr("src", data[i].image);
           resultTemplate.find(".anime-title b").text(data[i].title);
           resultTemplate.find(".anime-title .anime-type").text(data[i].type);
-          resultTemplate.find(".anime-episodes").text("Episoade: " + data[i].episodes);
+          resultTemplate.find(".anime-episodes").text("Episoade: " + data[i].noOfEpisodes);
           resultTemplate.find(".anime-score .result-score").text(data[i].score);
           resultTemplate.find(".anime-status").text(data[i].status);
           resultTemplate.css("display", "table");
+          resultTemplate.attr("data-malid", data[i].malId);
           resultsList += resultTemplate[0].outerHTML;
         }
         $(resultList).html(resultsList);
         $(resultList).show();
         $(spinner).hide();
-
       }
     });
   }, 500);
 });
+
+function getResultTemplate() {
+  return $('<div class="result" style="display:none">'
+    + '<div class="anime-image"><img /></div>'
+    + '<div class="details">'
+    + '<div class="anime-title"><b></b> (<span class="anime-type"></span>)</div>'
+    + '<div class="anime-score"><span class="glyphicon glyphicon-star" style="color:gold;"></span><span class="result-score"></span></div>'
+    + '<div class="anime-episodes"></div>'
+    + '<div class="anime-status"></div>'
+    + '</div>'
+    + '</div>');
+}
+
+$(document).on("click", ".add-anime-partial .result", function () {
+  var malId = $(this).attr("data-malid");
+  var animeTitle = $(this).find(".anime-title b").text();
+  var animeAddError = $(this).closest(".add-anime-partial").find(".add-anime-error");
+  animeAddError.text("");
+  $.get("/Anime/GetAnimeForm?" + "malId=" + malId + "&title=" + animeTitle, function (data) {
+    $(".add-anime-partial .form-container").html(data);
+  })
+    .fail(function (data) {
+      $(animeAddError).text(data.responseText);
+  });
+})
