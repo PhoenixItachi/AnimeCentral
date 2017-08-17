@@ -50,6 +50,15 @@
             })
         });
 
+        $(".get-anime-list").click(function () {
+            $(".pop-up").css("z-index", 300);
+            $(".pop-up").css("opacity", 1);
+            $.get("Anime/GetAllAnime", function (data) {
+                $(".pop-up").append(data);
+                updateAnimeListWidth();
+            })
+        })
+
         $(document).on("click", ".close-pop-up", function () {
             $(".pop-up").css("opacity", 0);
             $(".pop-up").css("z-index", -1);

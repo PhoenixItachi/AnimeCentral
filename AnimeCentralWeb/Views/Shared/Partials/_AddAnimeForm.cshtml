@@ -1,6 +1,7 @@
 @model AnimeCentralWeb.Models.DomainViewModels.AnimeViewModel
 
-<form asp-controller="Anime" asp-action="AddAnime">
+<form asp-controller="Anime" asp-action="AddAnime" class="add-anime-form">
+    <div asp-validation-summary="All"></div>
     <div class="form-group">
         <label asp-for="Title"></label>
         <input class="form-control" asp-for="Title" />
@@ -33,9 +34,32 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="Genre"></label>
-        <input class="form-control" asp-for="Genre" />
+        <label asp-for="Genres"></label>
+        <input class="form-control" asp-for="Genres" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NoOfEpisodes"></label>
+        <input class="form-control" asp-for="NoOfEpisodes" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Synopsis"></label>
+        <textarea asp-for="Synopsis" class="form-control"></textarea>
     </div>
 
     <input type="hidden" asp-for="MalId"/>
+
+    <a class="saveCommand" style="text-decoration:none" onclick="$('.add-anime-form').submit()">Adauga</a>
 </form>
+
+<script>
+    $('.add-anime-form').submit(function (e) {
+        e.preventDefault();
+        $.post('/Anime/AddAnime', $('.add-anime-form').serialize(),
+            function (result) {
+                alert('Anime adaugat!');
+            }
+        );
+    });
+</script>

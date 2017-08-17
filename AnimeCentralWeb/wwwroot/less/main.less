@@ -36,9 +36,10 @@
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        width: 50%;
+        width: 75%;
         opacity: 0;
-        &:last-child{
+
+        &:last-child {
             opacity: 1;
         }
 
@@ -62,7 +63,6 @@
         .content-body {
             position: relative;
             background-color: white;
-            width: fit-content;
             margin: auto;
 
             .close-pop-up {
@@ -75,8 +75,71 @@
                 color: white;
                 text-shadow: 2px 2px black;
             }
+        }
 
-            
+        .content-body.add-anime-partial {
+            width: 100% !important;
+            padding: 20px;
+
+            .anime-search {
+                display: block;
+                text-align: center;
+
+                .anime-search-input {
+                    background: transparent;
+                    width: 100%;
+                    border: 1px solid black;
+                }
+
+                .anime-search-results {
+
+                    .result-list {
+                        overflow: auto;
+                    }
+                }
+
+
+                .spinner {
+                    div {
+                        background-color: white;
+                    }
+                }
+            }
+
+            .add-anime-form {
+                padding: 5px;
+
+                .saveCommand {
+                    width: 100%;
+                    padding: 5px;
+                    text-align: center;
+                    display: block;
+                    border: 1px solid green;
+                    color: green;
+                    background-color: rgba(0,80,0,.2);
+                }
+            }
+        }
+
+        .content-body.anime-list-partial {
+            background-color: transparent;
+            .anime-list {
+                padding: 5px;
+                display: flex;
+                flex-flow: wrap;
+                background-color: white;
+                margin: auto;
+
+                .anime-list-item {
+                    position: relative;
+                    display: inline-block;
+
+                    img {
+                        width: 200px;
+                        height: 311px;
+                    }
+                }
+            }
         }
 
         .spinner {
@@ -124,32 +187,4 @@
     }
 }
 
-.content-body.add-anime-partial {
-    width: 100% !important;
-    padding: 20px;
 
-    .anime-search {
-        display: block;
-        text-align: center;
-
-        .anime-search-input {
-            background: transparent;
-            width: 100%;
-            border: 1px solid black;
-        }
-
-        .anime-search-results {
-
-            .result-list {
-                overflow: auto;
-            }
-        }
-
-
-        .spinner {
-            div {
-                background-color: white;
-            }
-        }
-    }
-}

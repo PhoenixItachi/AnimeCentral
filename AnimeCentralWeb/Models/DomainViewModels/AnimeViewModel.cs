@@ -22,12 +22,11 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         [Required]
         public string Image { get; set; }
         public string BigImage { get; set; }
-        [Required]
         public string Synonyms { get; set; }
         [Required]
         public string Synopsis { get; set; }
         [Required]
-        public string Genre { get; set; }
+        public string Genres { get; set; }
         public int MalId { get; set; }
     }
 }

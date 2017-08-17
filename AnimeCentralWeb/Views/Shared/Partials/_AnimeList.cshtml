@@ -1,0 +1,22 @@
+﻿@model List<AnimeCentralWeb.Models.DomainViewModels.AnimeViewModel>
+
+<div class="content">
+    <div class="content-header">
+        <div class="title">LISTA DE ANIME</div>
+        <div class="description">Toate anime-urile traduse sau in curs de traducere.</div>
+    </div>
+    <div class="content-body anime-list-partial">
+        <div class="anime-list">
+
+            @foreach (var anime in Model)
+            {
+                <div class="anime-list-item">
+                    <img src="@anime.Image" />
+                    <div class="item-overlay">
+                        <div class="anime-name">@anime.Title</div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

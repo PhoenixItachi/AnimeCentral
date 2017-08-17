@@ -22,6 +22,13 @@ namespace AnimeCentralWeb.Controllers
             AutoMapper = Mapper.Instance;
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetAllAnime()
+        {
+            var model = Context.Anime.Select(x => AutoMapper.Map<Anime, AnimeViewModel>(x)).ToList();
+            return PartialView("Partials/_AnimeList", model);
+        }
+
         [HttpPost]
         public async Task<ActionResult> AddAnime(AnimeViewModel model)
         {
@@ -85,7 +92,7 @@ namespace AnimeCentralWeb.Controllers
                     Score = anime.Element("score").Value,
                     Image = anime.Element("image").Value,
                     Synonyms = anime.Element("synonyms").Value,
-                    Synopsis = anime.Element("synopsis").Value
+                    Synopsis = WebUtility.HtmlDecode(anime.Element("synopsis").Value)
                 };
                 animeList.Add(animeObj);
             }

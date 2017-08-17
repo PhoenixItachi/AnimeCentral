@@ -89,6 +89,7 @@ $(function () {
       }
     });
 
+    updateAnimeListWidth();
     updateFbLikeBox();
   })
 
@@ -141,6 +142,16 @@ function updateFbLikeBox() {
     containerWidthInt = 500;
   $(likeBox).attr("src", srcFacebookFormat(containerWidthInt, $(likeBox).height()));
   $(likeBox).attr("width", containerWidthInt);
+}
+
+function updateAnimeListWidth() {
+  var animeList = $(".content-body .anime-list");
+  if (animeList.length > 0) {
+    var padding = animeList.innerWidth() - animeList.width();
+    var contentWidth = animeList.closest(".content").width() - padding;
+    var newWidth = parseInt(contentWidth / 200) * 200;
+    animeList.width(newWidth);
+  }
 }
 
 function srcFacebookFormat(width, height) {
@@ -235,3 +246,4 @@ $(document).on("click", ".add-anime-partial .result", function () {
       $(animeAddError).text(data.responseText);
   });
 })
+
