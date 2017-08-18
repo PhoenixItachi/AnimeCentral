@@ -11,7 +11,7 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         [Required]
         public string Title { get; set; }
         [Required]
-        public string NoOfEpisodes { get; set; }
+        public int NoOfEpisodes { get; set; }
         public string EpisodeLength { get; set; }
         [Required]
         public string Score { get; set; }
@@ -19,6 +19,7 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         public string Type { get; set; }
         [Required]
         public string Status { get; set; }
+        public string TranslateStatus { get; set; }
         [Required]
         public string Image { get; set; }
         public string BigImage { get; set; }

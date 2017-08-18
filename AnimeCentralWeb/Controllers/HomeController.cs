@@ -43,7 +43,7 @@ namespace AnimeCentralWeb.Controllers
                     var animeObj = new Anime()
                     {
                         Title = anime.Element("title").Value,
-                        NoOfEpisodes = anime.Element("episodes").Value,
+                        NoOfEpisodes = int.Parse(anime.Element("episodes").Value),
                         Status = anime.Element("status").Value,
                         Type = anime.Element("type").Value,
                         Score = anime.Element("score").Value,

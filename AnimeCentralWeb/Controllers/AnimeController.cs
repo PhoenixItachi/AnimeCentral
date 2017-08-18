@@ -36,6 +36,7 @@ namespace AnimeCentralWeb.Controllers
             {
                 var anime = AutoMapper.Map<AnimeViewModel, Anime>(model);
 
+                anime.TranslateStatus = "Ongoing";
                 await Context.Anime.AddAsync(anime);
                 await Context.SaveChangesAsync();
 
@@ -86,7 +87,7 @@ namespace AnimeCentralWeb.Controllers
                 {
                     MalId = Int32.Parse(anime.Element("id").Value),
                     Title = anime.Element("title").Value,
-                    NoOfEpisodes = anime.Element("episodes").Value,
+                    NoOfEpisodes = int.Parse(anime.Element("episodes").Value),
                     Status = anime.Element("status").Value,
                     Type = anime.Element("type").Value,
                     Score = anime.Element("score").Value,

@@ -13,7 +13,7 @@ namespace AnimeCentralWeb.Domain
         public int ParentId { get; set; }
 
         public string Title { get; set; }
-        public string NoOfEpisodes { get; set; }
+        public int NoOfEpisodes { get; set; }
         public string EpisodeLength { get; set; }
         public string Score { get; set; }
         public string Type { get; set; }
@@ -24,6 +24,7 @@ namespace AnimeCentralWeb.Domain
         public string Synopsis { get; set; }
         public string Genres { get; set; }
         public int MalId { get; set; }
+        public string TranslateStatus { get; set; }
 
         public virtual List<Review> Reviews { get; set; }
         public virtual List<Episode> Episodes { get; set; }

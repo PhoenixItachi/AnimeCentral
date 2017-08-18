@@ -5,15 +5,21 @@
         <div class="title">LISTA DE ANIME</div>
         <div class="description">Toate anime-urile traduse sau in curs de traducere.</div>
     </div>
+    <div class="commands text-right">
+        <i class="fa fa-times close-pop-up command" aria-hidden="true"></i>
+    </div>
     <div class="content-body anime-list-partial">
         <div class="anime-list">
-
             @foreach (var anime in Model)
             {
                 <div class="anime-list-item">
                     <img src="@anime.Image" />
                     <div class="item-overlay">
-                        <div class="anime-name">@anime.Title</div>
+                        <a href="https://myanimelist.net/anime/@(anime.MalId)">
+                            <img src="apple-touch-icon-256.png" width="25" class="mal-source" />
+                        </a>
+                        <div class="anime-name">@anime.Title </div>
+                        <div class="anime-status">@anime.TranslateStatus</div>
                     </div>
                 </div>
             }
