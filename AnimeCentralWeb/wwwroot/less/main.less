@@ -56,7 +56,7 @@
         }
 
 
-        &:last-child {
+        &:last-of-type {
             opacity: 1;
         }
 
@@ -129,6 +129,7 @@
         }
 
         .content-body.anime-list-partial {
+
             .anime-list {
                 padding: 5px;
                 display: flex;
@@ -152,13 +153,83 @@
                         height: 311px;
                     }
 
-                    .mal-source{
-                        width:25px;
+                    .mal-source {
+                        width: 25px;
                         height: auto;
                     }
                 }
             }
+
+            .anime-search {
+                display: block;
+                text-align: center;
+                padding: 5px;
+
+                .anime-search-input {
+                    background: transparent;
+                    width: 100%;
+                }
+
+                .advanced-search {
+                    .by-genre {
+                        background-color: rgba(144,238,144, .3);
+
+                        label.option {
+                        }
+
+                        .option.active label {
+                            font-weight: bold;
+                            background-color: rgba(0,0,0,1);
+                            color: white;
+                        }
+
+                        .option label {
+                            font-weight: normal;
+                            background-color: rgba(0,0,0,.4);
+                            color: white;
+                            padding: 2px;
+                            font-family: 'Trebuchet MS','Lucida Sans Unicode','Lucida Grande','Lucida Sans',Arial,sans-serif;
+                        }
+                    }
+
+                    .by-status {
+                        background-color: rgba(173,216,230, .3);
+
+                        .option.active {
+                            font-weight: bold;
+                        }
+                    }
+
+                    .by-genre, .by-status {
+                        padding: 5px;
+                        text-align: left;
+
+                        label {
+                            display: inline-block;
+                        }
+
+                        .options {
+                            display: inline-block;
+
+                            .option {
+                                display: inline-block;
+
+                                input[type=checkbox] {
+                                    display: none;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .anime-list-item {
+                &.hide-by-name, &.hide-by-status, &.hide-by-genre {
+                    display: none;
+                }
+            }
         }
+
 
         .spinner {
             div {
@@ -204,5 +275,3 @@
         vertical-align: top;
     }
 }
-
-

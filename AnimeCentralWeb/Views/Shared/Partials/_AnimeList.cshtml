@@ -1,5 +1,5 @@
 ﻿@model List<AnimeCentralWeb.Models.DomainViewModels.AnimeViewModel>
-
+@using AnimeCentralWeb.Utils
 <div class="content">
     <div class="content-header">
         <div class="title">LISTA DE ANIME</div>
@@ -9,10 +9,37 @@
         <i class="fa fa-times close-pop-up command" aria-hidden="true"></i>
     </div>
     <div class="content-body anime-list-partial">
+        <div class="anime-search">
+            <div style="position:relative">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                <input type="text" class="anime-search-input" placeholder="Cautare dupa nume...">
+            </div>
+            <div class="advanced-search">
+                <div class="by-status">
+                    <label>Dupa status:</label>
+                    <div class="options">
+                        <div class="option active">Toate</div>
+                        <div class="option">Ongoing</div>
+                        <div class="option">Complet</div>
+                    </div>
+                </div>
+                <div class="by-genre">
+                    <label>Dupa gen:</label>
+                    <div class="options">
+                        @foreach (var genre in AnimeUtils.Genres)
+                        {
+                            <div class="option">
+                                <label><input type="checkbox" value="@genre" />@genre</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="anime-list">
             @foreach (var anime in Model)
             {
-                <div class="anime-list-item">
+                <div class="anime-list-item" data-name="@anime.Title" data-genre="@anime.Genres" data-status="@anime.TranslateStatus">
                     <img src="@anime.Image" />
                     <div class="item-overlay">
                         <a href="https://myanimelist.net/anime/@(anime.MalId)">
@@ -25,4 +52,59 @@
             }
         </div>
     </div>
+    <script>
+        $(".anime-list-partial .anime-search .anime-search-input").on("input", function () {
+            var searchText = $(this).val();
+            if (searchText == "") {
+                $(".anime-list .anime-list-item").removeClass("hide-by-name");
+                return;
+            }
+
+            $(".anime-list .anime-list-item[data-name*='" + searchText + "']").removeClass("hide-by-name");
+            $(".anime-list .anime-list-item").not("[data-name*='" + searchText + "']").addClass("hide-by-name");
+        });
+
+        $(".by-genre input").change(function () {
+            $(this).closest(".option").toggleClass("active");
+            var checkedOptions = $(".by-genre input:checked");
+            if (checkedOptions.length == 0) {
+                $(".anime-list .anime-list-item").removeClass("hide-by-genre");
+                return;
+            }
+
+            var genres = $.map(checkedOptions, function (el) {
+                return $(el).val();
+            });
+
+            var animeWithGenres = $(".anime-list .anime-list-item").filter(function () {
+                var animeGenres = $(this).attr("data-genre");
+                var toHide = false;
+                $(genres).each(function (index, el) {
+                    if (animeGenres.indexOf(el) < 0) {
+                        toHide = true;
+                        return false;
+                    }
+                });
+
+                if (toHide)
+                    $(this).addClass("hide-by-genre");
+                else
+                    $(this).removeClass("hide-by-genre");
+            });
+        })
+
+        $(".by-status .option").click(function () {
+            $(".by-status .option").removeClass("active");
+            $(this).addClass("active");
+
+            if ($(this).text() == "Toate") {
+                $(".anime-list .anime-list-item").removeClass("hide-by-status");
+                return;
+            }
+
+            $(".anime-list .anime-list-item[data-status='" + $(this).text() + "']").removeClass("hide-by-status");
+            $(".anime-list .anime-list-item").not("[data-status='" + $(this).text() + "']").addClass("hide-by-status");
+        });
+
+    </script>
 </div>
