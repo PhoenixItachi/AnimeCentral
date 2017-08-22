@@ -1,6 +1,5 @@
 @model AnimeCentralWeb.Models.DomainViewModels.AnimeViewModel
 
-
 <div class="content">
     <div class="content-header">
         <div class="title">@Model.Title</div>
@@ -25,11 +24,40 @@
                         </div>
                     </div>
                 </td>
-                <td class="anime-description">
-                    <label asp-for="Synopsis"></label>
-                    <div>@Html.Raw(Model.Synopsis.Replace("\\n", string.Empty))</div>
+                <td class="anime-description multi-tab">
+                    <table class="tabs-labels">
+                        <tr>
+                            <td data-tab-target="#1" class="tab-label active">Descriere</td>
+                            <td data-tab-target="#2" class="tab-label">Episoade</td>
+                            <td data-tab-target="#3" class="tab-label">Recenzii</td>
+                        </tr>
+                    </table>
+                    <div class="tabs">
+                        <div class="tab active" data-tab-id="#1">
+                            <div>@Html.Raw(Model.Synopsis.Replace("\\n", string.Empty))</div>
+                        </div>
+                        <div class="tab" data-tab-id="#2">
+                            Episoade
+                        </div>
+                        <div class="tab" data-tab-id="#3">
+                            Recenzii
+                        </div>
+                    </div>
                 </td>
             </tr>
         </table>
     </div>
 </div>
+
+<script>
+    $(".multi-tab .tab-label").click(function () {
+        var tabTargetId = $(this).attr("data-tab-target");
+        var multiTabContainer = $(this).closest(".multi-tab");
+
+        multiTabContainer.find(".tab-label").removeClass("active");
+        multiTabContainer.find(".tab").removeClass("active");
+
+        $(this).addClass("active");
+        multiTabContainer.find(".tab[data-tab-id='" + tabTargetId + "']").addClass("active");
+    })
+</script>

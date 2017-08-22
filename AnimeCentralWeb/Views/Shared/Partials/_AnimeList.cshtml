@@ -39,7 +39,7 @@
         <div class="anime-list">
             @foreach (var anime in Model)
             {
-                <div class="anime-list-item" data-name="@anime.Title" data-genre="@anime.Genres" data-status="@anime.TranslateStatus" data-id="@anime.Id">
+                <div class="anime-list-item" data-name="@anime.Title.ToLower()" data-genre="@anime.Genres" data-status="@anime.TranslateStatus" data-id="@anime.Id">
                     <img src="@anime.Image" />
                     <div class="item-overlay">
                         <a href="https://myanimelist.net/anime/@(anime.MalId)">
@@ -54,7 +54,7 @@
     </div>
     <script>
         $(".anime-list-partial .anime-search .anime-search-input").on("input", function () {
-            var searchText = $(this).val();
+            var searchText = $(this).val().toLowerCase();
             if (searchText == "") {
                 $(".anime-list .anime-list-item").removeClass("hide-by-name");
                 return;
