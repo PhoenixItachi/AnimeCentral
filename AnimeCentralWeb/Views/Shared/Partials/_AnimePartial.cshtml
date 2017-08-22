@@ -37,10 +37,21 @@
                             <div>@Html.Raw(Model.Synopsis.Replace("\\n", string.Empty))</div>
                         </div>
                         <div class="tab" data-tab-id="#2">
-                            Episoade
+                            <div class="anime-episodes-list">
+                                @foreach (var episode in Model.Episodes)
+                                {
+                                    <div class="anime-episode">Episodul #@episode.Order@(string.IsNullOrEmpty(episode.Title) ? "" : ": " + episode.Title)</div>
+                                }
+                            </div>
+                            <table class="tab-commands">
+                                <tr>
+                                    <td class="tab-command add-episode" data-anime-id="@Model.Id">Adauga Episod <i class="fa fa-video-camera" aria-hidden="true"></i></td>
+                                </tr>
+                            </table>
                         </div>
                         <div class="tab" data-tab-id="#3">
                             Recenzii
+                            <div class="tab-commands"></div>
                         </div>
                     </div>
                 </td>
@@ -59,5 +70,15 @@
 
         $(this).addClass("active");
         multiTabContainer.find(".tab[data-tab-id='" + tabTargetId + "']").addClass("active");
+    });
+
+    $(".add-episode").click(function () {
+        var animeId = $(this).attr("data-anime-id");
+        $.get("Anime/GetAddEpisodePartial?animeId=" + animeId, function (data) {
+            $(".pop-up").append(data);
+        }).fail(function () {
+            alert("A aparut o eroare in adaugarea episodul.");
+        });
+
     })
 </script>

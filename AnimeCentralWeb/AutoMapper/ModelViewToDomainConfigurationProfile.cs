@@ -9,6 +9,8 @@ namespace AnimeCentralWeb.AutoMapper
         public ModelViewToDomainConfigurationProfile()
         {
             CreateMap<AnimeViewModel, Anime>();
+            CreateMap<EpisodeViewModel, Episode>();
+            CreateMap<SourceViewModel, Source>();
         }
     }
 }

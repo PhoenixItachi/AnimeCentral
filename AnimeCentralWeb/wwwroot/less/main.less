@@ -242,6 +242,42 @@
             }
         }
 
+        .content-body.add-episode-partial {
+            padding: 5px;
+
+            label {
+                font-size: 12px;
+            }
+
+            .sources {
+                .source {
+                    margin-bottom: 4px;
+
+                    input {
+                        margin-right: 5px;
+                    }
+                }
+            }
+
+            .add-source, .remove-source {
+                text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+                color: white;
+            }
+
+            .add-episode-form {
+                padding: 5px;
+
+                .saveCommand {
+                    width: 100%;
+                    padding: 5px;
+                    text-align: center;
+                    display: block;
+                    border: 1px solid green;
+                    color: green;
+                    background-color: rgba(0,80,0,.2);
+                }
+            }
+        }
 
         .spinner {
             div {
@@ -284,7 +320,8 @@
 
     .anime-description {
         vertical-align: top;
-        .tab{
+
+        .tab {
             padding: 5px;
         }
     }
@@ -292,6 +329,7 @@
 
 .multi-tab {
     width: 100%;
+    position: relative;
 
     .tabs-labels {
         width: 100%;
@@ -301,11 +339,16 @@
         .tab-label {
             border: 1px solid;
             border-top: 0px;
-            &.active{
+            border-color: black;
+            transition: background-color 300ms ease-out;
+
+            &.active, &:hover {
                 font-weight: bold;
+                background-color: black;
+                color: white;
             }
 
-            &:nth-child(1) {
+            /*&:nth-child(1) {
                 border-color: purple;
                 color: purple;
             }
@@ -318,7 +361,7 @@
             &:nth-child(3) {
                 border-color: blue;
                 color: blue;
-            }
+            }*/
         }
     }
 
@@ -326,8 +369,43 @@
         display: none;
         width: 100%;
 
+        .anime-episodes-list {
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            color: white;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+            .anime-episode {
+                padding-left: 5px;
+                background-color: rgba(0,0,0,.6);
+                margin-bottom: 2px;
+
+                &:hover {
+                    background-color: rgba(0,0,0,1);
+                }
+            }
+        }
+
         &.active {
             display: block;
+        }
+
+        .tab-commands {
+            width: 100%;
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+
+            .tab-command {
+                text-align: center;
+                padding: 5px;
+                text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+                color: white;
+                background-color: rgba(0,0,0,.7);
+
+                &:hover {
+                    background-color: black;
+                }
+            }
         }
     }
 }

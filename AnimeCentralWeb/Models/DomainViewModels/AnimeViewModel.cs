@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace AnimeCentralWeb.Models.DomainViewModels
 {
@@ -33,5 +34,7 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         [Required]
         public string Genres { get; set; }
         public int MalId { get; set; }
+
+        public List<EpisodeViewModel> Episodes { get; set; }
     }
 }

@@ -8,9 +8,10 @@ using AnimeCentralWeb.Data;
 namespace AnimeCentralWeb.Data.Migrations
 {
     [DbContext(typeof(AnimeCentralDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170822192355_add_episode_order")]
+    partial class add_episode_order
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -87,7 +88,7 @@ namespace AnimeCentralWeb.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AnimeId");
+                    b.Property<int?>("AnimeId");
 
                     b.Property<DateTime>("Date");
 
@@ -315,10 +316,9 @@ namespace AnimeCentralWeb.Data.Migrations
 
             modelBuilder.Entity("AnimeCentralWeb.Domain.Episode", b =>
                 {
-                    b.HasOne("AnimeCentralWeb.Domain.Anime", "Anime")
+                    b.HasOne("AnimeCentralWeb.Domain.Anime")
                         .WithMany("Episodes")
-                        .HasForeignKey("AnimeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AnimeId");
                 });
 
             modelBuilder.Entity("AnimeCentralWeb.Domain.Review", b =>

@@ -1,16 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AnimeCentralWeb.Domain
+namespace AnimeCentralWeb.Models.DomainViewModels
 {
-    public class Source
+    public class SourceViewModel
     {
-        [Key]
         public int Id { get; set; }
-        public int EpisodeId { get; set; }
 
+        [Required]
         public string Label { get; set; }
+        [Required]
         public string Link { get; set; }
-
-        public virtual Episode Episode { get; set; }
     }
 }

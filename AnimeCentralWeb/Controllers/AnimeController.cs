@@ -3,6 +3,7 @@ using AnimeCentralWeb.Domain;
 using AnimeCentralWeb.Models.DomainViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +63,7 @@ namespace AnimeCentralWeb.Controllers
 
         public ActionResult GetAnimeByIdPartial(int id)
         {
-            var anime = Context.Anime.FirstOrDefault(x => x.Id == id);
+            var anime = Context.Anime.Include(x => x.Episodes).FirstOrDefault(x => x.Id == id);
             if (anime == null)
                 return BadRequest();
 
@@ -138,6 +139,44 @@ namespace AnimeCentralWeb.Controllers
             var model = AutoMapper.Map<Anime, AnimeViewModel>(animeMal);
 
             return PartialView("Partials/_AddAnimeForm", model);
+        }
+
+        public async Task<ActionResult> GetAddEpisodePartial(int animeId)
+        {
+            var anime = await Context.Anime.Include(x => x.Episodes).FirstOrDefaultAsync(x => x.Id == animeId);
+            if (anime == null)
+                return BadRequest();
+
+            var model = new EpisodeViewModel()
+            {
+                AnimeTitle = anime.Title,
+                AnimeId = anime.Id,
+                Order = anime.Episodes.Count + 1,
+            };
+
+            return PartialView("Partials/_AddEpisodePartial", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddEpisode(EpisodeViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var anime = await Context.Anime.Include(x => x.Episodes).FirstOrDefaultAsync(x => x.Id == model.AnimeId);
+            if (anime == null)
+                return BadRequest();
+
+            if (anime.Episodes.Any(x => x.Order == model.Order))
+                return BadRequest();
+
+            var episode = AutoMapper.Map<Episode>(model);
+            episode.Sources = model.Sources.Select(x => AutoMapper.Map<Source>(x)).ToList();
+
+            anime.Episodes.Add(episode);
+            Context.Anime.Update(anime);
+            await Context.SaveChangesAsync();
+            return Ok();
         }
     }
 }
