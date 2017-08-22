@@ -4,6 +4,7 @@ namespace AnimeCentralWeb.Models.DomainViewModels
 {
     public class AnimeViewModel
     {
+        public int Id { get; set; }
         public int PrequelId { get; set; }
         public int SequelId { get; set; }
         public int ParentId { get; set; }

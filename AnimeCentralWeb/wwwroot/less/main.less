@@ -38,6 +38,7 @@
         transform: translate(-50%, -50%);
         width: 75%;
         opacity: 0;
+        transition: all 250ms linear;
 
         .close-pop-up {
             padding: 10px;
@@ -82,6 +83,16 @@
             position: relative;
             background-color: white;
             margin: auto;
+        }
+
+        .content-body.anime {
+            table {
+                height: 100%;
+
+                .anime-details, .anime-description {
+                    height: 100%;
+                }
+            }
         }
 
         .content-body.add-anime-partial {
@@ -174,7 +185,8 @@
                     .by-genre {
                         background-color: rgba(144,238,144, .3);
 
-                        label.option {
+                        & > label {
+                            font-size: 12px;
                         }
 
                         .option.active label {
@@ -195,6 +207,10 @@
                     .by-status {
                         background-color: rgba(173,216,230, .3);
 
+                        & > label {
+                            font-size: 12px;
+                        }
+
                         .option.active {
                             font-weight: bold;
                         }
@@ -204,12 +220,8 @@
                         padding: 5px;
                         text-align: left;
 
-                        label {
-                            display: inline-block;
-                        }
-
                         .options {
-                            display: inline-block;
+                            padding-left: 5px;
 
                             .option {
                                 display: inline-block;

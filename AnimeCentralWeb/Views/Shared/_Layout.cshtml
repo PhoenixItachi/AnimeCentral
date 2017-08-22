@@ -45,7 +45,7 @@
         $(".add-anime").click(function () {
             $(".pop-up").css("z-index", 300);
             $(".pop-up").css("opacity", 1);
-            $.get("/Anime/GetAnimePartial?id=1", function (data) {
+            $.get("/Anime/GetAddAnimePartial?id=1", function (data) {
                 $(".pop-up").append(data);
             })
         });

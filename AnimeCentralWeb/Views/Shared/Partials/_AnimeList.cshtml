@@ -16,7 +16,7 @@
             </div>
             <div class="advanced-search">
                 <div class="by-status">
-                    <label>Dupa status:</label>
+                    <label>Dupa status</label>
                     <div class="options">
                         <div class="option active">Toate</div>
                         <div class="option">Ongoing</div>
@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 <div class="by-genre">
-                    <label>Dupa gen:</label>
+                    <label>Dupa gen</label>
                     <div class="options">
                         @foreach (var genre in AnimeUtils.Genres)
                         {
@@ -39,7 +39,7 @@
         <div class="anime-list">
             @foreach (var anime in Model)
             {
-                <div class="anime-list-item" data-name="@anime.Title" data-genre="@anime.Genres" data-status="@anime.TranslateStatus">
+                <div class="anime-list-item" data-name="@anime.Title" data-genre="@anime.Genres" data-status="@anime.TranslateStatus" data-id="@anime.Id">
                     <img src="@anime.Image" />
                     <div class="item-overlay">
                         <a href="https://myanimelist.net/anime/@(anime.MalId)">
@@ -106,5 +106,14 @@
             $(".anime-list .anime-list-item").not("[data-status='" + $(this).text() + "']").addClass("hide-by-status");
         });
 
+        $(".anime-list .anime-list-item").click(function () {
+            var animeId = $(this).attr("data-id");
+            $.get("Anime/GetAnimeByIdPartial?id=" + animeId, function (data) {
+                $(data).appendTo(".pop-up");
+            }).fail(function () {
+                alert("A aparut o problema in cautarea anime-ului dorit. Incercati mai tarziu.");
+            })
+
+        })
     </script>
 </div>

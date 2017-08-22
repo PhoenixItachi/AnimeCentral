@@ -23,7 +23,7 @@ namespace AnimeCentralWeb.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAllAnime()
+        public ActionResult GetAllAnime()
         {
             var model = Context.Anime.Select(x => AutoMapper.Map<Anime, AnimeViewModel>(x)).ToList();
             return PartialView("Partials/_AnimeList", model);
@@ -58,6 +58,16 @@ namespace AnimeCentralWeb.Controllers
             }
 
             return new JsonResult(animeList);
+        }
+
+        public ActionResult GetAnimeByIdPartial(int id)
+        {
+            var anime = Context.Anime.FirstOrDefault(x => x.Id == id);
+            if (anime == null)
+                return BadRequest();
+
+            var model = AutoMapper.Map<Anime, AnimeViewModel>(anime);
+            return PartialView("Partials/_AnimePartial", model);
         }
 
         private async Task<List<Anime>> GetAnimeFromMAL(string searchText)
@@ -102,7 +112,7 @@ namespace AnimeCentralWeb.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetAnimePartial()
+        public ActionResult GetAddAnimePartial()
         {
             return PartialView("Partials/_AddAnimePartial");
         }
