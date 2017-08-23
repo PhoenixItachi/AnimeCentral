@@ -4,17 +4,19 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/site.min.css">
+
     <title>@ViewData["Title"] - Anime Central</title>
 
     <!-- Imported js and css -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
 
     <!-- My custom js and css -->
     <script src="~/js/site.min.js"></script>
-    <link rel="stylesheet" href="~/css/site.min.css">
+    
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>

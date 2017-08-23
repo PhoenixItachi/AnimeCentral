@@ -178,5 +178,44 @@ namespace AnimeCentralWeb.Controllers
             await Context.SaveChangesAsync();
             return Ok();
         }
+
+        [HttpGet]
+        public async Task<ActionResult> GetEpisodePartial(int id)
+        {
+            var episode = await Context.Episodes.Include(x => x.Anime).Include(x => x.Sources).FirstOrDefaultAsync(x => x.Id == id);
+
+            if (episode == null)
+                return BadRequest();
+
+            episode.ViewCount++;
+            Context.Update(episode);
+            await Context.SaveChangesAsync();
+
+            var model = AutoMapper.Map<EpisodeViewModel>(episode);
+
+            return PartialView("Partials/_EpisodePartial", model);
+        }
+
+
+        [HttpGet]
+        public async Task<ActionResult> GetComments(int id)
+        {
+            var model = await Context.Comments.Where(x => x.EpisodeId == id).Select(x => AutoMapper.Map<CommentViewModel>(x)).ToListAsync();
+            return PartialView("Partials/_CommentsPartial", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddComment(CommentViewModel model)
+        {
+            var episode = await Context.Episodes.Include(x => x.Comments).FirstOrDefaultAsync(x => x.Id == model.EpisodeId);
+
+            if (episode == null)
+                return BadRequest();
+
+            episode.Comments.Add(AutoMapper.Map<Comment>(model));
+            await Context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }

@@ -24,18 +24,21 @@
     z-index: -1;
     opacity: 0;
     position: fixed;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     transition: all 300ms ease-in-out;
     background: radial-gradient(black 15%, transparent 16%) 0 0, radial-gradient(black 15%, transparent 16%) 8px 8px, radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px, radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
     background-color: rgba(28,28,28,0.9);
     background-size: 16px 16px;
+    overflow: auto;
 
     .content {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
         width: 75%;
         opacity: 0;
         transition: all 250ms linear;
@@ -279,6 +282,91 @@
             }
         }
 
+        .content-body.episode-view {
+            .tabs {
+                position: relative;
+                width: 100%;
+                padding-top: 42.85%;
+                height: auto;
+
+                .tab {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                    background-color: black;
+                }
+            }
+
+            .view-count {
+                font-weight: bold;
+                padding: 5px;
+                width: 100%;
+                text-align: right;
+            }
+
+            .comments {
+                .comments-header {
+                    font-size: 16px;
+                    font-weight: bold;
+                    padding: 5px;
+                }
+
+                .comments-list{
+                    padding: 5px;
+
+                    .comment{
+                        padding: 5px;
+                        
+                        .comment-user{
+                            font-weight: bold;
+                            font-size: 12px;
+                        }
+
+                        .comment-content{
+                            padding: 5px;
+                            margin-left: 5px;
+                            border: 1px solid black;
+                            background-color: rgba(0,0,0,.2);
+                        }
+                    }
+                }
+            }
+
+            .new-comment {
+                padding: 5px;
+                width: 100%;
+
+                .comment-input {
+                    width: 85%;
+                    resize: vertical;
+                    display: inline-block;
+                }
+
+                .comment-btn {
+                    width: 14%;
+                    display: inline-block;
+                    vertical-align: top;
+                    text-align: center;
+                    padding-left: 5px;
+                    padding-right: 5px;
+
+                    a {
+                        width: 100%;
+                        padding: 5px;
+                        text-align: center;
+                        display: block;
+                        border: 1px solid green;
+                        color: green;
+                        background-color: rgba(0,80,0,.2);
+                        text-decoration: none;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
         .spinner {
             div {
                 background-color: black;
@@ -335,33 +423,18 @@
         width: 100%;
         text-align: center;
         font-family: 'Trebuchet MS','Lucida Sans Unicode','Lucida Grande','Lucida Sans',Arial,sans-serif;
+        border: 0px;
 
         .tab-label {
-            border: 1px solid;
+            border: 1px solid black;
             border-top: 0px;
-            border-color: black;
             transition: background-color 300ms ease-out;
+            font-weight: bold;
 
             &.active, &:hover {
-                font-weight: bold;
                 background-color: black;
                 color: white;
             }
-
-            /*&:nth-child(1) {
-                border-color: purple;
-                color: purple;
-            }
-
-            &:nth-child(2) {
-                border-color: green;
-                color: green;
-            }
-
-            &:nth-child(3) {
-                border-color: blue;
-                color: blue;
-            }*/
         }
     }
 

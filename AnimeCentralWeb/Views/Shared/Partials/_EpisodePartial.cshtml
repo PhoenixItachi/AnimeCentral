@@ -1,0 +1,63 @@
+@model AnimeCentralWeb.Models.DomainViewModels.EpisodeViewModel
+
+<div class="content">
+    <div class="content-header">
+        <div class="title">@Model.Title</div>
+        <div class="description">@Model.AnimeTitle - #@Model.Order</div>
+    </div>
+    <div class="commands text-right">
+        <i class="fa fa-times close-pop-up command" aria-hidden="true"></i>
+    </div>
+    <div class="content-body episode-view">
+        <div class="multi-tab">
+            <table class="tabs-labels">
+                <tr>
+                    @{
+                        @foreach (var source in Model.Sources)
+                        {
+                            <td data-tab-target="#@(Model.Sources.IndexOf(source))" class="tab-label @(Model.Sources.IndexOf(source) == 0 ? "active" : "")">@source.Label</td>
+                        }
+                    }
+                </tr>
+            </table>
+
+            <div class="tabs">
+                @foreach (var source in Model.Sources)
+                {
+                    <div class="tab @(Model.Sources.IndexOf(source) == 0 ? "active" : "")" data-tab-id="#@(Model.Sources.IndexOf(source))">
+                        <iframe src="@source.Link" frameBorder="0" scrolling="no" width="100%" height="100%" style="overflow: hidden;" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true" seamless="seamless"></iframe>
+                    </div>
+                }
+            </div>
+            <div class="view-count"><i class="fa fa-eye" aria-hidden="true"></i> Vizionari: @Model.ViewCount</div>
+            <div class="new-comment">
+                <form class="new-comment-form">
+                    <input type="hidden" name="EpisodeId" value="@Model.Id" />
+                    <textarea class="comment-input" name="Content" placeholder="Scrie un comentariu..." />
+                    <div class="comment-btn"><a>Comenteaza</a></div>
+                </form>
+            </div>
+            <div class="comments-container"></div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            RefreshComments();
+        });
+
+        function RefreshComments() {
+            $.get("Anime/GetComments?id=" + @Model.Id, function (data) {
+                $(".comments-container").html(data);
+            }).fail(function (data) {
+                alert("A aparut o problema in afisarea ultimelor comentarii comentarilor.");
+            });
+        }
+
+        $(".comment-btn").click(function () {
+            var commentContent = $(".comment-input").val();
+            $.post("Anime/AddComment", $(".new-comment-form").serialize(), function (data) {
+                RefreshComments();
+            });
+        })
+    </script>
+</div>

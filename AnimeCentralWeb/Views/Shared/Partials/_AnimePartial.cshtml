@@ -40,7 +40,7 @@
                             <div class="anime-episodes-list">
                                 @foreach (var episode in Model.Episodes)
                                 {
-                                    <div class="anime-episode">Episodul #@episode.Order@(string.IsNullOrEmpty(episode.Title) ? "" : ": " + episode.Title)</div>
+                                    <div class="anime-episode" data-episode-id="@episode.Id">Episodul #@episode.Order@(string.IsNullOrEmpty(episode.Title) ? "" : ": " + episode.Title)</div>
                                 }
                             </div>
                             <table class="tab-commands">
@@ -58,27 +58,37 @@
             </tr>
         </table>
     </div>
-</div>
 
-<script>
-    $(".multi-tab .tab-label").click(function () {
-        var tabTargetId = $(this).attr("data-tab-target");
-        var multiTabContainer = $(this).closest(".multi-tab");
+    <script>
+        $(".multi-tab .tab-label").click(function () {
+            var tabTargetId = $(this).attr("data-tab-target");
+            var multiTabContainer = $(this).closest(".multi-tab");
 
-        multiTabContainer.find(".tab-label").removeClass("active");
-        multiTabContainer.find(".tab").removeClass("active");
+            multiTabContainer.find(".tab-label").removeClass("active");
+            multiTabContainer.find(".tab").removeClass("active");
 
-        $(this).addClass("active");
-        multiTabContainer.find(".tab[data-tab-id='" + tabTargetId + "']").addClass("active");
-    });
-
-    $(".add-episode").click(function () {
-        var animeId = $(this).attr("data-anime-id");
-        $.get("Anime/GetAddEpisodePartial?animeId=" + animeId, function (data) {
-            $(".pop-up").append(data);
-        }).fail(function () {
-            alert("A aparut o eroare in adaugarea episodul.");
+            $(this).addClass("active");
+            multiTabContainer.find(".tab[data-tab-id='" + tabTargetId + "']").addClass("active");
         });
 
-    })
-</script>
+        $(".add-episode").click(function () {
+            var animeId = $(this).attr("data-anime-id");
+            $.get("Anime/GetAddEpisodePartial?animeId=" + animeId, function (data) {
+                $(".pop-up").append(data);
+            }).fail(function () {
+                alert("A aparut o eroare in adaugarea episodul.");
+            });
+
+        })
+
+        $(".anime-episodes-list .anime-episode").click(function () {
+            var episodeId = $(this).attr("data-episode-id");
+            $.get("Anime/GetEpisodePartial?id=" + episodeId, function (data) {
+                $(".pop-up").append(data);
+            }).fail(function () {
+                alert("A aparut o eroare in cautarea episodului.");
+            })
+        })
+    </script>
+</div>
+

@@ -11,6 +11,7 @@ namespace AnimeCentralWeb.AutoMapper
             CreateMap<AnimeViewModel, Anime>();
             CreateMap<EpisodeViewModel, Episode>();
             CreateMap<SourceViewModel, Source>();
+            CreateMap<CommentViewModel, Comment>();
         }
     }
 }
