@@ -1,0 +1,58 @@
+@model RegisterViewModel
+
+<div class="content">
+    <div class="content-header">
+        <div class="title">INREGISTREAZA-TE</div>
+        <div class="description">Creaza-ti un account pentru a avea acces la mai multe facilitati.</div>
+    </div>
+    <div class="commands text-right">
+        <i class="fa fa-times close-pop-up command" aria-hidden="true"></i>
+    </div>
+    <div class="content-body register-partial">
+        <form asp-controller="Account" asp-action="Register" method="post" class="register-form">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Username" class="control-label"></label>
+                <div class="">
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <div class="">
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <div class="">
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="control-label"></label>
+                <div class="">
+                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="">
+                    <button type="submit" class="btn btn-default">Register</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        $(".register-form").submit(function (e) {
+            e.preventDefault();
+            $.post('/Account/Register', $(".register-form").serialize(), function (data) {
+                $(".pop-up").append(data);
+            });
+        });
+    </script>
+</div>
+

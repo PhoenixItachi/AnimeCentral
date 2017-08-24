@@ -1,4 +1,5 @@
 ﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+@inject UserManager<ApplicationUser> _userManager
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,7 @@
     <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="~/css/site.min.css">
 
-    <title>@ViewData["Title"] - Anime Central</title>
+    <title>@ViewData["Title"] - @User.Identity.Name - Anime Central</title>
 
     <!-- Imported js and css -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -24,6 +25,14 @@
         <div class="command add-anime">
             <i class="fa fa-plus" aria-hidden="true"></i>
             <span>Adauga Anime</span>
+        </div>
+        <div class="command register-account">
+            <i class="fa fa-registered" aria-hidden="true"></i>
+            <span>Inregistreaza-te</span>
+        </div>
+        <div class="command login-account">
+            <i class="fa fa-registered" aria-hidden="true"></i>
+            <span>Logeaza-te</span>
         </div>
     </div>
 
@@ -51,6 +60,22 @@
                 $(".pop-up").append(data);
             })
         });
+
+        $(".register-account").click(function () {
+            $(".pop-up").css("z-index", 300);
+            $(".pop-up").css("opacity", 1);
+            $.get("/Account/Register", function (data) {
+                $(".pop-up").append(data);
+            })
+        });
+
+        $(".login-account").click(function () {
+            $(".pop-up").css("z-index", 300);
+            $(".pop-up").css("opacity", 1);
+            $.get("/Account/Login", function (data) {
+                $(".pop-up").append(data);
+            })
+        })
 
         $(".get-anime-list").click(function () {
             $(".pop-up").css("z-index", 300);

@@ -47,9 +47,7 @@ namespace AnimeCentralWeb.Controllers
         {
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.Authentication.SignOutAsync(_externalCookieScheme);
-
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            return PartialView("Partials/_LoginPartial");
         }
 
         //
@@ -64,11 +62,11 @@ namespace AnimeCentralWeb.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
-                    return RedirectToLocal(returnUrl);
+                    return Json(new { success = true });
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -82,12 +80,12 @@ namespace AnimeCentralWeb.Controllers
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
+                    return PartialView("Partials/_LoginPartial", model);
                 }
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return PartialView("Partials/_LoginPartial", model);
         }
 
         //
@@ -97,7 +95,7 @@ namespace AnimeCentralWeb.Controllers
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            return PartialView("Partials/_RegisterPartial");
         }
 
         //
@@ -110,7 +108,8 @@ namespace AnimeCentralWeb.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
+                var user = new ApplicationUser { UserName = model.Username, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -122,13 +121,13 @@ namespace AnimeCentralWeb.Controllers
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return PartialView("Partials/_RegisterPartial", model);
         }
 
         //

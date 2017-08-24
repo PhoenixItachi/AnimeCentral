@@ -1,0 +1,64 @@
+@model LoginViewModel
+
+<div class="content">
+    <div class="content-header">
+        <div class="title">LOGEAZA-TE</div>
+        <div class="description">Daca ai un cont de sa nu-l folosesti.</div>
+    </div>
+    <div class="commands text-right">
+        <i class="fa fa-times close-pop-up command" aria-hidden="true"></i>
+    </div>
+    <div class="content-body login-partial">
+        <form class="login-form">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Username" class="control-label"></label>
+                <div>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <div>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div>
+                    <div class="checkbox">
+                        <label asp-for="RememberMe">
+                            <input asp-for="RememberMe" />
+                            @Html.DisplayNameFor(m => m.RememberMe)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div>
+                    <button type="submit" class="btn btn-default">Log in</button>
+                </div>
+            </div>
+            <p>
+                <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Register as a new user?</a>
+            </p>
+            <p>
+                <a asp-action="ForgotPassword">Forgot your password?</a>
+            </p>
+        </form>
+    </div>
+    <script>
+        $(".login-form").submit(function (e) {
+            e.preventDefault();
+            $.post('Account/Login', $(".login-form").serialize(), function (data) {
+                if (data.success)
+                    window.location = '/';
+                else
+                    $(".pop-up").append(data);
+            });
+        });
+    </script>
+</div>
+

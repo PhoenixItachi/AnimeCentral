@@ -1,7 +1,9 @@
 ﻿using AnimeCentralWeb.Data;
 using AnimeCentralWeb.Domain;
+using AnimeCentralWeb.Models;
 using AnimeCentralWeb.Models.DomainViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,15 +19,18 @@ namespace AnimeCentralWeb.Controllers
     {
         public AnimeCentralDbContext Context;
         public IMapper AutoMapper;
-        public AnimeController(AnimeCentralDbContext context)
+        public UserManager<ApplicationUser> _userManager { get; set; }
+        public AnimeController(AnimeCentralDbContext context, UserManager<ApplicationUser> userManager)
         {
             Context = context;
             AutoMapper = Mapper.Instance;
+            _userManager = userManager;
         }
 
         [HttpGet]
-        public ActionResult GetAllAnime()
+        public async Task<ActionResult> GetAllAnime()
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
             var model = Context.Anime.Select(x => AutoMapper.Map<Anime, AnimeViewModel>(x)).ToList();
             return PartialView("Partials/_AnimeList", model);
         }
