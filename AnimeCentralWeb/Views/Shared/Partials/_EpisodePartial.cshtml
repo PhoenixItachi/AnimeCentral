@@ -53,9 +53,9 @@
             });
         }
 
-        $(".comment-btn").click(function () {
-            var commentContent = $(".comment-input").val();
-            $.post("Anime/AddComment", $(".new-comment-form").serialize(), function (data) {
+        $(document).on("click", ".comment-btn", function () {
+            var commentContent = $(this).closest(".comment-input").val();
+            $.post("Anime/AddComment", $(this).closest(".new-comment-form").serialize(), function (data) {
                 RefreshComments();
             });
         })

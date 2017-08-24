@@ -8,6 +8,7 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         public int Id { get; set; }
         [Required]
         public int EpisodeId { get; set; }
+        public int? ParentCommentId { get; set; }
         public string Content { get; set; }
         public string UserName { get; set; }
         public virtual EpisodeViewModel Episode { get; set; }

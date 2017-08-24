@@ -313,29 +313,43 @@
                     padding: 5px;
                 }
 
-                .comments-list{
+                .comments-list {
                     padding: 5px;
 
-                    .comment{
+                    .comment {
                         padding: 5px;
-                        
-                        .comment-user{
-                            font-weight: bold;
-                            font-size: 12px;
+
+                        .new-comment {
+                            display: none;
+
+                            &.active {
+                                display: block;
+                            }
                         }
 
-                        .comment-content{
+
+                        .comment-user {
+                            font-weight: bold;
+                            font-size: 12px;
+
+                            .show-reply-form {
+                                font-weight: normal;
+                                display: inline-block;
+                            }
+                        }
+
+                        .comment-content {
                             padding: 5px;
                             margin-left: 5px;
-                            border: 1px solid black;
-                            background-color: rgba(0,0,0,.2);
+                            background-color: rgba(0,0,0,.1);
+                            box-shadow: 0.5px 0.5px 0.5px 0.35px #000;
                         }
                     }
                 }
             }
 
             .new-comment {
-                padding: 5px;
+                padding: 10px;
                 width: 100%;
 
                 .comment-input {

@@ -200,19 +200,29 @@ namespace AnimeCentralWeb.Controllers
         [HttpGet]
         public async Task<ActionResult> GetComments(int id)
         {
-            var model = await Context.Comments.Where(x => x.EpisodeId == id).Select(x => AutoMapper.Map<CommentViewModel>(x)).ToListAsync();
+            var model = await Context.Comments.Where(x => x.EpisodeId == id).Include(x => x.Replies).Select(x => AutoMapper.Map<CommentViewModel>(x)).ToListAsync();
             return PartialView("Partials/_CommentsPartial", model);
         }
 
         [HttpPost]
         public async Task<ActionResult> AddComment(CommentViewModel model)
         {
-            var episode = await Context.Episodes.Include(x => x.Comments).FirstOrDefaultAsync(x => x.Id == model.EpisodeId);
+            var comments = await Context.Comments.Include(x => x.Replies).Where(x => x.EpisodeId == model.EpisodeId).ToListAsync();
 
-            if (episode == null)
+            if (comments == null)
                 return BadRequest();
 
-            episode.Comments.Add(AutoMapper.Map<Comment>(model));
+            if (model.ParentCommentId != null)
+            {
+                var comment = comments.FirstOrDefault(x => x.Id == model.ParentCommentId);
+                if (comment == null)
+                    return BadRequest();
+
+                comment.Replies.Add(AutoMapper.Map<Comment>(model));
+            }
+            else
+                Context.Comments.Add(AutoMapper.Map<Comment>(model));
+
             await Context.SaveChangesAsync();
 
             return Ok();

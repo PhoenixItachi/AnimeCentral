@@ -9,6 +9,7 @@ body {
     background-position-y: 100%;
     background-position-x: -20%;
     background-color:white;
+    overflow: auto;
 }
 
 table{

@@ -8,9 +8,10 @@ using AnimeCentralWeb.Data;
 namespace AnimeCentralWeb.Data.Migrations
 {
     [DbContext(typeof(AnimeCentralDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170824013440_add_parent_comment")]
+    partial class add_parent_comment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -63,19 +64,19 @@ namespace AnimeCentralWeb.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("CommentId");
+
                     b.Property<string>("Content");
 
                     b.Property<int>("EpisodeId");
-
-                    b.Property<int?>("ParentCommentId");
 
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EpisodeId");
+                    b.HasIndex("CommentId");
 
-                    b.HasIndex("ParentCommentId");
+                    b.HasIndex("EpisodeId");
 
                     b.HasIndex("UserId");
 
@@ -299,14 +300,14 @@ namespace AnimeCentralWeb.Data.Migrations
 
             modelBuilder.Entity("AnimeCentralWeb.Domain.Comment", b =>
                 {
+                    b.HasOne("AnimeCentralWeb.Domain.Comment")
+                        .WithMany("Replies")
+                        .HasForeignKey("CommentId");
+
                     b.HasOne("AnimeCentralWeb.Domain.Episode", "Episode")
                         .WithMany("Comments")
                         .HasForeignKey("EpisodeId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AnimeCentralWeb.Domain.Comment", "ParentComment")
-                        .WithMany("Replies")
-                        .HasForeignKey("ParentCommentId");
 
                     b.HasOne("AnimeCentralWeb.Models.ApplicationUser", "User")
                         .WithMany()
