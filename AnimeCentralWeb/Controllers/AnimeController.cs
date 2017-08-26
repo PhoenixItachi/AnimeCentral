@@ -3,6 +3,7 @@ using AnimeCentralWeb.Domain;
 using AnimeCentralWeb.Models;
 using AnimeCentralWeb.Models.DomainViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -205,18 +206,24 @@ namespace AnimeCentralWeb.Controllers
         [HttpGet]
         public async Task<ActionResult> GetComments(int id)
         {
-            var model = await Context.Comments.Where(x => x.EpisodeId == id).Include(x => x.Replies).Select(x => AutoMapper.Map<CommentViewModel>(x)).ToListAsync();
+            var model = await Context.Comments.Where(x => x.EpisodeId == id).Include(x => x.Replies).Include(x => x.User).Select(x => AutoMapper.Map<CommentViewModel>(x)).ToListAsync();
             return PartialView("Partials/_CommentsPartial", model);
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> AddComment(CommentViewModel model)
         {
             var comments = await Context.Comments.Include(x => x.Replies).Where(x => x.EpisodeId == model.EpisodeId).ToListAsync();
+            var userId = _userManager.GetUserId(User);
 
             if (comments == null)
                 return BadRequest();
 
+            if (userId == null)
+                return BadRequest();
+
+            model.UserId = userId;
             if (model.ParentCommentId != null)
             {
                 var comment = comments.FirstOrDefault(x => x.Id == model.ParentCommentId);
@@ -229,6 +236,30 @@ namespace AnimeCentralWeb.Controllers
                 Context.Comments.Add(AutoMapper.Map<Comment>(model));
 
             await Context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> DeleteComment(int id)
+        {
+            var comment = await Context.Comments.Include(x => x.User).Include(x => x.Replies).FirstOrDefaultAsync(x => x.Id == id);
+            var userId = _userManager.GetUserId(User);
+
+            if (comment == null || comment.User.Id != userId)
+                return BadRequest("Commentul nu-ti apartine.");
+            try
+            {
+                var replies = await Context.Comments.Include(x => x.User).Include(x => x.Replies).Where(x => x.ParentCommentId == comment.Id).ToListAsync();
+                Context.RemoveRange(replies);
+                Context.Remove(comment);
+                await Context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+
+            }
 
             return Ok();
         }

@@ -1,38 +1,48 @@
 @model List<AnimeCentralWeb.Models.DomainViewModels.CommentViewModel>
-
+@inject UserManager<ApplicationUser> userManager
 <div class="comments">
     <div class="comments-header"><i class="fa fa-comment"></i> Comentarii (@Model.Count)</div>
-    <div class="comments-list">
+    <table class="comments-list">
         @foreach (var comment in Model.Where(x => x.ParentCommentId == null))
         {
-            <div class="comment">
-                <div class="comment-user">Anonymus - <div class="show-reply-form">Raspunde</div></div>
-                <div class="comment-content">@comment.Content</div>
-                <div class="new-comment">
-                    <form class="new-comment-form">
-                        <input type="hidden" name="EpisodeId" value="@comment.EpisodeId" />
-                        <input type="hidden" name="ParentCommentId" value="@comment.Id" />
-                        <textarea class="comment-input" name="Content" placeholder="Scrie un comentariu..." />
-                        <div class="comment-btn"><a>Comenteaza</a></div>
-                    </form>
-                </div>
-                <div class="comment-replies">
-                    @foreach (var reply in comment.Replies)
-                {
-                        <div class="comment">
-                            <div class="comment-user">Anonymus</div>
-                            <div class="comment-content">@reply.Content</div>
-                        </div>
-                    }
-                </div>
-            </div>
+            <tr class="comment">
+                <td class="comment-avatar"><img src="~/images/DefaultAvatar.jpg" class="component-shadow" /></td>
+                <td class="comment-details">
+                    <div class="comment-user">@comment.User.UserName - <div class="show-reply-form">Raspunde</div> - @if (userManager.GetUserId(User) == comment.User.Id) { <div class="delete-comment" data-comment-id="@comment.Id">Sterge</div> }</div>
+                    <div class="comment-content">@comment.Content</div>
+                    <div class="new-comment">
+                        <form class="new-comment-form">
+                            <input type="hidden" name="EpisodeId" value="@comment.EpisodeId" />
+                            <input type="hidden" name="ParentCommentId" value="@comment.Id" />
+                            <textarea class="comment-input" name="Content" placeholder="Scrie un comentariu..." />
+                            <div class="comment-btn"><a>Comenteaza</a></div>
+                        </form>
+                    </div>
+                    <div class="comment-replies">
+                        <table class="comments">
+                            @foreach (var reply in comment.Replies)
+                            {
+                                <tr class="comment">
+                                    <td class="comment-avatar">  <img src="~/images/DefaultAvatar.jpg" class="component-shadow" /></td>
+                                    <td class="comment-details">
+                                        <div class="comment-user">@comment.User.UserName - @if (userManager.GetUserId(User) == comment.User.Id){ <div class="delete-comment" data-comment-id="@reply.Id">Sterge</div> }</div>
+                                        <div class="comment-content">@reply.Content</div>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </td>
+            </tr>
         }
-    </div>
+    </table>
 </div>
 
 <script>
     $(".show-reply-form").click(function () {
         $(this).closest(".comment").find(".new-comment").toggleClass("active");
-    })
+    });
+
+
 </script>
 

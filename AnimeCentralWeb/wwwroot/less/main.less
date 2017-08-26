@@ -306,7 +306,9 @@
                 text-align: right;
             }
 
-            .comments {
+            .comments, .comment-replies {
+                padding: 5px;
+
                 .comments-header {
                     font-size: 16px;
                     font-weight: bold;
@@ -314,10 +316,41 @@
                 }
 
                 .comments-list {
-                    padding: 5px;
 
                     .comment {
                         padding: 5px;
+
+                        .comment-avatar {
+                            vertical-align: top;
+                            padding: 5px;
+
+                            img {
+                                width: 50px;
+                                height: 50px;
+                            }
+                        }
+
+                        .comment-details {
+                            padding: 5px;
+                            width: 100%;
+                            .comment-user {
+                                font-weight: bold;
+                                font-size: 12px;
+
+                                .show-reply-form, .delete-comment {
+                                    font-weight: normal;
+                                    display: inline-block;
+                                }
+                            }
+
+                            .comment-content {
+                                padding: 5px;
+                                display: inline-block;
+                                margin-left: 5px;
+                                background-color: rgba(0,0,0,.1);
+                                box-shadow: 0.5px 0.5px 0.5px 0.35px #000;
+                            }
+                        }
 
                         .new-comment {
                             display: none;
@@ -325,24 +358,6 @@
                             &.active {
                                 display: block;
                             }
-                        }
-
-
-                        .comment-user {
-                            font-weight: bold;
-                            font-size: 12px;
-
-                            .show-reply-form {
-                                font-weight: normal;
-                                display: inline-block;
-                            }
-                        }
-
-                        .comment-content {
-                            padding: 5px;
-                            margin-left: 5px;
-                            background-color: rgba(0,0,0,.1);
-                            box-shadow: 0.5px 0.5px 0.5px 0.35px #000;
                         }
                     }
                 }

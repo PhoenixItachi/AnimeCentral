@@ -9,15 +9,15 @@ namespace AnimeCentralWeb.Domain
     {
         [Key]
         public int Id { get; set; }
+        public string UserId { get; set; }
         public int EpisodeId { get; set; }
         public int? ParentCommentId { get; set; }
         public string Content { get; set; }
-        public ApplicationUser User { get; set; }
 
+        public virtual ApplicationUser User { get; set; }
         [ForeignKey("ParentCommentId")]
         public virtual Comment ParentComment { get; set; }
         public virtual Episode Episode { get; set; }
-
         public virtual List<Comment> Replies { get; set; }
     }
 }

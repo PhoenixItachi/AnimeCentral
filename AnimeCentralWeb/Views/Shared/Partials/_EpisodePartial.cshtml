@@ -58,6 +58,15 @@
             $.post("Anime/AddComment", $(this).closest(".new-comment-form").serialize(), function (data) {
                 RefreshComments();
             });
+        });
+
+        $(document).on("click", ".delete-comment", function () {
+            var commentId = $(this).attr("data-comment-id");
+            $.post("Anime/DeleteComment?id=" + commentId, function () {
+                RefreshComments();
+            }).fail(function (data) {
+                alert(data.responseText);
+            })
         })
     </script>
 </div>
