@@ -1,0 +1,72 @@
+@model AnimeCentralWeb.Models.DomainViewModels.EpisodeViewModel
+
+<div class="content">
+    <div class="content-header">
+        <div class="title">EDITEAZA EPISOD</div>
+        <div class="description">@Model.AnimeTitle - #@Model.Order</div>
+    </div>
+    <div class="commands text-right">
+        <i class="fa fa-times close-pop-up command" aria-hidden="true"></i>
+    </div>
+    <div class="content-body edit-episode-partial">
+        <form class="edit-episode-form">
+            <input type="hidden" asp-for="AnimeId" />
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Order"></label>
+                <input type="text" class="form-control" asp-for="Order" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Title"></label>
+                <input type="text" asp-for="Title" class="form-control" />
+            </div>
+
+            <label asp-for="Sources"></label> <i class="fa fa-plus add-source" aria-hidden="true"></i> <i class="fa fa-trash remove-source" aria-hidden="true"></i>
+            <div class="sources form-inline">
+                @foreach (var source in Model.Sources)
+                {
+                    <div class="source">
+                        <input asp-for="Sources[Model.Sources.IndexOf(source)].Label" class="form-control source-tag" placeholder="Tag sursa..." /><input asp-for="Sources[Model.Sources.IndexOf(source)].Link" class="form-control source-link" placeholder="Link sursa..." />
+                    </div>
+                }
+            </div>
+            <a class="saveCommand" style="text-decoration:none" onclick="$('.edit-episode-form').submit()">Salveaza</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(".remove-source").hide();
+    $(".add-source").click(function () {
+        var source = $(".sources .source").first().clone();
+        console.log(source);
+        var sourcesCurrentCount = $(".sources .source").length;
+        $(".remove-source").show();
+        source.find(".source-tag").attr("name", "Sources[" + sourcesCurrentCount + "].Label");
+        source.find(".source-link").attr("name", "Sources[" + sourcesCurrentCount + "].Link");
+
+        $(".sources").append(source);
+    });
+
+    $(".remove-source").click(function () {
+        var sourcesCurrentCount = $(".sources .source").length;
+
+        if (sourcesCurrentCount == 1)
+            return;
+
+        if (sourcesCurrentCount == 2)
+            $(this).hide();
+        $(".sources .source").last().remove();
+    });
+
+    $('.edit-episode-form').submit(function (e) {
+        e.preventDefault();
+        $.post('/Anime/EditEpisode', $('.edit-episode-form').serialize(),
+            function (result) {
+                alert('Episod a fost salvat!');
+            }
+        ).fail(function () {
+            alert('A aparut o eroare la salvare!');
+        });
+    });
+</script>

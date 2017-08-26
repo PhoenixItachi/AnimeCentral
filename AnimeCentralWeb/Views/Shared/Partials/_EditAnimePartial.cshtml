@@ -1,0 +1,82 @@
+@model AnimeCentralWeb.Models.DomainViewModels.AnimeViewModel
+
+<div class="content">
+    <div class="content-header">
+        <div class="title">EDITEAZA ANIME</div>
+        <div class="description">@Model.Title (@Model.Type)</div>
+    </div>
+    <div class="commands text-right">
+        <i class="fa fa-times close-pop-up command" aria-hidden="true"></i>
+    </div>
+    <div class="content-body edit-anime-partial">
+        <form asp-controller="Anime" asp-action="EditAnime" class="edit-anime-form">
+            <div asp-validation-summary="All"></div>
+            <div class="form-group">
+                <label asp-for="Title"></label>
+                <input class="form-control" asp-for="Title" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Synonyms"></label>
+                <input class="form-control" asp-for="Synonyms" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Score"></label>
+                <input class="form-control" asp-for="Score" />
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Image"></label>
+                <input class="form-control" asp-for="Image" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Status"></label>
+                <input class="form-control" asp-for="Status" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Type"></label>
+                <input class="form-control" asp-for="Type" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Genres"></label>
+                <input class="form-control" asp-for="Genres" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NoOfEpisodes"></label>
+                <input class="form-control" asp-for="NoOfEpisodes" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Synopsis"></label>
+                <textarea asp-for="Synopsis" class="form-control"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TranslateStatus"></label>
+                <input asp-for="TranslateStatus" class="form-control" />
+            </div>
+
+            <input type="hidden" asp-for="MalId" />
+            <input type="hidden" asp-for="Id" />
+
+            <a class="saveCommand" style="text-decoration:none" onclick="$('.edit-anime-form').submit()">Salveaza</a>
+        </form>
+
+        <script>
+            $('.edit-anime-form').submit(function (e) {
+                e.preventDefault();
+                $.post('/Anime/EditAnime', $('.edit-anime-form').serialize(),
+                    function (result) {
+                        alert('Anime editat!');
+                    }
+                );
+            });
+        </script>
+    </div>
+</div>

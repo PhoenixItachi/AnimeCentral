@@ -29,6 +29,7 @@
                     </div>
                 }
             </div>
+            <div class="episode-commands"><div class="edit-episode" data-episode-id="@Model.Id">Editeaza</div></div>
             <div class="view-count"><i class="fa fa-eye" aria-hidden="true"></i> Vizionari: @Model.ViewCount</div>
             <div class="new-comment">
                 <form class="new-comment-form">
@@ -67,6 +68,15 @@
             }).fail(function (data) {
                 alert(data.responseText);
             })
+        });
+
+        $(".edit-episode").click(function () {
+            var episodeId = $(this).attr("data-episode-id");
+            $.get("Anime/GetEditEpisodePartial?id=" + episodeId, function (data) {
+                $(".pop-up").append(data);
+            }).fail(function () { 
+                alert("A aparut o problema!");
+            });
         })
     </script>
 </div>

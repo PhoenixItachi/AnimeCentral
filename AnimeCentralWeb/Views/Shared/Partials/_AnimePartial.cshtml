@@ -16,6 +16,7 @@
                         <div class="cover">
                             <img src="@Model.Image" />
                             <span class="score">@Model.Score</span>
+                            <div class="edit-anime-btn" data-anime-id="@Model.Id">Editeaza</div>
                         </div>
                         <div class="details">
                             <label asp-for="NoOfEpisodes"></label>: <span class="noOfEpisodes">@Model.NoOfEpisodes</span><br />
@@ -60,16 +61,7 @@
     </div>
 
     <script>
-        $(".multi-tab .tab-label").click(function () {
-            var tabTargetId = $(this).attr("data-tab-target");
-            var multiTabContainer = $(this).closest(".multi-tab");
 
-            multiTabContainer.find(".tab-label").removeClass("active");
-            multiTabContainer.find(".tab").removeClass("active");
-
-            $(this).addClass("active");
-            multiTabContainer.find(".tab[data-tab-id='" + tabTargetId + "']").addClass("active");
-        });
 
         $(".add-episode").click(function () {
             var animeId = $(this).attr("data-anime-id");
@@ -88,7 +80,17 @@
             }).fail(function () {
                 alert("A aparut o eroare in cautarea episodului.");
             })
-        })
+        });
+
+        $(".edit-anime-btn").click(function () {
+            var animeId = $(this).attr("data-anime-id");
+            $.get("Anime/GetEditAnimePartial?id=" + animeId, function (data) {
+                $(".pop-up").append(data);
+            }).fail(function (data) {
+                debugger;
+                alert("A aparut o eroare in cautarea episodului.");
+            })
+        });
     </script>
 </div>
 
