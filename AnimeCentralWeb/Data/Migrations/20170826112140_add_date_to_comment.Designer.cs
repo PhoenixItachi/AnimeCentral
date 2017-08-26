@@ -8,9 +8,10 @@ using AnimeCentralWeb.Data;
 namespace AnimeCentralWeb.Data.Migrations
 {
     [DbContext(typeof(AnimeCentralDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170826112140_add_date_to_comment")]
+    partial class add_date_to_comment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -28,8 +29,6 @@ namespace AnimeCentralWeb.Data.Migrations
                     b.Property<string>("Genres");
 
                     b.Property<string>("Image");
-
-                    b.Property<DateTime>("LatestEpisode");
 
                     b.Property<int>("MalId");
 

@@ -40,11 +40,11 @@ $(function () {
   // Slideshow Commands
   $(".next-slide").click(function () {
     var currentSlide = $(".anime-recom .slides .active");
+    var slidesCount = $(".anime-recom .slides .slide").length - 1;
     var slideIndex = $(currentSlide).attr("data-index");
     var nextSlideIndex;
-
-    if (slideIndex == 4)
-      nextSlideIndex = 1;
+    if (slideIndex == slidesCount)
+      nextSlideIndex = 0;
     else
       nextSlideIndex = parseInt(slideIndex) + 1;
 
@@ -54,10 +54,11 @@ $(function () {
   $(".prev-slide").click(function () {
     var currentSlide = $(".anime-recom .slides .active");
     var slideIndex = $(currentSlide).attr("data-index");
+    var slidesCount = $(".anime-recom .slides .slide").length - 1;
     var nextSlideIndex;
 
-    if (slideIndex == 1)
-      nextSlideIndex = 4;
+    if (slideIndex == 0)
+      nextSlideIndex = slidesCount;
     else
       nextSlideIndex = parseInt(slideIndex) - 1;
 

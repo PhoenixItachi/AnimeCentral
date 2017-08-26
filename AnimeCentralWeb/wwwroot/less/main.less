@@ -42,6 +42,21 @@
         width: 75%;
         opacity: 0;
         transition: all 250ms linear;
+        
+        &.spinner-container{
+            top: 50%;
+            left: 50%;
+            width: auto;
+            transform: translate(-50%, -50%);
+            display:inline-block;
+            text-align:center;
+            .content-body{
+                display:inline-block;
+                position:absolute;
+                top: 50%;
+                width: auto;
+            }
+        }
 
         .close-pop-up {
             padding: 10px;
@@ -98,7 +113,7 @@
             }
         }
 
-        .content-body.add-anime-partial {
+        .content-body.add-anime-partial, .content-body.edit-anime-partial {
             width: 100% !important;
             padding: 20px;
 
@@ -245,7 +260,7 @@
             }
         }
 
-        .content-body.add-episode-partial {
+        .content-body.add-episode-partial, .content-body.edit-episode-partial {
             padding: 5px;
 
             label {
@@ -267,7 +282,7 @@
                 color: white;
             }
 
-            .add-episode-form {
+            .add-episode-form, .edit-episode-form {
                 padding: 5px;
 
                 .saveCommand {
@@ -302,8 +317,13 @@
             .view-count {
                 font-weight: bold;
                 padding: 5px;
-                width: 100%;
-                text-align: right;
+                display: inline-block;
+                float: right;
+            }
+
+            .episode-commands {
+                display: inline-block;
+                padding: 5px;
             }
 
             .comments, .comment-replies {
@@ -333,6 +353,7 @@
                         .comment-details {
                             padding: 5px;
                             width: 100%;
+
                             .comment-user {
                                 font-weight: bold;
                                 font-size: 12px;
@@ -428,6 +449,17 @@
 
         .cover {
             position: relative;
+
+            .edit-anime-btn {
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                opacity: .3;
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
 
             img {
             }

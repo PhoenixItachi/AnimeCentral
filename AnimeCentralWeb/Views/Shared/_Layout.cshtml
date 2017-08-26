@@ -37,7 +37,7 @@
     </div>
 
     <div class="pop-up">
-        <div class="content">
+        <div class="content spinner-container">
             <div class="content-body">
                 <div class="spinner">
                     <div class="bounce1"></div>
@@ -90,9 +90,32 @@
         })
 
         $(document).on("click", ".close-pop-up", function () {
+            $(".pop-up").find(".content").not(".spinner-container").remove();
             $(".pop-up").css("opacity", 0);
             $(".pop-up").css("z-index", -1);
         })
+
+        $(document).on("click", ".multi-tab .tab-label", function () {
+            var tabTargetId = $(this).attr("data-tab-target");
+            var multiTabContainer = $(this).closest(".multi-tab");
+
+            multiTabContainer.find(".tab-label").removeClass("active");
+            multiTabContainer.find(".tab").removeClass("active");
+
+            $(this).addClass("active");
+            multiTabContainer.find(".tab[data-tab-id='" + tabTargetId + "']").addClass("active");
+        });
+
+        $(".anime-episode").click(function () {
+            var episodeId = $(this).attr("data-episode-id");
+            $(".pop-up").css("z-index", 300);
+            $(".pop-up").css("opacity", 1);
+            $.get("Anime/GetEpisodePartial?id=" + episodeId, function (data) {
+                $(".pop-up").append(data);
+            }).fail(function () {
+                alert("A aparut o eroare in cautarea episodului.");
+            })
+        });
     </script>
 </body>
 

@@ -1,5 +1,10 @@
-﻿using AnimeCentralWeb.Domain;
+﻿using AnimeCentralWeb.Data;
+using AnimeCentralWeb.Domain;
+using AnimeCentralWeb.Models;
+using AnimeCentralWeb.Models.DomainViewModels;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +16,54 @@ namespace AnimeCentralWeb.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private AnimeCentralDbContext Context { get; set; }
+        public IMapper AutoMapper;
+
+        public HomeController(AnimeCentralDbContext context)
         {
-            return View();
+            Context = context;
+            AutoMapper = Mapper.Instance;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var comments = await Context.Comments.OrderByDescending(x => x.Date).Take(5).Include(x => x.User).Select(x => AutoMapper.Map<CommentViewModel>(x)).ToListAsync();
+            foreach(var comment in comments)
+            {
+                var episode = await Context.Episodes.Include(x => x.Anime).FirstOrDefaultAsync(x => x.Id == comment.Id);
+                comment.Episode = AutoMapper.Map<EpisodeViewModel>(episode);
+            }
+
+            var anime = Context.Anime.Include(x => x.Episodes).OrderByDescending(x => x.LatestEpisode)
+                .Where(x => x.Episodes.Count != 0).Take(10).ToList()
+                .Select(x => { x.Episodes = x.Episodes.Take(2).ToList(); return AutoMapper.Map<AnimeViewModel>(x); }).ToList();
+
+            var topAnime = await Context.Anime.Include(x => x.Episodes).Select(x => new AnimeViewModel()
+            {
+                Id = x.Id,
+                Title = x.Title,
+                AnimeViews = x.Episodes.Sum(e => e.ViewCount),
+                Image = x.Image
+            }).OrderByDescending(x => x.AnimeViews).Take(10).ToListAsync();
+
+            var recommendation = Context.Anime.OrderBy(x => Guid.NewGuid()).Where(x => !string.IsNullOrEmpty(x.BigImage)).Take(5).Select(x => AutoMapper.Map<AnimeViewModel>(x)).ToList();
+
+            var topEpisodes = await Context.Episodes.OrderByDescending(x => x.ViewCount).Take(10).Include(x => x.Anime).Select(x => AutoMapper.Map<EpisodeViewModel>(x)).ToListAsync();
+
+            var model = new HomeViewModel() {
+                LatestAnimeUpdates = anime,
+                Recommendation = recommendation,
+                LatestComments = comments,
+                TopAnime = topAnime,
+                TopEpisodes = topEpisodes
+            };
+
+            return View(model);
+        }
+
+        public bool SelectUntilCondition(Episode ep, ref List<int> animeIds)
+        {
+            return true;
         }
 
         public async Task<IActionResult> SearchAnime(string searchText)

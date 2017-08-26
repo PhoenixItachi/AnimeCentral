@@ -17,6 +17,8 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         [Display(Name = "Episodul")]
         [Required]
         public float Order { get; set; }
+
+        public AnimeViewModel Anime { get; set; }
         public virtual List<SourceViewModel> Sources { get; set; }
         public virtual List<CommentViewModel> Comments { get; set; }
     }

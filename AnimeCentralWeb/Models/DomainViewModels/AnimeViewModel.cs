@@ -8,6 +8,7 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         public int Id { get; set; }
         public int PrequelId { get; set; }
         public int SequelId { get; set; }
+        public int MalId { get; set; }
         public int ParentId { get; set; }
 
         [Required]
@@ -23,7 +24,6 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         [Required]
         public string Status { get; set; }
         public string TranslateStatus { get; set; }
-        [Required]
         public string Image { get; set; }
         public string BigImage { get; set; }
         [Display(Name = "Sinonime")]
@@ -33,7 +33,7 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         public string Synopsis { get; set; }
         [Required]
         public string Genres { get; set; }
-        public int MalId { get; set; }
+        public int AnimeViews { get; set; }
 
         public List<EpisodeViewModel> Episodes { get; set; }
     }

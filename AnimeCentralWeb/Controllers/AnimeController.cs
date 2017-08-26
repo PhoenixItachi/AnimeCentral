@@ -28,12 +28,15 @@ namespace AnimeCentralWeb.Controllers
             _userManager = userManager;
         }
 
+        #region Anime
         [HttpGet]
         public async Task<ActionResult> GetAllAnime()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var model = Context.Anime.Select(x => AutoMapper.Map<Anime, AnimeViewModel>(x)).ToList();
             return PartialView("Partials/_AnimeList", model);
+
+
         }
 
         [HttpPost]
@@ -45,6 +48,47 @@ namespace AnimeCentralWeb.Controllers
 
                 anime.TranslateStatus = "Ongoing";
                 await Context.Anime.AddAsync(anime);
+                await Context.SaveChangesAsync();
+
+                return Ok();
+            }
+            return BadRequest();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetEditAnimePartial(int id)
+        {
+            var anime = await Context.Anime.FirstOrDefaultAsync(x => x.Id == id);
+            if (anime == null)
+                return BadRequest();
+
+            var model = AutoMapper.Map<AnimeViewModel>(anime);
+            return PartialView("Partials/_EditAnimePartial", model);
+        }
+        public async Task<ActionResult> EditAnime(AnimeViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var anime = await Context.Anime.FirstOrDefaultAsync(x => x.Id == model.Id);
+                if (anime == null)
+                    return BadRequest();
+
+                anime.BigImage = model.BigImage;
+                anime.EpisodeLength = model.EpisodeLength;
+                anime.Genres = model.Genres;
+                anime.Image = model.Image;
+                anime.NoOfEpisodes = model.NoOfEpisodes;
+                anime.Title = model.Title;
+                anime.Synopsis = model.Synopsis;
+                anime.Synonyms = model.Synonyms;
+                anime.Status = model.Status;
+                anime.Type = model.Type;
+                anime.Score = model.Score;
+                anime.EpisodeLength = model.EpisodeLength;
+                anime.BigImage = model.BigImage;
+
+                Context.Update(anime);
                 await Context.SaveChangesAsync();
 
                 return Ok();
@@ -147,6 +191,10 @@ namespace AnimeCentralWeb.Controllers
             return PartialView("Partials/_AddAnimeForm", model);
         }
 
+        #endregion
+
+        #region Episode
+
         public async Task<ActionResult> GetAddEpisodePartial(int animeId)
         {
             var anime = await Context.Anime.Include(x => x.Episodes).FirstOrDefaultAsync(x => x.Id == animeId);
@@ -179,6 +227,9 @@ namespace AnimeCentralWeb.Controllers
             var episode = AutoMapper.Map<Episode>(model);
             episode.Sources = model.Sources.Select(x => AutoMapper.Map<Source>(x)).ToList();
 
+            var date = DateTime.UtcNow;
+            episode.Date = date;
+            anime.LatestEpisode = date;
             anime.Episodes.Add(episode);
             Context.Anime.Update(anime);
             await Context.SaveChangesAsync();
@@ -202,6 +253,39 @@ namespace AnimeCentralWeb.Controllers
             return PartialView("Partials/_EpisodePartial", model);
         }
 
+        public async Task<ActionResult> GetEditEpisodePartial(int id)
+        {
+            var episode = await Context.Episodes.Include(x => x.Anime).Include(x => x.Sources).FirstOrDefaultAsync(x => x.Id == id);
+
+            if (episode == null)
+                return BadRequest();
+
+            var model = AutoMapper.Map<EpisodeViewModel>(episode);
+            return PartialView("Partials/_EditEpisodePartial", model);
+        }
+
+        public async Task<ActionResult> EditEpisode(EpisodeViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var episode = await Context.Episodes.Include(x => x.Sources).FirstOrDefaultAsync(x => x.Id == model.Id);
+                if (episode == null)
+                    return BadRequest();
+
+                episode.Title = model.Title;
+                episode.Order = model.Order;
+                episode.Sources = model.Sources.Select(x => AutoMapper.Map<Source>(x)).ToList();
+
+                Context.Update(episode);
+                await Context.SaveChangesAsync();
+                return Ok();
+            }
+            return BadRequest();
+        }
+
+        #endregion
+
+        #region Comments
 
         [HttpGet]
         public async Task<ActionResult> GetComments(int id)
@@ -224,6 +308,7 @@ namespace AnimeCentralWeb.Controllers
                 return BadRequest();
 
             model.UserId = userId;
+            model.Date = DateTime.UtcNow;
             if (model.ParentCommentId != null)
             {
                 var comment = comments.FirstOrDefault(x => x.Id == model.ParentCommentId);
@@ -263,5 +348,8 @@ namespace AnimeCentralWeb.Controllers
 
             return Ok();
         }
+
+        #endregion
+
     }
 }

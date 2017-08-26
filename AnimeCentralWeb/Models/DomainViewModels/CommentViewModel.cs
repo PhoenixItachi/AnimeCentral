@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AnimeCentralWeb.Models.DomainViewModels
@@ -12,6 +13,7 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         public int? ParentCommentId { get; set; }
         public string Content { get; set; }
         public string UserName { get; set; }
+        public DateTime Date { get; set; }
         public virtual ApplicationUser User { get; set; }
         public virtual EpisodeViewModel Episode { get; set; }
         public virtual List<CommentViewModel> Replies { get; set; }

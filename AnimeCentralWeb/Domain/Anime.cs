@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AnimeCentralWeb.Domain
@@ -25,6 +26,7 @@ namespace AnimeCentralWeb.Domain
         public string Genres { get; set; }
         public int MalId { get; set; }
         public string TranslateStatus { get; set; }
+        public DateTime LatestEpisode { get; set; }
 
         public virtual List<Review> Reviews { get; set; }
         public virtual List<Episode> Episodes { get; set; }

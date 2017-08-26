@@ -13,11 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\DomainViewModels\AddAnimeViewModel.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="Views\Shared\Partials\_SourcePartial.cshtml" />
+    <Compile Remove="Models\DomainViewModels\AnimeRankViewModel.cs" />
+    <Compile Remove="Models\IndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.1.1" />
