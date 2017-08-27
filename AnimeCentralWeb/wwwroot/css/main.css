@@ -796,13 +796,22 @@ a:focus {
     border-radius: 2px;
 }
 
-    .anns-list-item.anunt {
+    .anns-list-item.announcement {
         box-shadow: 1px 1px 1px 1px gray;
         border: 1px solid gray;
     }
 
-        .anns-list-item.anunt .ann-type {
+        .anns-list-item.announcement .ann-type {
             color: gray;
+        }
+
+    .anns-list-item.new-movie {
+        box-shadow: 1px 1px 1px 1px orange;
+        border: 1px solid orange;
+    }
+
+        .anns-list-item.new-movie .ann-type {
+            color: orange;
         }
 
     .anns-list-item.new-anime {

@@ -268,17 +268,23 @@ $(document).on("click", ".edit-anime-btn", function () {
   $.get("Anime/GetEditAnimePartial?id=" + animeId, function (data) {
     $(".pop-up").append(data);
   }).fail(function (data) {
-    debugger;
     alert("A aparut o eroare in cautarea episodului.");
   })
 });
 
 // Add Anime Partial/Popup Events
 $(document).on('submit', '.add-anime-form', (function (e) {
-  debugger;
   e.preventDefault();
   $.post('/Anime/AddAnime', $(this).serialize(), function (result) {
     alert('Anime adaugat!');
+  });
+}));
+
+// Add Announcement Partial/Popup Events
+$(document).on('submit', '.add-announcement-form', (function (e) {
+  e.preventDefault();
+  $.post('/Anime/AddAnnouncement', $(this).serialize(), function (result) {
+    alert('Anunt adaugat!');
   });
 }));
 

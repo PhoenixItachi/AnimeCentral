@@ -3,6 +3,7 @@ using AnimeCentralWeb.Domain;
 using AnimeCentralWeb.Models;
 using AnimeCentralWeb.Models.DomainViewModels;
 using AutoMapper;
+using Ganss.XSS;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -28,12 +29,11 @@ namespace AnimeCentralWeb.Controllers
         public async Task<IActionResult> Index()
         {
             var comments = await Context.Comments.OrderByDescending(x => x.Date).Take(5).Include(x => x.User).Select(x => AutoMapper.Map<CommentViewModel>(x)).ToListAsync();
-            foreach(var comment in comments)
+            foreach (var comment in comments)
             {
                 var episode = await Context.Episodes.Include(x => x.Anime).FirstOrDefaultAsync(x => x.Id == comment.EpisodeId);
                 comment.Episode = AutoMapper.Map<EpisodeViewModel>(episode);
             }
-
             var anime = Context.Anime.Include(x => x.Episodes).OrderByDescending(x => x.LatestEpisode)
                 .Where(x => x.Episodes.Count != 0).Take(10).ToList()
                 .Select(x => { x.Episodes = x.Episodes.Take(2).ToList(); return AutoMapper.Map<AnimeViewModel>(x); }).ToList();
@@ -45,17 +45,18 @@ namespace AnimeCentralWeb.Controllers
                 AnimeViews = x.Episodes.Sum(e => e.ViewCount),
                 Image = x.Image
             }).OrderByDescending(x => x.AnimeViews).Take(10).ToListAsync();
-
             var recommendation = Context.Anime.OrderBy(x => Guid.NewGuid()).Where(x => !string.IsNullOrEmpty(x.BigImage)).Take(5).Select(x => AutoMapper.Map<AnimeViewModel>(x)).ToList();
-
             var topEpisodes = await Context.Episodes.OrderByDescending(x => x.ViewCount).Take(10).Include(x => x.Anime).Select(x => AutoMapper.Map<EpisodeViewModel>(x)).ToListAsync();
+            var latestAnnouncements = await Context.Announcements.OrderByDescending(x => x.Date).Take(5).Include(x => x.Author).Select(x => AutoMapper.Map<AnnouncementViewModel>(x)).ToListAsync();
 
-            var model = new HomeViewModel() {
+            var model = new HomeViewModel()
+            {
                 LatestAnimeUpdates = anime,
                 Recommendation = recommendation,
                 LatestComments = comments,
                 TopAnime = topAnime,
-                TopEpisodes = topEpisodes
+                TopEpisodes = topEpisodes,
+                LatestAnnouncements = latestAnnouncements
             };
 
             return View(model);

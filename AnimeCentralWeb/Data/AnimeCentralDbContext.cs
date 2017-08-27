@@ -12,6 +12,7 @@ namespace AnimeCentralWeb.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Source> Sources { get; set; }
+        public DbSet<Announcement> Announcements { get; set; }
 
 
         public AnimeCentralDbContext(DbContextOptions<AnimeCentralDbContext> options)

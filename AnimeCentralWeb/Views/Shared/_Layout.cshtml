@@ -26,6 +26,10 @@
             <i class="fa fa-plus" aria-hidden="true"></i>
             <span>Adauga Anime</span>
         </div>
+        <div class="command add-announcement">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            <span>Adauga Anunt</span>
+        </div>
         <div class="command register-account">
             <i class="fa fa-registered" aria-hidden="true"></i>
             <span>Inregistreaza-te</span>
@@ -56,7 +60,15 @@
         $(".add-anime").click(function () {
             $(".pop-up").css("z-index", 300);
             $(".pop-up").css("opacity", 1);
-            $.get("/Anime/GetAddAnimePartial?id=1", function (data) {
+            $.get("/Anime/GetAddAnimePartial", function (data) {
+                $(".pop-up").append(data);
+            })
+        });
+
+        $(".add-announcement").click(function () {
+            $(".pop-up").css("z-index", 300);
+            $(".pop-up").css("opacity", 1);
+            $.get("/Anime/GetAddAnnouncementPartial", function (data) {
                 $(".pop-up").append(data);
             })
         });
@@ -128,6 +140,18 @@
                 $(".pop-up").append(data);
             }).fail(function () {
                 alert("A aparut o eroare in cautarea episodului.");
+            });
+        });
+
+        $(document).on("click", ".announcement-popup", function (event) {
+            event.stopPropagation();
+            var announcementId = $(this).attr("data-announcement-id");
+            $(".pop-up").css("z-index", 300);
+            $(".pop-up").css("opacity", 1);
+            $.get("Anime/GetAnnouncementPartial?id=" + announcementId, function (data) {
+                $(".pop-up").append(data);
+            }).fail(function () {
+                alert("A aparut o eroare in cautarea anuntului.");
             });
         });
     </script>

@@ -1,0 +1,31 @@
+@model AnimeCentralWeb.Models.DomainViewModels.AnnouncementViewModel
+@using AnimeCentralWeb.Utils
+
+<div class="content">
+    <div class="content-header">
+        <div class="title">MODIFICA ANUNT</div>
+    </div>
+    <div class="commands text-right">
+        <i class="fa fa-times close-pop-up command" aria-hidden="true"></i>
+    </div>
+    <div class="content-body add-episode-partial">
+        <form class="add-announcement-form">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="AuthorId"/>
+            <div class="form-group">
+                <label asp-for="Title"></label>
+                <input type="text" class="form-control" asp-for="Title" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Type"></label>
+                <select type="text" class="form-control" asp-for="Type" asp-items="@AnimeUtils.GetAnnouncementTypes()" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Content"></label>
+                <textarea type="text" asp-for="Content" class="form-control" />
+            </div>
+
+            <a class="saveCommand" style="text-decoration:none" onclick="$('.add-announcement-form').submit()">Adauga</a>
+        </form>
+    </div>
+</div>

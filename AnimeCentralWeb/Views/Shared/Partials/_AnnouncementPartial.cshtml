@@ -1,0 +1,16 @@
+@model AnimeCentralWeb.Models.DomainViewModels.AnnouncementViewModel
+@using AnimeCentralWeb.Utils
+@using Ganss.XSS
+<div class="content">
+    <div class="content-header">
+        <div class="title">@Model.Title</div>
+        <div class="description">@Model.Type.GetDisplayName() - @Model.Author.UserName - @Model.Date.ToString("MMMM dd, yyyy", new System.Globalization.CultureInfo("ro")).ToLower()</div>
+    </div>
+    <div class="commands text-right">
+        <i class="fa fa-times close-pop-up command" aria-hidden="true"></i>
+    </div>
+    <div class="content-body announcement-content">
+        @Html.Raw(new HtmlSanitizer().Sanitize(Model.Content))
+    </div>
+</div>
+

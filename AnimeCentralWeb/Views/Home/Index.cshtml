@@ -1,4 +1,5 @@
 ﻿@model AnimeCentralWeb.Models.HomeViewModel
+@using AnimeCentralWeb.Utils
 <!DOCTYPE html>
 @{
     Layout = "_Layout";
@@ -152,12 +153,15 @@
                 <div class="anns">
                     <div class="anns-header"><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i> NEWS</div>
                     <div class="anns-list">
-                        <div class="anns-list-item anunt">
-                            <div class="ann-type">Anunt</div>
-                            <div class="ann-title">Ce să fie?!</div>
-                            <div class="ann-author"><span>NaiHaz</span>, februarie 20, 2017</div>
-                        </div>
-                        <div class="anns-list-item new-anime-season">
+                        @foreach (var announcement in Model.LatestAnnouncements)
+                        {
+                            <div class="anns-list-item @announcement.Type.GetAnnouncementTypesCssClass() announcement-popup" data-announcement-id="@announcement.Id">
+                                <div class="ann-type">@announcement.Type.GetDisplayName()</div>
+                                <div class="ann-title">@announcement.Title</div>
+                                <div class="ann-author"><span>@announcement.Author.UserName</span>, @announcement.Date.ToString("MMMM dd, yyyy", new System.Globalization.CultureInfo("ro")).ToLower()</div>
+                            </div>
+                        }
+                        @*<div class="anns-list-item new-anime-season">
                             <div class="ann-type">Anime Sezon Nou</div>
                             <div class="ann-title">Sezonul 4 din "High School DxD" anuntat.</div>
                             <div class="ann-author"><span>NaiHaz</span>, ianuarie 11, 2017</div>
@@ -186,7 +190,7 @@
                             <div class="ann-type">Anime Nou</div>
                             <div class="ann-title">Anime-ul "Saijaku Muhai no Bahamut" anuntat pentru Winter 2016.</div>
                             <div class="ann-author"><span>NaiHaz</span>, ianuarie 11, 2017</div>
-                        </div>
+                        </div>*@
 
                     </div>
                 </div>

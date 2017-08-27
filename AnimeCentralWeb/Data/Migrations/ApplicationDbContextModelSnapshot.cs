@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using AnimeCentralWeb.Data;
+using AnimeCentralWeb.Domain;
 
 namespace AnimeCentralWeb.Data.Migrations
 {
@@ -58,6 +59,31 @@ namespace AnimeCentralWeb.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Anime");
+                });
+
+            modelBuilder.Entity("AnimeCentralWeb.Domain.Announcement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthorId")
+                        .IsRequired();
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("Title")
+                        .IsRequired();
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Announcements");
                 });
 
             modelBuilder.Entity("AnimeCentralWeb.Domain.Comment", b =>
@@ -301,6 +327,14 @@ namespace AnimeCentralWeb.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("AnimeCentralWeb.Domain.Announcement", b =>
+                {
+                    b.HasOne("AnimeCentralWeb.Models.ApplicationUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("AnimeCentralWeb.Domain.Comment", b =>

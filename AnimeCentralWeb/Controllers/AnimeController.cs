@@ -351,5 +351,55 @@ namespace AnimeCentralWeb.Controllers
 
         #endregion
 
+        #region Announcements
+        [HttpGet]
+        [Authorize]
+        public ActionResult GetAddAnnouncementPartial()
+        {
+            return PartialView("Partials/_AddAnnouncementPartial");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetAnnouncementPartial(int id)
+        {
+            var announcement = await Context.Announcements.Include(x => x.Author).FirstOrDefaultAsync(x => x.Id == id);
+            if (announcement == null)
+                return BadRequest();
+
+            var model = AutoMapper.Map<AnnouncementViewModel>(announcement);
+            return PartialView("Partials/_AnnouncementPartial", model);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> AddAnnouncement(AnnouncementViewModel model)
+        {
+            var userId = _userManager.GetUserId(User);
+            if (string.IsNullOrEmpty(userId))
+                return BadRequest();
+
+            var announcement = AutoMapper.Map<Announcement>(model);
+            announcement.AuthorId = userId;
+            announcement.Date = DateTime.UtcNow;
+
+            Context.Announcements.Add(announcement);
+            await Context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult GetEditAnnouncementPartial(int id)
+        {
+            var userId = _userManager.GetUserId(User);
+            var announcement = Context.Announcements.FirstOrDefaultAsync(x => x.AuthorId == userId && x.Id == id);
+            if (announcement == null)
+                return BadRequest("Anuntul nu exista sau nu-ti apartine");
+
+            var model = AutoMapper.Map<AnnouncementViewModel>(announcement);
+            return PartialView("Partials/_EditAnnouncementPartial", model);
+        }
+        #endregion
     }
 }

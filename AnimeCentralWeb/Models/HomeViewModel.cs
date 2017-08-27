@@ -10,5 +10,6 @@ namespace AnimeCentralWeb.Models
         public List<CommentViewModel> LatestComments { set; get; }
         public List<AnimeViewModel> TopAnime { get; set; }
         public List<EpisodeViewModel> TopEpisodes { get; set; }
+        public List<AnnouncementViewModel> LatestAnnouncements { get; set; }
     }
 }
