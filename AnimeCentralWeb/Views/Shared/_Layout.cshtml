@@ -106,7 +106,21 @@
             multiTabContainer.find(".tab[data-tab-id='" + tabTargetId + "']").addClass("active");
         });
 
-        $(".anime-episode").click(function () {
+        $(document).on("click", ".anime-popup", function () {
+            var animeId = $(this).attr("data-anime-id");
+            $(".pop-up").css("z-index", 300);
+            $(".pop-up").css("opacity", 1);
+            if (animeId != null) {
+                $.get("Anime/GetAnimeByIdPartial?id=" + animeId, function (data) {
+                    $(data).appendTo(".pop-up");
+                }).fail(function () {
+                    alert("A aparut o problema in cautarea anime-ului dorit. Incercati mai tarziu.");
+                })
+            }
+        });
+
+        $(document).on("click", ".episode-popup", function (event) {
+            event.stopPropagation();
             var episodeId = $(this).attr("data-episode-id");
             $(".pop-up").css("z-index", 300);
             $(".pop-up").css("opacity", 1);
@@ -114,7 +128,7 @@
                 $(".pop-up").append(data);
             }).fail(function () {
                 alert("A aparut o eroare in cautarea episodului.");
-            })
+            });
         });
     </script>
 </body>

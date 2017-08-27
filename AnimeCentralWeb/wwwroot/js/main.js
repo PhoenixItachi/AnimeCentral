@@ -239,12 +239,205 @@ $(document).on("click", ".add-anime-partial .result", function () {
   var malId = $(this).attr("data-malid");
   var animeTitle = $(this).find(".anime-title b").text();
   var animeAddError = $(this).closest(".add-anime-partial").find(".add-anime-error");
+  var searchResultsList = $(this).closest(".anime-search-results");
+
   animeAddError.text("");
   $.get("/Anime/GetAnimeForm?" + "malId=" + malId + "&title=" + animeTitle, function (data) {
     $(".add-anime-partial .form-container").html(data);
+    searchResultsList.hide();
   })
     .fail(function (data) {
       $(animeAddError).text(data.responseText);
+    });
+
+})
+
+// Anime Partial/PopUp Events
+$(document).on("click", ".add-episode", function () {
+  var animeId = $(this).attr("data-anime-id");
+  $.get("Anime/GetAddEpisodePartial?animeId=" + animeId, function (data) {
+    $(".pop-up").append(data);
+  }).fail(function () {
+    alert("A aparut o eroare in adaugarea episodul.");
+  });
+
+})
+
+$(document).on("click", ".edit-anime-btn", function () {
+  var animeId = $(this).attr("data-anime-id");
+  $.get("Anime/GetEditAnimePartial?id=" + animeId, function (data) {
+    $(".pop-up").append(data);
+  }).fail(function (data) {
+    debugger;
+    alert("A aparut o eroare in cautarea episodului.");
+  })
+});
+
+// Add Anime Partial/Popup Events
+$(document).on('submit', '.add-anime-form', (function (e) {
+  debugger;
+  e.preventDefault();
+  $.post('/Anime/AddAnime', $(this).serialize(), function (result) {
+    alert('Anime adaugat!');
+  });
+}));
+
+// Add Episode Partial/PopUp Events
+$(document).on("click", ".add-source", function () {
+  var source = $(".sources .source").first().clone();
+  var sourcesCurrentCount = $(".sources .source").length;
+  $(".remove-source").show();
+  source.find(".source-tag").attr("name", "Sources[" + sourcesCurrentCount + "].Label");
+  source.find(".source-link").attr("name", "Sources[" + sourcesCurrentCount + "].Link");
+  $(".sources").append(source);
+});
+
+$(document).on("click", ".remove-source", function () {
+  var sourcesCurrentCount = $(".sources .source").length;
+
+  if (sourcesCurrentCount == 1)
+    return;
+
+  if (sourcesCurrentCount == 2)
+    $(this).hide();
+
+
+  $(".sources .source").last().remove();
+});
+
+$(document).on("submit", '.add-episode-form', function (e) {
+  e.preventDefault();
+  $.post('/Anime/AddEpisode', $(this).serialize(),
+    function (result) {
+      alert('Episod adaugat!');
+    }
+  ).fail(function () {
+    alert('Episodul exista deja sau o eroare a aparut in procesul de adaugare!');
+  });
+});
+
+// Edit Episode Partial/PopUp Events
+$(document).on('submit', '.edit-episode-form', function (e) {
+  e.preventDefault();
+  $.post('/Anime/EditEpisode', $(this).serialize(),
+    function (result) {
+      alert('Episod a fost salvat!');
+    }
+  ).fail(function () {
+    alert('A aparut o eroare la salvare!');
+  });
+});
+
+
+// Anime List Partial/PopUp Events
+$(document).on("input", ".anime-list-partial .anime-search .anime-search-input", function () {
+  var searchText = $(this).val().toLowerCase();
+  if (searchText == "") {
+    $(".anime-list .anime-list-item").removeClass("hide-by-name");
+    return;
+  }
+
+  $(".anime-list .anime-list-item[data-name*='" + searchText + "']").removeClass("hide-by-name");
+  $(".anime-list .anime-list-item").not("[data-name*='" + searchText + "']").addClass("hide-by-name");
+});
+
+$(document).on("change", ".by-genre input", function () {
+  $(this).closest(".option").toggleClass("active");
+  var checkedOptions = $(".by-genre input:checked");
+  if (checkedOptions.length == 0) {
+    $(".anime-list .anime-list-item").removeClass("hide-by-genre");
+    return;
+  }
+
+  var genres = $.map(checkedOptions, function (el) {
+    return $(el).val();
+  });
+
+  var animeWithGenres = $(".anime-list .anime-list-item").filter(function () {
+    var animeGenres = $(this).attr("data-genre");
+    var toHide = false;
+    $(genres).each(function (index, el) {
+      if (animeGenres.indexOf(el) < 0) {
+        toHide = true;
+        return false;
+      }
+    });
+
+    if (toHide)
+      $(this).addClass("hide-by-genre");
+    else
+      $(this).removeClass("hide-by-genre");
   });
 })
+
+$(document).on("click", ".by-status .option", function () {
+  $(".by-status .option").removeClass("active");
+  $(this).addClass("active");
+
+  if ($(this).text() == "Toate") {
+    $(".anime-list .anime-list-item").removeClass("hide-by-status");
+    return;
+  }
+
+  $(".anime-list .anime-list-item[data-status='" + $(this).text() + "']").removeClass("hide-by-status");
+  $(".anime-list .anime-list-item").not("[data-status='" + $(this).text() + "']").addClass("hide-by-status");
+});
+
+
+// Edit Anime Partial/PopUp Events
+$(document).on('submit','.edit-anime-form',function (e) {
+  e.preventDefault();
+  $.post('/Anime/EditAnime', $(this).serialize(),
+    function (result) {
+      alert('Anime editat!');
+    }
+  );
+});
+
+// Episode Partial/PopUp Events
+$(document).on("click", ".comment-btn", function () {
+  var commentContent = $(this).closest(".comment-input").val();
+  $.post("Anime/AddComment", $(this).closest(".new-comment-form").serialize(), function (data) {
+    RefreshComments();
+  });
+});
+
+$(document).on("click", ".delete-comment", function () {
+  var commentId = $(this).attr("data-comment-id");
+  $.post("Anime/DeleteComment?id=" + commentId, function () {
+    RefreshComments();
+  }).fail(function (data) {
+    alert(data.responseText);
+  })
+});
+
+$(document).on('click', ".edit-episode", function () {
+  var episodeId = $(this).attr("data-episode-id");
+  $.get("Anime/GetEditEpisodePartial?id=" + episodeId, function (data) {
+    $(".pop-up").append(data);
+  }).fail(function () {
+    alert("A aparut o problema!");
+  });
+})
+
+// Login & Register Partial/PopUp Events
+$(document).on("submit", ".login-form", function (e) {
+  e.preventDefault();
+  $.post('Account/Login', $(this).serialize(), function (data) {
+    if (data.success)
+      window.location = '/';
+    else
+      $(".pop-up").append(data);
+  });
+});
+
+$(document).on("submit", ".register-form", function (e) {
+  e.preventDefault();
+  $.post('/Account/Register', $(this).serialize(), function (data) {
+    if (data.success)
+      window.location = '/';
+    else
+      $(".pop-up").append(data);
+  });
+});
 

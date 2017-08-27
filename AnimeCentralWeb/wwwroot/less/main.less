@@ -20,13 +20,17 @@
     }
 }
 
+.anime-popup, .episode-popup {
+    cursor: pointer;
+}
+
 .pop-up {
     z-index: -1;
     opacity: 0;
     position: fixed;
     width: 100vw;
     height: 100vh;
-    transition: all 300ms ease-in-out;
+    transition: opacity 300ms ease-in-out;
     background: radial-gradient(black 15%, transparent 16%) 0 0, radial-gradient(black 15%, transparent 16%) 8px 8px, radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px, radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
     background-color: rgba(28,28,28,0.9);
     background-size: 16px 16px;
@@ -42,17 +46,18 @@
         width: 75%;
         opacity: 0;
         transition: all 250ms linear;
-        
-        &.spinner-container{
+
+        &.spinner-container {
             top: 50%;
             left: 50%;
             width: auto;
             transform: translate(-50%, -50%);
-            display:inline-block;
-            text-align:center;
-            .content-body{
-                display:inline-block;
-                position:absolute;
+            display: inline-block;
+            text-align: center;
+
+            .content-body {
+                display: inline-block;
+                position: absolute;
                 top: 50%;
                 width: auto;
             }
@@ -101,6 +106,7 @@
             position: relative;
             background-color: white;
             margin: auto;
+            margin-bottom: 2%;
         }
 
         .content-body.anime {
@@ -361,6 +367,7 @@
                                 .show-reply-form, .delete-comment {
                                     font-weight: normal;
                                     display: inline-block;
+                                    cursor: pointer;
                                 }
                             }
 

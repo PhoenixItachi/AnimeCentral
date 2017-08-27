@@ -94,13 +94,13 @@
                 <div class="news-list">
                     @foreach (var anime in Model.LatestAnimeUpdates)
                     {
-                        <div class="news-list-item">
+                        <div class="news-list-item anime-popup" data-anime-id="@anime.Id">
                             <img src="@anime.Image" />
                             <div class="item-overlay">
                                 <div class="episodes">
                                     @foreach (var ep in anime.Episodes.OrderByDescending(x => x.Order))
                                     {
-                                        <div class="episode anime-episode" data-episode-id="@ep.Id">Episodul @ep.Order</div>
+                                        <div class="episode anime-episode episode-popup" data-episode-id="@ep.Id">Episodul @ep.Order</div>
                                     }
                                 </div>
                                 <div class="anime-name">@anime.Title</div>
@@ -127,7 +127,7 @@
                         <div class="slides">
                             @foreach (var rec in Model.Recommendation)
                             {
-                                <div data-index="@Model.Recommendation.IndexOf(rec)" class="slide @(Model.Recommendation.IndexOf(rec) == 0 ? "active" : "")">
+                                <div data-index="@Model.Recommendation.IndexOf(rec)" class="slide anime-popup @(Model.Recommendation.IndexOf(rec) == 0 ? "active" : "")" data-anime-id="@rec.Id">
                                     <img src="@rec.BigImage" class="slide-image" />
                                     <div class="slide-description">
                                         <div class="slide-header">
@@ -236,7 +236,7 @@
                         <div class="podium">
                             @foreach (var anime in Model.TopAnime.Take(3))
                             {
-                                <div class="place">
+                                <div class="place anime-popup" data-anime-id="@anime.Id">
                                     <img id="images" src="@anime.Image" />
                                     <div class="item-overlay">
                                         <div class="rank">
@@ -252,7 +252,7 @@
                         <div class="top-10">
                             @foreach (var anime in Model.TopAnime.Skip(3))
                             {
-                                <div class="top-10-score">#@(Model.TopAnime.IndexOf(anime) + 1) @anime.Title - @anime.AnimeViews</div>
+                                <div class="top-10-score anime-popup" data-anime-id="@anime.Id">#@(Model.TopAnime.IndexOf(anime) + 1) @anime.Title - @anime.AnimeViews</div>
                             }
                         </div>
                         <div class="line"></div>
@@ -271,7 +271,7 @@
                         <div class="podium">
                             @foreach (var episode in Model.TopEpisodes.Take(3))
                             {
-                                <div class="place">
+                                <div class="place anime-popup" data-anime-id="@episode.Anime.Id">
                                     <img id="images" src="@episode.Anime.Image" />
                                     <div class="item-overlay">
                                         <div class="rank">
@@ -287,7 +287,7 @@
                         <div class="trend-10">
                             @foreach (var episode in Model.TopEpisodes.Skip(3))
                             {
-                                <div class="trend-10-score">#@(Model.TopEpisodes.IndexOf(episode) + 1) @episode.Anime.Title #@episode.Order - @episode.ViewCount</div>
+                                <div class="trend-10-score anime-popup" data-anime-id="@episode.Anime.Id">#@(Model.TopEpisodes.IndexOf(episode) + 1) @episode.Anime.Title #@episode.Order - @episode.ViewCount</div>
                             }
                         </div>
                         <div class="line"></div>
@@ -307,7 +307,7 @@
                         {
                             <div class="comm">
                                 <span class="comm-author"><img src="@(com.User.Image == null ? "/images/DefaultAvatar.jpg" : "")" class="profile-pic" /> @com.User.UserName: <span class="comm-msg">“ @com.Content ”</span></span>
-                                <a class="comm-source">@com.Episode.Anime.Title – Episodul @com.Episode.Order</a>
+                                <a class="comm-source episode-popup" data-episode-id="@com.Episode.Id">@com.Episode.Anime.Title – Episodul @com.Episode.Order</a>
                                 <span class="comm-date"><i class="fa fa-clock-o" aria-hidden="true"></i>@com.Date.ToString("dd/MM/yyyy")</span>
                                 @if (Model.LatestComments.Last() != com)
                                 {
@@ -341,65 +341,65 @@
     </div>
     <!-- CHAT END -->
     <!-- ANIME QUICK SEARCH SIDEBAR START -->
-    <div class="anime-quick-search">
-        <div class="quick-search-overlay mCustomScrollbar" data-mcs-theme="minimal-dark">
-            <div class="close-btn">
-                <span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
-            </div>
-            <div class="anime-details">
-                <div class="anime-header">
-                    <div class="poster">
-                        <img src="~/images/AnimeImages/10.jpg" class="component-shadow" />
-                        <div class="anime-score"><span class="glyphicon glyphicon-star" style="color:gold;"></span><span class="result-score">7.49</span></div>
-                    </div>
-                    <div class="details">
-                        <div class="anime-title"><b>Kono Subarashii Sekai ni Shukufuku wo! 2</b> (<span class="anime-type">TV</span>)</div>
-                        <div class="genre-list">
-                            <span>Aventura</span>
-                            <span>Comedie</span>
-                            <span>Supernatural</span>
-                            <span>Magie</span>
-                            <span>Fantezie</span>
+    @*<div class="anime-quick-search">
+            <div class="quick-search-overlay mCustomScrollbar" data-mcs-theme="minimal-dark">
+                <div class="close-btn">
+                    <span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="anime-details">
+                    <div class="anime-header">
+                        <div class="poster">
+                            <img src="~/images/AnimeImages/10.jpg" class="component-shadow" />
+                            <div class="anime-score"><span class="glyphicon glyphicon-star" style="color:gold;"></span><span class="result-score">7.49</span></div>
                         </div>
-                        <div class="anime-synonyms">Sinonime: Give Blessings to This Wonderful World! 2</div>
-                        <div class="anime-episodes">Episoade: 10</div>
-                        <div class="anime-date">Premiera: Winter 2017</div>
-                        <div class="anime-status">Finished Airing</div>
+                        <div class="details">
+                            <div class="anime-title"><b>Kono Subarashii Sekai ni Shukufuku wo! 2</b> (<span class="anime-type">TV</span>)</div>
+                            <div class="genre-list">
+                                <span>Aventura</span>
+                                <span>Comedie</span>
+                                <span>Supernatural</span>
+                                <span>Magie</span>
+                                <span>Fantezie</span>
+                            </div>
+                            <div class="anime-synonyms">Sinonime: Give Blessings to This Wonderful World! 2</div>
+                            <div class="anime-episodes">Episoade: 10</div>
+                            <div class="anime-date">Premiera: Winter 2017</div>
+                            <div class="anime-status">Finished Airing</div>
+                        </div>
                     </div>
                 </div>
+                <div class="anime-description">
+                    <b>Descriere:</b><br />
+                    After dying a laughable and pathetic death on his way back from buying a game, high school student and recluse Kazuma Satou finds himself sitting before a beautiful but obnoxious goddess named Aqua. She provides the NEET with two options: continue on to heaven or reincarnate in every gamer's dream—a real fantasy world! Choosing to start a new life, Kazuma is quickly tasked with defeating a Demon King who is terrorizing villages. But before he goes, he can choose one item of any kind to aid him in his quest, and the future hero selects Aqua. But Kazuma has made a grave mistake—Aqua is completely useless!
+                    Unfortunately, their troubles don't end here; it turns out that living in such a world is far different from how it plays out in a game. Instead of going on a thrilling adventure, the duo must first work to pay for their living expenses. Indeed, their misfortunes have only just begun!
+                </div>
+                <div class="anime-episodes-list">
+                    <div class="anime-episodes-header"><b>Episoade</b></div>
+                    <div class="anime-episode">EP #1: "Give Me Deliverance from this Judicial Injustice!"</div>
+                    <div class="anime-episode">EP #2: "A Friend For This Crimson Demon Girl!"</div>
+                    <div class="anime-episode">EP #3: "Peace for the Master of This Labyrinth!"</div>
+                    <div class="anime-episode">EP #4: "A Betrothed for This Noble Daughter!"</div>
+                    <div class="anime-episode">EP #5: "Servitude for This Masked Knight!"</div>
+                    <div class="anime-episode">EP #6: "Goodbye to This Irritating Living World!"</div>
+                    <div class="anime-episode">EP #7: "An Invitation for This Knucklehead!"</div>
+                    <div class="anime-episode">EP #8: "Sightseeing in This Pitiful City!"</div>
+                    <div class="anime-episode">EP #9: "A Goddess for This Corrupt Hot Springs Town!"</div>
+                    <div class="anime-episode">EP #10: "God's Blessing on This Wonderful Party!"</div>
+                </div>
             </div>
-            <div class="anime-description">
-                <b>Descriere:</b><br />
-                After dying a laughable and pathetic death on his way back from buying a game, high school student and recluse Kazuma Satou finds himself sitting before a beautiful but obnoxious goddess named Aqua. She provides the NEET with two options: continue on to heaven or reincarnate in every gamer's dream—a real fantasy world! Choosing to start a new life, Kazuma is quickly tasked with defeating a Demon King who is terrorizing villages. But before he goes, he can choose one item of any kind to aid him in his quest, and the future hero selects Aqua. But Kazuma has made a grave mistake—Aqua is completely useless!
-                Unfortunately, their troubles don't end here; it turns out that living in such a world is far different from how it plays out in a game. Instead of going on a thrilling adventure, the duo must first work to pay for their living expenses. Indeed, their misfortunes have only just begun!
-            </div>
-            <div class="anime-episodes-list">
-                <div class="anime-episodes-header"><b>Episoade</b></div>
-                <div class="anime-episode">EP #1: "Give Me Deliverance from this Judicial Injustice!"</div>
-                <div class="anime-episode">EP #2: "A Friend For This Crimson Demon Girl!"</div>
-                <div class="anime-episode">EP #3: "Peace for the Master of This Labyrinth!"</div>
-                <div class="anime-episode">EP #4: "A Betrothed for This Noble Daughter!"</div>
-                <div class="anime-episode">EP #5: "Servitude for This Masked Knight!"</div>
-                <div class="anime-episode">EP #6: "Goodbye to This Irritating Living World!"</div>
-                <div class="anime-episode">EP #7: "An Invitation for This Knucklehead!"</div>
-                <div class="anime-episode">EP #8: "Sightseeing in This Pitiful City!"</div>
-                <div class="anime-episode">EP #9: "A Goddess for This Corrupt Hot Springs Town!"</div>
-                <div class="anime-episode">EP #10: "God's Blessing on This Wonderful Party!"</div>
-            </div>
-        </div>
-    </div>
+        </div>*@
     <!-- ANIME QUICK SEARCH SIDEBAR END -->
     <!-- FOOTER START -->
     @*<div class="footer">
-        © Wien-Subs - Powered by <a href="https://www.neoit.ro/">NeoIT Solutions™</a> | <span class="show-disclaimer">Repudiere/Disclaimer</span>
-        <div class="disclaimer">
-            Repudiere/Disclaimer <br> Wien-Subs nu gazduiește fișiere video, audio sau orice alt fel fișier media. Noi nu suntem
-            responsabili pentru legalitatea drepturilor de autor. Dacă aveți orice problemă vă rugăm contactați corespunzător proprietarii
-            de fișiere media sau site-urile gazdă. Wien-Subs not hosting files video, audio or any other media file. We are not
-            responsible for the legality of copyright. If you have any problems please contact the appropriate owners of media
-            files or host sites.
-        </div>
-    </div>*@
+            © Wien-Subs - Powered by <a href="https://www.neoit.ro/">NeoIT Solutions™</a> | <span class="show-disclaimer">Repudiere/Disclaimer</span>
+            <div class="disclaimer">
+                Repudiere/Disclaimer <br> Wien-Subs nu gazduiește fișiere video, audio sau orice alt fel fișier media. Noi nu suntem
+                responsabili pentru legalitatea drepturilor de autor. Dacă aveți orice problemă vă rugăm contactați corespunzător proprietarii
+                de fișiere media sau site-urile gazdă. Wien-Subs not hosting files video, audio or any other media file. We are not
+                responsible for the legality of copyright. If you have any problems please contact the appropriate owners of media
+                files or host sites.
+            </div>
+        </div>*@
     <!-- FOOTER END -->
 
 
@@ -499,21 +499,19 @@
         }, 500);
     });
 
-    $(".anime-search-input").focusin(function(){
+    $(document).on("focusin",".anime-search-input",function () {
         var animeSearchTitle = $(this).val();
+        var animeSearchList = $(this).closest(".anime-search").find(".anime-search-results");
         if(animeSearchTitle == ""){
             return;
         }
-        $(".anime-search-results").show();
+        animeSearchList.show();
 
     })
 
-    //$(".anime-search-input").focusout(function(){
-    //    $(".anime-search-results").hide();
-    //});
-
-    $(".close-btn").click(function(){
-        $(".anime-quick-search").hide();
-    })
-
+    $(document).on("focusout", ".anime-search-input", function () {
+        if (!$(event.target).is(".result"))
+            return;
+        $(this).closest(".anime-search").find(".anime-search-results").hide();
+    });
 </script>

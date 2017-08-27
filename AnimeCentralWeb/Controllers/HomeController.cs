@@ -30,7 +30,7 @@ namespace AnimeCentralWeb.Controllers
             var comments = await Context.Comments.OrderByDescending(x => x.Date).Take(5).Include(x => x.User).Select(x => AutoMapper.Map<CommentViewModel>(x)).ToListAsync();
             foreach(var comment in comments)
             {
-                var episode = await Context.Episodes.Include(x => x.Anime).FirstOrDefaultAsync(x => x.Id == comment.Id);
+                var episode = await Context.Episodes.Include(x => x.Anime).FirstOrDefaultAsync(x => x.Id == comment.EpisodeId);
                 comment.Episode = AutoMapper.Map<EpisodeViewModel>(episode);
             }
 

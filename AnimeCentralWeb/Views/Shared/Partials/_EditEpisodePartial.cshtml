@@ -33,40 +33,7 @@
             <a class="saveCommand" style="text-decoration:none" onclick="$('.edit-episode-form').submit()">Salveaza</a>
         </form>
     </div>
+    <script>
+        $(".remove-source").hide();
+    </script>
 </div>
-
-<script>
-    $(".remove-source").hide();
-    $(".add-source").click(function () {
-        var source = $(".sources .source").first().clone();
-        console.log(source);
-        var sourcesCurrentCount = $(".sources .source").length;
-        $(".remove-source").show();
-        source.find(".source-tag").attr("name", "Sources[" + sourcesCurrentCount + "].Label");
-        source.find(".source-link").attr("name", "Sources[" + sourcesCurrentCount + "].Link");
-
-        $(".sources").append(source);
-    });
-
-    $(".remove-source").click(function () {
-        var sourcesCurrentCount = $(".sources .source").length;
-
-        if (sourcesCurrentCount == 1)
-            return;
-
-        if (sourcesCurrentCount == 2)
-            $(this).hide();
-        $(".sources .source").last().remove();
-    });
-
-    $('.edit-episode-form').submit(function (e) {
-        e.preventDefault();
-        $.post('/Anime/EditEpisode', $('.edit-episode-form').serialize(),
-            function (result) {
-                alert('Episod a fost salvat!');
-            }
-        ).fail(function () {
-            alert('A aparut o eroare la salvare!');
-        });
-    });
-</script>

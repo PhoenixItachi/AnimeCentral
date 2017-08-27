@@ -29,42 +29,7 @@
             <a class="saveCommand" style="text-decoration:none" onclick="$('.add-episode-form').submit()">Adauga</a>
         </form>
     </div>
+    <script>
+        $(".remove-source").hide();
+    </script>
 </div>
-
-<script>
-    $(".remove-source").hide();
-    $(".add-source").click(function () {
-        var source = $(".sources .source").first().clone();
-        console.log(source);
-        var sourcesCurrentCount = $(".sources .source").length;
-        $(".remove-source").show();
-        source.find(".source-tag").attr("name", "Sources[" + sourcesCurrentCount + "].Label");
-        source.find(".source-link").attr("name", "Sources[" + sourcesCurrentCount + "].Link");
-
-        $(".sources").append(source);
-    });
-
-    $(".remove-source").click(function () {
-        var sourcesCurrentCount = $(".sources .source").length;
-
-        if (sourcesCurrentCount == 1)
-            return;
-
-        if (sourcesCurrentCount == 2)
-            $(this).hide();
-
-
-        $(".sources .source").last().remove();
-    });
-
-    $('.add-episode-form').submit(function (e) {
-        e.preventDefault();
-        $.post('/Anime/AddEpisode', $('.add-episode-form').serialize(),
-            function (result) {
-                alert('Episod adaugat!');
-            }
-        ).fail(function () {
-            alert('Episodul exista deja sau o eroare a aparut in procesul de adaugare!');
-        });
-    });
-</script>

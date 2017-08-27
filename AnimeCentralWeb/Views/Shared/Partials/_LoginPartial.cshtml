@@ -49,16 +49,5 @@
             </p>
         </form>
     </div>
-    <script>
-        $(".login-form").submit(function (e) {
-            e.preventDefault();
-            $.post('Account/Login', $(".login-form").serialize(), function (data) {
-                if (data.success)
-                    window.location = '/';
-                else
-                    $(".pop-up").append(data);
-            });
-        });
-    </script>
 </div>
 

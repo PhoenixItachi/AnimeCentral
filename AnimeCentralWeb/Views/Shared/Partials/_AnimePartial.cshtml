@@ -41,7 +41,7 @@
                             <div class="anime-episodes-list">
                                 @foreach (var episode in Model.Episodes)
                                 {
-                                    <div class="anime-episode" data-episode-id="@episode.Id">Episodul #@episode.Order@(string.IsNullOrEmpty(episode.Title) ? "" : ": " + episode.Title)</div>
+                                    <div class="anime-episode episode-popup" data-episode-id="@episode.Id">Episodul #@episode.Order@(string.IsNullOrEmpty(episode.Title) ? "" : ": " + episode.Title)</div>
                                 }
                             </div>
                             <table class="tab-commands">
@@ -59,38 +59,5 @@
             </tr>
         </table>
     </div>
-
-    <script>
-
-
-        $(".add-episode").click(function () {
-            var animeId = $(this).attr("data-anime-id");
-            $.get("Anime/GetAddEpisodePartial?animeId=" + animeId, function (data) {
-                $(".pop-up").append(data);
-            }).fail(function () {
-                alert("A aparut o eroare in adaugarea episodul.");
-            });
-
-        })
-
-        $(".anime-episodes-list .anime-episode").click(function () {
-            var episodeId = $(this).attr("data-episode-id");
-            $.get("Anime/GetEpisodePartial?id=" + episodeId, function (data) {
-                $(".pop-up").append(data);
-            }).fail(function () {
-                alert("A aparut o eroare in cautarea episodului.");
-            })
-        });
-
-        $(".edit-anime-btn").click(function () {
-            var animeId = $(this).attr("data-anime-id");
-            $.get("Anime/GetEditAnimePartial?id=" + animeId, function (data) {
-                $(".pop-up").append(data);
-            }).fail(function (data) {
-                debugger;
-                alert("A aparut o eroare in cautarea episodului.");
-            })
-        });
-    </script>
 </div>
 

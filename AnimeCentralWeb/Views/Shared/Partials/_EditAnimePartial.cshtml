@@ -72,16 +72,5 @@
 
             <a class="saveCommand" style="text-decoration:none" onclick="$('.edit-anime-form').submit()">Salveaza</a>
         </form>
-
-        <script>
-            $('.edit-anime-form').submit(function (e) {
-                e.preventDefault();
-                $.post('/Anime/EditAnime', $('.edit-anime-form').serialize(),
-                    function (result) {
-                        alert('Anime editat!');
-                    }
-                );
-            });
-        </script>
     </div>
 </div>

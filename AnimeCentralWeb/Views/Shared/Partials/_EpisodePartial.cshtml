@@ -47,36 +47,11 @@
         });
 
         function RefreshComments() {
-            $.get("Anime/GetComments?id=" + @Model.Id, function (data) {
-                $(".comments-container").html(data);
-            }).fail(function (data) {
-                alert("A aparut o problema in afisarea ultimelor comentarii comentarilor.");
-            });
+          $.get("Anime/GetComments?id=" + @Model.Id, function (data) {
+            $(".comments-container").html(data);
+          }).fail(function (data) {
+            alert("A aparut o problema in afisarea ultimelor comentarii comentarilor.");
+          });
         }
-
-        $(document).on("click", ".comment-btn", function () {
-            var commentContent = $(this).closest(".comment-input").val();
-            $.post("Anime/AddComment", $(this).closest(".new-comment-form").serialize(), function (data) {
-                RefreshComments();
-            });
-        });
-
-        $(document).on("click", ".delete-comment", function () {
-            var commentId = $(this).attr("data-comment-id");
-            $.post("Anime/DeleteComment?id=" + commentId, function () {
-                RefreshComments();
-            }).fail(function (data) {
-                alert(data.responseText);
-            })
-        });
-
-        $(".edit-episode").click(function () {
-            var episodeId = $(this).attr("data-episode-id");
-            $.get("Anime/GetEditEpisodePartial?id=" + episodeId, function (data) {
-                $(".pop-up").append(data);
-            }).fail(function () { 
-                alert("A aparut o problema!");
-            });
-        })
     </script>
 </div>
