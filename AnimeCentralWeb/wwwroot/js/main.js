@@ -36,6 +36,28 @@ $(document).ready(function () {
 
 $(function () {
 
+  var messaging = firebase.messaging();
+  messaging.requestPermission().then(function () {
+    console.log("Have permission");
+    messaging.getToken()
+      .then(function (currentToken) {
+        $.post("Anime/SetNotificationToken", $.param({ token: currentToken }), function () {
+          console.log("Token Registered.");
+        }).fail(function () {
+          console.log("An error appeared.");
+        });
+      })
+      .catch(function (err) {
+        console.log('An error occurred while retrieving token. ', err);
+      });
+  }).catch(function (err) {
+    console.log(err);
+  });
+
+  messaging.onMessage(function (payload) {
+    console.log("onMessage: ", payload);
+  });
+
   updateFbLikeBox();
   // Slideshow Commands
   $(".next-slide").click(function () {
@@ -391,7 +413,7 @@ $(document).on("click", ".by-status .option", function () {
 
 
 // Edit Anime Partial/PopUp Events
-$(document).on('submit','.edit-anime-form',function (e) {
+$(document).on('submit', '.edit-anime-form', function (e) {
   e.preventDefault();
   $.post('/Anime/EditAnime', $(this).serialize(),
     function (result) {
@@ -446,4 +468,3 @@ $(document).on("submit", ".register-form", function (e) {
       $(".pop-up").append(data);
   });
 });
-

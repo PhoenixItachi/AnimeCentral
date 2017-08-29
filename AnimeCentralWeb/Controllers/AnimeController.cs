@@ -7,10 +7,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -233,6 +236,9 @@ namespace AnimeCentralWeb.Controllers
             anime.Episodes.Add(episode);
             Context.Anime.Update(anime);
             await Context.SaveChangesAsync();
+            await SendNotification($"{anime.Title} #{episode.Order}", episode.Title, null, anime.Image, true);
+
+
             return Ok();
         }
 
@@ -399,6 +405,58 @@ namespace AnimeCentralWeb.Controllers
 
             var model = AutoMapper.Map<AnnouncementViewModel>(announcement);
             return PartialView("Partials/_EditAnnouncementPartial", model);
+        }
+        #endregion
+
+        #region Notification
+
+        [HttpPost]
+        public async Task<ActionResult> SetNotificationToken(string token)
+        {
+            if (token != null)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user != null)
+                {
+                    user.NotificationTokens = token;
+                    await _userManager.UpdateAsync(user);
+                }
+            }
+
+            return Ok();
+        }
+
+        public async Task SendNotification(string title, string body, string token, string image, bool toAll = false)
+        {
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://fcm.googleapis.com/fcm/send");
+            httpWebRequest.Headers[HttpRequestHeader.Authorization] = "key=AAAAU4LNi9w:APA91bHGLZtLyCgYvlV5n485_4ouG_6bTh-yWTpxbUEsvtTmCESZUObrqC5n5MqQ93mJaP46H_FPeKIT2oRKiOpQmaaZ16B-1EZe_0W1-MjkxwFMQNYLv5xZgGQTg6W5dcyXQc8wj4Fu";
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+            var tokenList = Context.Users.Where(x => x.NotificationTokens != null).Select(x => x.NotificationTokens).ToList();
+            using (var streamWriter = new StreamWriter(await httpWebRequest.GetRequestStreamAsync()))
+            {
+
+                var json = JsonConvert.SerializeObject(new
+                {
+                    notification = new
+                    {
+                        title = title,
+                        body = body,
+                        icon = image,
+                        click_action = $"https://{HttpContext.Request.Host}"
+                    },
+                    registration_ids = tokenList
+                });
+
+                streamWriter.Write(json);
+                streamWriter.Flush();
+            }
+
+            var httpResponse = (HttpWebResponse)(await httpWebRequest.GetResponseAsync());
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                var result = streamReader.ReadToEnd();
+            }
         }
         #endregion
     }

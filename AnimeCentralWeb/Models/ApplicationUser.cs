@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AnimeCentralWeb.Models
 {
@@ -10,6 +6,7 @@ namespace AnimeCentralWeb.Models
     public class ApplicationUser : IdentityUser
     {
         public byte[] Image { get; set; }
+        public string NotificationTokens { get; set; }
 
     }
 }

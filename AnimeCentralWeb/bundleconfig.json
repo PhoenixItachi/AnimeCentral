@@ -6,7 +6,7 @@
     ]
   },
   {
-    "outputFileName": "wwwroot/js/site.min.js",
+    "outputFileName": "wwwroot/site.min.js",
     "inputFiles": [
       "wwwroot/js/jquery.mCustomScrollbar.concat.min.js",
       "wwwroot/js/sprintf.js",

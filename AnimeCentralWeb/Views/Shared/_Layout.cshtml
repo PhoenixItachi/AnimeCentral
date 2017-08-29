@@ -4,19 +4,31 @@
 <html>
 <head>
     <meta charset="utf-8" />
+    <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyB6VH7RhduKr_kE4EW9p8RfrL2ix3xj-sg",
+            authDomain: "animecentral-64740.firebaseapp.com",
+            databaseURL: "https://animecentral-64740.firebaseio.com",
+            projectId: "animecentral-64740",
+            storageBucket: "animecentral-64740.appspot.com",
+            messagingSenderId: "358676794332"
+        };
+        firebase.initializeApp(config);
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="~/css/site.min.css">
-
+    <link rel="manifest" href="~/manifest.json">
     <title>@ViewData["Title"] - @User.Identity.Name - Anime Central</title>
 
     <!-- Imported js and css -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
     <!-- My custom js and css -->
-    <script src="~/js/site.min.js"></script>
+    <script src="~/site.min.js"></script>
     
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
