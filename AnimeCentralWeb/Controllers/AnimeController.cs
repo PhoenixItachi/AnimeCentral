@@ -68,6 +68,8 @@ namespace AnimeCentralWeb.Controllers
             var model = AutoMapper.Map<AnimeViewModel>(anime);
             return PartialView("Partials/_EditAnimePartial", model);
         }
+
+        [HttpPost]
         public async Task<ActionResult> EditAnime(AnimeViewModel model)
         {
 
@@ -270,6 +272,7 @@ namespace AnimeCentralWeb.Controllers
             return PartialView("Partials/_EditEpisodePartial", model);
         }
 
+        [HttpPost]
         public async Task<ActionResult> EditEpisode(EpisodeViewModel model)
         {
             if (ModelState.IsValid)
@@ -458,6 +461,7 @@ namespace AnimeCentralWeb.Controllers
                 var result = streamReader.ReadToEnd();
             }
         }
+
         #endregion
     }
 }

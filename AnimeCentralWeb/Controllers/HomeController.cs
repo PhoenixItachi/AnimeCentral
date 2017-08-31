@@ -62,11 +62,6 @@ namespace AnimeCentralWeb.Controllers
             return View(model);
         }
 
-        public bool SelectUntilCondition(Episode ep, ref List<int> animeIds)
-        {
-            return true;
-        }
-
         public async Task<IActionResult> SearchAnime(string searchText)
         {
             var malApiUrl = "https://myanimelist.net/api/anime/search.xml";
