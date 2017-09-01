@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -290,6 +291,16 @@ namespace AnimeCentralWeb.Controllers
                 return Ok();
             }
             return BadRequest();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> VideoStream(string filename, string ext)
+        {
+            //var video = new VideoUtils(filename, ext);
+            //await video.WriteToStream(HttpContext);
+            //return Ok();
+
+            return new VideoUtils.VideoResult(filename, ext);
         }
 
         #endregion

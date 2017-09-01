@@ -10,22 +10,23 @@
     </div>
     <div class="content-body episode-view">
         <div class="multi-tab">
-            <table class="tabs-labels">
-                <tr>
+            <div class="tabs-labels" style="display:table">
+                <div style="display:table-row">
                     @{
                         @foreach (var source in Model.Sources)
                         {
-                            <td data-tab-target="#@(Model.Sources.IndexOf(source))" class="tab-label @(Model.Sources.IndexOf(source) == 0 ? "active" : "")">@source.Label</td>
+                            <div style="display:table-cell" data-tab-target="#@(Model.Sources.IndexOf(source))" class="tab-label @(Model.Sources.IndexOf(source) == 0 ? "active" : "")">@source.Label</div>
                         }
                     }
-                </tr>
-            </table>
+                </div>
+            </div>
 
             <div class="tabs">
                 @foreach (var source in Model.Sources)
                 {
                     <div class="tab @(Model.Sources.IndexOf(source) == 0 ? "active" : "")" data-tab-id="#@(Model.Sources.IndexOf(source))">
-                        <iframe src="@source.Link" frameBorder="0" scrolling="no" width="100%" height="100%" style="overflow: hidden;" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true" seamless="seamless"></iframe>
+                        <iframe class="episode-frame" src="@source.Link" frameborder=0 marginwidth=0 marginheight=0 scrolling="no" width=100% height=100% allowfullscreen>
+                        </iframe>
                     </div>
                 }
             </div>
@@ -46,6 +47,7 @@
             RefreshComments();
         });
 
+
         function RefreshComments() {
           $.get("Anime/GetComments?id=" + @Model.Id, function (data) {
             $(".comments-container").html(data);
@@ -53,5 +55,11 @@
             alert("A aparut o problema in afisarea ultimelor comentarii comentarilor.");
           });
         }
+
+        $(".episode-frame").load(function () {
+            $(".video-js").css("height", "100%");
+            $(".video-js").css("padding-top", "0");
+        });
+        
     </script>
 </div>
