@@ -233,24 +233,58 @@ namespace AnimeCentralWeb.Controllers
             var episode = AutoMapper.Map<Episode>(model);
             episode.Sources = model.Sources.Select(x => AutoMapper.Map<Source>(x)).ToList();
 
+            var video = Request.Form.Files["LocalSource"];
+            if(video != null && video.Length != 0)
+            {
+                if (!VideoUtils.VideoAcceptedFormats.Contains(video.ContentType.ToLower()))
+                    return BadRequest("Formatul video-ului nu este suportat.");
+
+                var videoFileName = await VideoUtils.SaveVideo(video);
+                if (string.IsNullOrEmpty(videoFileName))
+                    return BadRequest();
+
+                var localSource = new Source()
+                {
+                    Label = "Local",
+                    Origin = SourceOrigin.Local,
+                    FileName = videoFileName
+                };
+
+                episode.Sources.Add(localSource);
+            }
+
             var date = DateTime.UtcNow;
             episode.Date = date;
             anime.LatestEpisode = date;
             anime.Episodes.Add(episode);
             Context.Anime.Update(anime);
+            
+            
+
             await Context.SaveChangesAsync();
             await SendNotification($"{anime.Title} #{episode.Order}", episode.Title, null, anime.Image, true);
-
-            var files = Request.Form.Files;
             return Ok();
         }
 
         [HttpGet]
         public async Task<ActionResult> GetEpisodePartial(int id)
         {
-            var episode = await Context.Episodes.Include(x => x.Anime).Include(x => x.Sources).FirstOrDefaultAsync(x => x.Id == id);
+            var episode = await Context.Episodes.Include(x => x.Anime).FirstOrDefaultAsync(x => x.Id == id);
+
+            var next = await Context.Episodes.Where(x => x.Order > episode.Order && x.AnimeId == episode.AnimeId).OrderBy(x => x.Order).FirstOrDefaultAsync();
+            var previous = await Context.Episodes.Where(x => x.Order < episode.Order && x.AnimeId == episode.AnimeId).OrderByDescending(x => x.Order).FirstOrDefaultAsync();
 
             if (episode == null)
+                return BadRequest();
+
+            var sources = await Context.Sources.Where(x => x.EpisodeId == episode.Id).Select(x => new SourceViewModel() {
+                Id = x.Id,
+                Label = x.Label,
+                Origin = x.Origin
+            }).ToListAsync();
+
+
+            if (sources.Count == 0)
                 return BadRequest();
 
             episode.ViewCount++;
@@ -258,6 +292,10 @@ namespace AnimeCentralWeb.Controllers
             await Context.SaveChangesAsync();
 
             var model = AutoMapper.Map<EpisodeViewModel>(episode);
+            model.Sources = sources;
+
+            model.Next = (next != null && next.Order - episode.Order <= 1) ? next.Id : -1;
+            model.Previous = (previous != null && episode.Order - previous.Order <= 1) ? previous.Id : -1;
 
             return PartialView("Partials/_EpisodePartial", model);
         }
@@ -294,13 +332,13 @@ namespace AnimeCentralWeb.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> VideoStream(string filename, string ext)
+        public async Task<ActionResult> VideoStream(int id)
         {
-            //var video = new VideoUtils(filename, ext);
-            //await video.WriteToStream(HttpContext);
-            //return Ok();
+            var source = await Context.Sources.FirstOrDefaultAsync(x => x.EpisodeId == id && x.Origin == SourceOrigin.Local);
+            if (source == null)
+                return BadRequest("Sursa nu exista.");
 
-            return new VideoUtils.VideoResult(filename, ext);
+            return new VideoUtils.VideoResult(source.FileName);
         }
 
         #endregion

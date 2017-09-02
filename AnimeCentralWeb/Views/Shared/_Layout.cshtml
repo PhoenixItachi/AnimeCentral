@@ -29,7 +29,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <!-- My custom js and css -->
     <script src="~/site.min.js"></script>
-    
+
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
@@ -101,7 +101,11 @@
             })
         })
 
-        $(".get-anime-list").click(function () {
+        $(document).on("click", ".get-anime-list", function () {
+            var clear = $(this).attr("data-popup-clear");
+            if (clear == "true")
+                $(".pop-up").find(".content").not(".spinner-container").remove();
+
             $(".pop-up").css("z-index", 300);
             $(".pop-up").css("opacity", 1);
             $.get("Anime/GetAllAnime", function (data) {
@@ -109,8 +113,7 @@
                 updateAnimeListWidth();
             }).fail(function (data) {
                 console.log(data);
-
-            })
+            });
         })
 
         $(document).on("click", ".close-pop-up", function () {
@@ -132,6 +135,10 @@
 
         $(document).on("click", ".anime-popup", function () {
             var animeId = $(this).attr("data-anime-id");
+            var clear = $(this).attr("data-popup-clear");
+            if (clear == "true")
+                $(".pop-up").find(".content").not(".spinner-container").remove();
+
             $(".pop-up").css("z-index", 300);
             $(".pop-up").css("opacity", 1);
             if (animeId != null) {
@@ -149,6 +156,10 @@
             $(".pop-up").css("z-index", 300);
             $(".pop-up").css("opacity", 1);
             $.get("Anime/GetEpisodePartial?id=" + episodeId, function (data) {
+                $(".pop-up .content").each(function () {
+                    if ($(this).find(".episode-view").length != 0)
+                        $(this).remove();
+                });
                 $(".pop-up").append(data);
             }).fail(function () {
                 alert("A aparut o eroare in cautarea episodului.");

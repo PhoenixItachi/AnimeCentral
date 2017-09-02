@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AnimeCentralWeb.Domain;
+using System.ComponentModel.DataAnnotations;
 
 namespace AnimeCentralWeb.Models.DomainViewModels
 {
@@ -6,8 +7,8 @@ namespace AnimeCentralWeb.Models.DomainViewModels
     {
         public int Id { get; set; }
 
-        [Required]
         public string Label { get; set; }
         public string Link { get; set; }
+        public SourceOrigin Origin { get; set; }
     }
 }

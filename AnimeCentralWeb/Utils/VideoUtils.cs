@@ -1,7 +1,7 @@
-﻿
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -9,59 +9,40 @@ using System.Threading.Tasks;
 
 public class VideoUtils
 {
-    public readonly string _filename;
+    public static List<string> VideoAcceptedFormats = new List<string>() { "video/mp4", "video/webm", "video/ogg" };
 
-    public VideoUtils(string filename, string ext)
-    {
-        string startupPath = Directory.GetCurrentDirectory();
-        var videoPath = Path.Combine(startupPath, "Videos", $"{filename}.{ext}");
-        _filename = videoPath;
-    }
-
-    public async Task WriteToStream(HttpContext context)
+    public static string videosFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "Videos");
+    public static async Task<string> SaveVideo(IFormFile video)
     {
         try
         {
-            var buffer = new byte[65536];
-            using (var video = File.Open(_filename, FileMode.Open, FileAccess.Read))
+            using (var fileStream = new FileStream(Path.Combine(videosFolderPath, video.FileName), FileMode.Create))
             {
-                var length = (int)video.Length;
-                var bytesRead = 1;
-
-                while (length > 0 && bytesRead > 0)
-                {
-                    bytesRead = await video.ReadAsync(buffer, 0, Math.Min(length, buffer.Length));
-                    await context.Response.Body.WriteAsync(buffer, 0, buffer.Length);
-                    length -= bytesRead;
-                }
+                await video.CopyToAsync(fileStream);
             }
+
+            return video.FileName;
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            return;
-        }
-        finally
-        {
+            return String.Empty;
         }
     }
 
     public class VideoResult : ActionResult
     {
-        public readonly string _filename;
-        public VideoResult(string filename, string ext)
+        public readonly string _videoPath;
+        public VideoResult(string fileName)
         {
-            string startupPath = Directory.GetCurrentDirectory();
-            var videoPath = Path.Combine(startupPath, "Videos", $"{filename}.{ext}");
-            _filename = videoPath;
+            _videoPath = Path.Combine(videosFolderPath, fileName);
         }
         /// <summary> 
         /// The below method will respond with the Video file 
         /// </summary> 
         /// <param name="context"></param> 
-        public override async void ExecuteResult(ActionContext context)
+        public override void ExecuteResult(ActionContext context)
         {
-            var video = new FileInfo(_filename);
-
+            var video = new FileInfo(_videoPath);
             long fSize = video.Length;
             long startbyte = 0;
             long endbyte = fSize - 1;
@@ -77,22 +58,21 @@ public class VideoUtils
                 { statusCode = 206; }//Set the status code of the response to 206 (Partial Content) and add a content range header.                                    
             }
             long desSize = endbyte - startbyte + 1;
-            //The header information 
-            var response = context.HttpContext.Response;
-            //Check the file exist,  it will be written into the response 
+
             if (video.Exists)
             {
-                var stream = video.OpenRead();
-                var bytesinfile = new byte[stream.Length];
-                stream.Read(bytesinfile, 0, (int)video.Length);
-
-                response.StatusCode = statusCode;
-                response.ContentType = "video/mp4";
-                response.Headers.Add("Content-Accept", response.ContentType);
-                response.Headers.Add("Content-Length", desSize.ToString());
-                response.Headers.Add("Content-Range", string.Format("bytes {0}-{1}/{2}", startbyte, endbyte, fSize));
-
-                await context.HttpContext.Response.Body.WriteAsync(bytesinfile, (int)startbyte, (int)desSize);
+                using (var videoStream = video.OpenRead())
+                {
+                    //The header information 
+                    videoStream.Seek(startbyte, SeekOrigin.Begin);
+                    var response = context.HttpContext.Response;
+                    response.StatusCode = statusCode;
+                    response.ContentType = context.HttpContext.Response.ContentType;
+                    response.Headers.Add("Content-Accept", response.ContentType);
+                    response.Headers.Add("Content-Length", desSize.ToString());
+                    response.Headers.Add("Content-Range", string.Format("bytes {0}-{1}/{2}", startbyte, endbyte, fSize));
+                    videoStream.CopyTo(context.HttpContext.Response.Body, (int)desSize);
+                }
             }
         }
     }

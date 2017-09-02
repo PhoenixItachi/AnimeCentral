@@ -63,19 +63,23 @@
             }
         }
 
-        .close-pop-up {
-            padding: 10px;
-            font-size: 14px;
-            color: white;
-            text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
-            background-color: white;
-            transition: all 300ms ease-in-out;
-            border-bottom: .2px solid black;
+        .commands {
+            .command {
+                cursor:pointer;
+                padding: 10px;
+                font-size: 14px;
+                color: white;
+                text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+                background-color: white;
+                transition: all 300ms ease-in-out;
+                border-bottom: .2px solid black;
+                display:inline-block;
 
-            &:hover {
-                color: black;
-                text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
-                background-color: black;
+                &:hover {
+                    color: black;
+                    text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
+                    background-color: black;
+                }
             }
         }
 

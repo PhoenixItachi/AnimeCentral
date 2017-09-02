@@ -6,7 +6,8 @@
         <div class="description">@Model.AnimeTitle - #@Model.Order</div>
     </div>
     <div class="commands text-right">
-        <i class="fa fa-times close-pop-up command" aria-hidden="true"></i>
+        <div class="back-to-anime anime-popup command" data-anime-id="@Model.AnimeId" data-popup-clear="true"><i class="fa fa-chevron-left" aria-hidden="true"></i> Anime</div>
+        <div class="command close-pop-up"><i class="fa fa-times" aria-hidden="true"></i></div>
     </div>
     <div class="content-body episode-view">
         <div class="multi-tab">
@@ -24,13 +25,34 @@
             <div class="tabs">
                 @foreach (var source in Model.Sources)
                 {
+
                     <div class="tab @(Model.Sources.IndexOf(source) == 0 ? "active" : "")" data-tab-id="#@(Model.Sources.IndexOf(source))">
-                        <iframe class="episode-frame" src="@source.Link" frameborder=0 marginwidth=0 marginheight=0 scrolling="no" width=100% height=100% allowfullscreen>
-                        </iframe>
+                        @if (source.Origin == AnimeCentralWeb.Domain.SourceOrigin.External)
+                        {
+                            <iframe class="episode-frame" src="@source.Link" frameborder=0 marginwidth=0 marginheight=0 scrolling="no" width=100% height=100% allowfullscreen></iframe>
+                        }
+                        else
+                        {
+                            <video width="100%" height="100%" controls preload="auto">
+                                <source src="/Anime/VideoStream/@Model.Id" type="video/mp4" />
+                                <source src="/Anime/VideoStream/@Model.Id" type="video/ogg" />
+                            </video>
+                        }
                     </div>
                 }
             </div>
-            <div class="episode-commands"><div class="edit-episode" data-episode-id="@Model.Id">Editeaza</div></div>
+            <div class="episode-commands">
+                <div class="edit-episode" data-episode-id="@Model.Id">Editeaza</div>
+                @if (Model.Next != -1)
+                {
+                    <div class="episode-popup" data-episode-id="@Model.Next">Urmatorul</div>
+                }
+
+                @if (Model.Previous != -1)
+                {
+                    <div class="episode-popup" data-episode-id="@Model.Previous">Precendentul</div>
+                }
+            </div>
             <div class="view-count"><i class="fa fa-eye" aria-hidden="true"></i> Vizionari: @Model.ViewCount</div>
             <div class="new-comment">
                 <form class="new-comment-form">
@@ -60,6 +82,6 @@
             $(".video-js").css("height", "100%");
             $(".video-js").css("padding-top", "0");
         });
-        
+
     </script>
 </div>

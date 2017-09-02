@@ -41,10 +41,6 @@
         $(document).on("submit", '.add-episode-form', function (e) {
             e.preventDefault();
             var data = new FormData(this);
-            var file = $(".episode-local-file")[0];
-            debugger;
-            data.append("local-file", file.value);
-            console.log(data);
             $.ajax({
                 type: "POST",
                 url: "/Anime/AddEpisode",

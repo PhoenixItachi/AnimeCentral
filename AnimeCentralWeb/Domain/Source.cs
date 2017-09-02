@@ -11,7 +11,7 @@ namespace AnimeCentralWeb.Domain
 
         public string Label { get; set; }
         public string Link { get; set; }
-        public byte[] Content { get; set; }
+        public string FileName { get; set; }
 
         public virtual Episode Episode { get; set; }
     }

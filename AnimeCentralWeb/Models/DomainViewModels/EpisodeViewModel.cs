@@ -18,6 +18,9 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         [Required]
         public float Order { get; set; }
 
+        public int Next { get; set; }
+        public int Previous { get; set; }
+
         public AnimeViewModel Anime { get; set; }
         public virtual List<SourceViewModel> Sources { get; set; }
         public virtual List<CommentViewModel> Comments { get; set; }
