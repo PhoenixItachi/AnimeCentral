@@ -8,7 +8,6 @@ namespace AnimeCentralWeb.Models.DomainViewModels
 
         [Required]
         public string Label { get; set; }
-        [Required]
         public string Link { get; set; }
     }
 }

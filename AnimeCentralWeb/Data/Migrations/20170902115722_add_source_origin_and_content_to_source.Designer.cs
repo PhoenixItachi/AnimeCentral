@@ -9,9 +9,10 @@ using AnimeCentralWeb.Domain;
 namespace AnimeCentralWeb.Data.Migrations
 {
     [DbContext(typeof(AnimeCentralDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170902115722_add_source_origin_and_content_to_source")]
+    partial class add_source_origin_and_content_to_source
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

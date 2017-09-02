@@ -241,7 +241,7 @@ namespace AnimeCentralWeb.Controllers
             await Context.SaveChangesAsync();
             await SendNotification($"{anime.Title} #{episode.Order}", episode.Title, null, anime.Image, true);
 
-
+            var files = Request.Form.Files;
             return Ok();
         }
 

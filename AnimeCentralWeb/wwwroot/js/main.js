@@ -333,17 +333,6 @@ $(document).on("click", ".remove-source", function () {
   $(".sources .source").last().remove();
 });
 
-$(document).on("submit", '.add-episode-form', function (e) {
-  e.preventDefault();
-  $.post('/Anime/AddEpisode', $(this).serialize(),
-    function (result) {
-      alert('Episod adaugat!');
-    }
-  ).fail(function () {
-    alert('Episodul exista deja sau o eroare a aparut in procesul de adaugare!');
-  });
-});
-
 // Edit Episode Partial/PopUp Events
 $(document).on('submit', '.edit-episode-form', function (e) {
   e.preventDefault();

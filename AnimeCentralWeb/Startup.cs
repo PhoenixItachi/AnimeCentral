@@ -14,6 +14,7 @@ using AnimeCentralWeb.Models;
 using AnimeCentralWeb.Services;
 using AutoMapper;
 using AnimeCentralWeb.AutoMapper;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace AnimeCentralWeb
 {
@@ -48,6 +49,11 @@ namespace AnimeCentralWeb
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AnimeCentralDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 1073741824;
+            });
 
             services.AddMvc();
 

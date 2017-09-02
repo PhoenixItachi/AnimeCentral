@@ -26,10 +26,38 @@
                     <input asp-for="Sources[0].Label" class="form-control source-tag" placeholder="Tag sursa..." /><input asp-for="Sources[0].Link" class="form-control source-link" placeholder="Link sursa..." />
                 </div>
             </div>
+
+            <div class="sources form-inline">
+                <div class="source">
+                    <label>Sursa locala:</label><input name="LocalSource" class="episode-local-file" type="file" />
+                </div>
+            </div>
             <a class="saveCommand" style="text-decoration:none" onclick="$('.add-episode-form').submit()">Adauga</a>
         </form>
     </div>
     <script>
         $(".remove-source").hide();
+
+        $(document).on("submit", '.add-episode-form', function (e) {
+            e.preventDefault();
+            var data = new FormData(this);
+            var file = $(".episode-local-file")[0];
+            debugger;
+            data.append("local-file", file.value);
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                url: "/Anime/AddEpisode",
+                data: data,
+                processData: false,
+                contentType: false
+            }).done(function (data) {
+                alert('Episod adaugat!');
+            }).fail(function (data) {
+                alert('Episodul exista deja sau o eroare a aparut in procesul de adaugare!');
+            });
+
+        });
+
     </script>
 </div>

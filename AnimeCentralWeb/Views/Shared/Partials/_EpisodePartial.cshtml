@@ -10,16 +10,16 @@
     </div>
     <div class="content-body episode-view">
         <div class="multi-tab">
-            <div class="tabs-labels" style="display:table">
-                <div style="display:table-row">
+            <table class="tabs-labels">
+                <tr>
                     @{
                         @foreach (var source in Model.Sources)
                         {
-                            <div style="display:table-cell" data-tab-target="#@(Model.Sources.IndexOf(source))" class="tab-label @(Model.Sources.IndexOf(source) == 0 ? "active" : "")">@source.Label</div>
+                            <td style="display:table-cell" data-tab-target="#@(Model.Sources.IndexOf(source))" class="tab-label @(Model.Sources.IndexOf(source) == 0 ? "active" : "")">@source.Label</td>
                         }
                     }
-                </div>
-            </div>
+                </tr>
+            </table>
 
             <div class="tabs">
                 @foreach (var source in Model.Sources)
