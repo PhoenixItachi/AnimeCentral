@@ -39,14 +39,14 @@
         <div class="anime-list">
             @foreach (var anime in Model)
             {
-                <div class="anime-list-item anime-popup" data-name="@anime.Title.ToLower()" data-genre="@anime.Genres" data-status="@anime.TranslateStatus" data-anime-id="@anime.Id">
+                <div class="anime-list-item anime-popup" data-name="@anime.Title.ToLower()" data-genre="@anime.Genres" data-status="@anime.TranslateStatus.GetDisplayName()" data-anime-id="@anime.Id" data-popup-clear="true">
                     <img src="@anime.Image" />
                     <div class="item-overlay">
-                        <a href="https://myanimelist.net/anime/@(anime.MalId)">
-                            <img src="apple-touch-icon-256.png" width="25" class="mal-source" />
+                        <a href="https://myanimelist.net/anime/@(anime.MalId)" target="_blank" class="mal-source" >
+                            <img src="apple-touch-icon-256.png" width="25" />
                         </a>
                         <div class="anime-name">@anime.Title </div>
-                        <div class="anime-status">@anime.TranslateStatus</div>
+                        <div class="anime-status">@anime.TranslateStatus.GetDisplayName()</div>
                     </div>
                 </div>
             }

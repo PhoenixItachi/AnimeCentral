@@ -25,10 +25,19 @@ namespace AnimeCentralWeb.Domain
         public string Synopsis { get; set; }
         public string Genres { get; set; }
         public int MalId { get; set; }
-        public string TranslateStatus { get; set; }
+        public TranslateStatus TranslateStatus { get; set; }
         public DateTime LatestEpisode { get; set; }
 
         public virtual List<Review> Reviews { get; set; }
         public virtual List<Episode> Episodes { get; set; }
+    }
+
+
+    public enum TranslateStatus
+    {
+        [Display(Name = "Ongoing")]
+        InCursDeTraducere = 1,
+        [Display(Name = "Complet")]
+        Complet = 2,
     }
 }

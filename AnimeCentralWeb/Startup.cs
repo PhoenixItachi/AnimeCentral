@@ -15,6 +15,8 @@ using AnimeCentralWeb.Services;
 using AutoMapper;
 using AnimeCentralWeb.AutoMapper;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Identity;
+using System.Data.SqlClient;
 
 namespace AnimeCentralWeb
 {
@@ -62,11 +64,11 @@ namespace AnimeCentralWeb
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
             // Configure AutoMapper
-            Mapper.Initialize(c => c.AddProfiles(new [] { typeof(ModelViewToDomainConfigurationProfile), typeof(DomainToModelViewConfigurationProfile) }));
+            Mapper.Initialize(c => c.AddProfiles(new[] { typeof(ModelViewToDomainConfigurationProfile), typeof(DomainToModelViewConfigurationProfile) }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -94,6 +96,42 @@ namespace AnimeCentralWeb
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            var context = serviceProvider.GetService<AnimeCentralDbContext>();
+            var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
+            var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
+            await SetUserRolesAndDefaultUser(context, userManager, roleManager);
+        }
+
+        private async Task SetUserRolesAndDefaultUser(AnimeCentralDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            var adminExists = await roleManager.RoleExistsAsync("Admin");
+            if (!adminExists)
+            {
+                var role = new IdentityRole();
+                role.Name = "Admin";
+                await roleManager.CreateAsync(role);
+
+                var user = new ApplicationUser();
+                user.UserName = "AdminAC";
+                user.Email = "admin@animecentral.com";
+                
+                string userPWD = "AdminAC123;";
+
+                var chkUser = await userManager.CreateAsync(user, userPWD);
+                if (chkUser.Succeeded)
+                    await userManager.AddToRoleAsync(user, "Admin");
+                else
+                    throw new Exception(String.Join(Environment.NewLine, chkUser.Errors.Select(x => $"Code{x.Code}: {x.Description}")));
+            }
+
+            var userExists = await roleManager.RoleExistsAsync("User");
+            if (!userExists)
+            {
+                var role = new IdentityRole();
+                role.Name = "User";
+                await roleManager.CreateAsync(role);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AnimeCentralWeb.Domain;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AnimeCentralWeb.Models.DomainViewModels
@@ -23,7 +24,7 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         public string Type { get; set; }
         [Required]
         public string Status { get; set; }
-        public string TranslateStatus { get; set; }
+        public TranslateStatus TranslateStatus { get; set; }
         public string Image { get; set; }
         public string BigImage { get; set; }
         [Display(Name = "Sinonime")]

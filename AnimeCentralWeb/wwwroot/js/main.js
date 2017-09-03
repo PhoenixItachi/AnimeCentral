@@ -457,3 +457,46 @@ $(document).on("submit", ".register-form", function (e) {
       $(".pop-up").append(data);
   });
 });
+
+// Change Translate Status
+$(document).on("change", ".set-translate-status", function () {
+  var newStatus = $(this).val();
+  var animeId = $(this).attr("data-anime-id");
+  console.log(newStatus);
+  console.log(animeId);
+  $.post("/Anime/SetAnimeTranslateStatus", { Id: animeId, TranslateStatus: newStatus }, function () {
+    alert("Status modificat");
+  }).fail(function () {
+    alert("A aparut o problema");
+  });
+});
+
+$(document).on("click", ".genre-filter .genre-list span", function () {
+  $(this).toggleClass("active");
+});
+
+$(document).on("click", ".genre-filter .search-button", function () {
+  var genres = $(this).closest(".genre-filter").find(".genre-list span.active");
+  var clear = $(this).attr("data-popup-clear");
+  if (clear == "true")
+    $(".pop-up").find(".content").not(".spinner-container").remove();
+
+  $(".pop-up").css("z-index", 300);
+  $(".pop-up").css("opacity", 1);
+  $.get("Anime/GetAllAnime", function (data) {
+    $(".pop-up").append(data);
+    var advancedSearch = $(".pop-up .anime-list-partial").find(".advanced-search");
+    $(genres).each(function () {
+      var genre = $(this).text();
+      $(advancedSearch).find(".option input[type='checkbox'][value='" + genre + "']").prop("checked", true);
+      $(advancedSearch).find(".option input[type='checkbox'][value='" + genre + "']").change();
+    })
+    updateAnimeListWidth();
+  }).fail(function (data) {
+    console.log(data);
+  });
+})
+
+$(document).on("click", ".mal-source", function (event) {
+  event.stopPropagation();
+});

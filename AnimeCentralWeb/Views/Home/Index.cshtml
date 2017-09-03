@@ -105,8 +105,8 @@
                                     }
                                 </div>
                                 <div class="anime-name">@anime.Title</div>
-                                <a href="https://myanimelist.net/anime/@anime.MalId">
-                                    <img src="apple-touch-icon-256.png" width="25" class="mal-source" />
+                                <a href="https://myanimelist.net/anime/@anime.MalId" target="_blank"  class="mal-source" >
+                                    <img src="apple-touch-icon-256.png" width="25"/>
                                 </a>
                             </div>
                         </div>
@@ -134,8 +134,8 @@
                                         <div class="slide-header">
                                             <span class="anime-title">
                                                 @rec.Title
-                                                <a href="https://myanimelist.net/anime/@rec.MalId">
-                                                    <img src="apple-touch-icon-256.png" class="mal-source" />
+                                                <a href="https://myanimelist.net/anime/@rec.MalId" target="_blank"  class="mal-source">
+                                                    <img src="apple-touch-icon-256.png" width="20px"/>
                                                 </a>
                                             </span>
                                         </div>
@@ -161,37 +161,6 @@
                                 <div class="ann-author"><span>@announcement.Author.UserName</span>, @announcement.Date.ToString("MMMM dd, yyyy", new System.Globalization.CultureInfo("ro")).ToLower()</div>
                             </div>
                         }
-                        @*<div class="anns-list-item new-anime-season">
-                            <div class="ann-type">Anime Sezon Nou</div>
-                            <div class="ann-title">Sezonul 4 din "High School DxD" anuntat.</div>
-                            <div class="ann-author"><span>NaiHaz</span>, ianuarie 11, 2017</div>
-                        </div>
-                        <div class="anns-list-item anunt">
-                            <div class="ann-type">Anunt</div>
-                            <div class="ann-title">[News 07 Ian] Știrile Wien Subs</div>
-                            <div class="ann-author"><span>NaiHaz</span>, ianuarie 2, 2017</div>
-                        </div>
-                        <div class="anns-list-item anunt">
-                            <div class="ann-type">Anunt</div>
-                            <div class="ann-title">Cum să ne uităm împreună la anime?</div>
-                            <div class="ann-author"><span>NaiHaz</span>, ianuarie 1, 2017</div>
-                        </div>
-                        <div class="anns-list-item new-anime-others">
-                            <div class="ann-type">Anime OVA/Special</div>
-                            <div class="ann-title">OVA pentru "Akatsuki no Yona" anuntat.</div>
-                            <div class="ann-author"><span>NaiHaz</span>, ianuarie 11, 2017</div>
-                        </div>
-                        <div class="anns-list-item anunt">
-                            <div class="ann-type">Anunt</div>
-                            <div class="ann-title">La mulți ani 2017!</div>
-                            <div class="ann-author"><span>NaiHaz</span>, decembrie 31, 2016</div>
-                        </div>
-                        <div class="anns-list-item new-anime">
-                            <div class="ann-type">Anime Nou</div>
-                            <div class="ann-title">Anime-ul "Saijaku Muhai no Bahamut" anuntat pentru Winter 2016.</div>
-                            <div class="ann-author"><span>NaiHaz</span>, ianuarie 11, 2017</div>
-                        </div>*@
-
                     </div>
                 </div>
                 <!-- ANNOUNCEMETNS END -->
@@ -345,6 +314,8 @@
     </div>
 
     <!-- CHAT END -->
+    <!-- SignalR Chat START-->
+    <!-- SignalR Chat END-->
     <!-- ANIME QUICK SEARCH SIDEBAR START -->
     @*<div class="anime-quick-search">
             <div class="quick-search-overlay mCustomScrollbar" data-mcs-theme="minimal-dark">

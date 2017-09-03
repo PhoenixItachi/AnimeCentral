@@ -6,7 +6,8 @@
         <div class="description">@Model.Title (@Model.Type)</div>
     </div>
     <div class="commands text-right">
-        <i class="fa fa-times close-pop-up command" aria-hidden="true"></i>
+        <div class="anime-popup command" data-popup-clear="true" data-anime-id="@Model.Id"><i class="fa fa-chevron-left" aria-hidden="true"></i> Anime</div>
+        <div class="close-pop-up command"><i class="fa fa-times" aria-hidden="true"></i></div>
     </div>
     <div class="content-body edit-anime-partial">
         <form asp-controller="Anime" asp-action="EditAnime" class="edit-anime-form">

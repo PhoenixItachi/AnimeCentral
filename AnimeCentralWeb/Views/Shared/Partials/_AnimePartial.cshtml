@@ -1,4 +1,6 @@
 @model AnimeCentralWeb.Models.DomainViewModels.AnimeViewModel
+@using AnimeCentralWeb.Domain
+@using AnimeCentralWeb.Utils
 
 <div class="content">
     <div class="content-header">
@@ -17,7 +19,10 @@
                         <div class="cover">
                             <img src="@Model.Image" />
                             <span class="score">@Model.Score</span>
-                            <div class="edit-anime-btn" data-anime-id="@Model.Id">Editeaza</div>
+                            <div class="commands">
+                                <div class="edit-anime-btn command" data-anime-id="@Model.Id">Editeaza</div>
+                                <select class="set-translate-status command" asp-for="@Model.TranslateStatus" asp-items="@typeof(TranslateStatus).GetEnumSelectList()" data-anime-id="@Model.Id"></select>
+                            </div>
                         </div>
                         <div class="details">
                             <label asp-for="NoOfEpisodes"></label>: <span class="noOfEpisodes">@Model.NoOfEpisodes</span><br />
@@ -29,9 +34,9 @@
                 <td class="anime-description multi-tab">
                     <table class="tabs-labels">
                         <tr>
-                            <td data-tab-target="#1" class="tab-label active">Descriere</td>
-                            <td data-tab-target="#2" class="tab-label">Episoade</td>
-                            <td data-tab-target="#3" class="tab-label">Recenzii</td>
+                            <td data-tab-target="#1" class="tab-label active">Descriere<hr /></td>
+                            <td data-tab-target="#2" class="tab-label">Episoade<hr /></td>
+                            <td data-tab-target="#3" class="tab-label">Recenzii<hr /></td>
                         </tr>
                     </table>
                     <div class="tabs">

@@ -43,6 +43,12 @@ public class VideoUtils
         public override void ExecuteResult(ActionContext context)
         {
             var video = new FileInfo(_videoPath);
+            if (!video.Exists)
+            {
+                context.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+                return;
+            }
+                
             long fSize = video.Length;
             long startbyte = 0;
             long endbyte = fSize - 1;

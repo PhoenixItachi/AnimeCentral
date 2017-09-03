@@ -18,12 +18,12 @@ namespace AnimeCentralWeb.Utils
                                                                  "SuperPuteri", "Supernatural", "Vampiri", "Yaoi", "Armata", "Psihologic", "Seinen",
                                                                  "Slice of Life", "Thriller" };
 
-        public static List<SelectListItem> GetAnnouncementTypes()
+        public static List<SelectListItem> GetEnumSelectList(this Type type)
         {
             var list = new List<SelectListItem>();
-            foreach (var value in Enum.GetValues(typeof(AnnType)))
+            foreach (var value in Enum.GetValues(type))
             {
-                var displayName = (DisplayAttribute)typeof(AnnType).GetMember(value.ToString())[0].GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault();
+                var displayName = (DisplayAttribute)type.GetMember(value.ToString())[0].GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault();
                 var text = value.ToString();
 
                 if (displayName != null)

@@ -50,7 +50,7 @@ namespace AnimeCentralWeb.Controllers
             {
                 var anime = AutoMapper.Map<AnimeViewModel, Anime>(model);
 
-                anime.TranslateStatus = "Ongoing";
+                anime.TranslateStatus = TranslateStatus.InCursDeTraducere;
                 await Context.Anime.AddAsync(anime);
                 await Context.SaveChangesAsync();
 
@@ -195,6 +195,22 @@ namespace AnimeCentralWeb.Controllers
             var model = AutoMapper.Map<Anime, AnimeViewModel>(animeMal);
 
             return PartialView("Partials/_AddAnimeForm", model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SetAnimeTranslateStatus(AnimeViewModel model)
+        {
+            if(!Enum.IsDefined(typeof(TranslateStatus), model.TranslateStatus.ToString()))
+                return BadRequest();
+
+            var anime = await Context.Anime.FirstOrDefaultAsync(x => x.Id == model.Id);
+            if(anime == null)
+                return BadRequest();
+
+            anime.TranslateStatus = model.TranslateStatus;
+            await Context.SaveChangesAsync();
+
+            return Ok();
         }
 
         #endregion
@@ -432,6 +448,9 @@ namespace AnimeCentralWeb.Controllers
         [Authorize]
         public async Task<ActionResult> AddAnnouncement(AnnouncementViewModel model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
             var userId = _userManager.GetUserId(User);
             if (string.IsNullOrEmpty(userId))
                 return BadRequest();

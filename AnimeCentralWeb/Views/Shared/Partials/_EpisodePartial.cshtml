@@ -16,7 +16,7 @@
                     @{
                         @foreach (var source in Model.Sources)
                         {
-                            <td style="display:table-cell" data-tab-target="#@(Model.Sources.IndexOf(source))" class="tab-label @(Model.Sources.IndexOf(source) == 0 ? "active" : "")">@source.Label</td>
+                            <td style="display:table-cell" data-tab-target="#@(Model.Sources.IndexOf(source))" class="tab-label @(Model.Sources.IndexOf(source) == 0 ? "active" : "")">@source.Label<hr /></td>
                         }
                     }
                 </tr>

@@ -25,14 +25,14 @@ namespace AnimeCentralWeb.Domain
     public enum AnnType
     {
         [Display(Name = "Anime Nou")]
-        Anime = 0,
+        Anime = 1,
         [Display(Name = "Sezon Nou")]
-        Season = 1,
+        Season = 2,
         [Display(Name = "Anime OVA/Special")]
-        Special = 2,
+        Special = 3,
         [Display(Name = "Anunt")]
-        Annoucement = 3,
+        Annoucement = 4,
         [Display(Name = "Film")]
-        Movie = 4
+        Movie = 5
     }
 }
