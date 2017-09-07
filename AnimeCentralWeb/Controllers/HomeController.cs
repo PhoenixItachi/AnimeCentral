@@ -57,7 +57,7 @@ namespace AnimeCentralWeb.Controllers
                 TopAnime = topAnime,
                 TopEpisodes = topEpisodes,
                 LatestAnnouncements = latestAnnouncements,
-                AnnouncementsCount = await Context.Comments.CountAsync()
+                AnnouncementsCount = await Context.Announcements.CountAsync()
             };
 
             return View(model);

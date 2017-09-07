@@ -509,8 +509,22 @@ namespace AnimeCentralWeb.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAnnouncementsPage(int page)
         {
-            var model = await Context.Announcements.Skip(5 * (page - 1)).Take(5).Include(x => x.Author).OrderByDescending(x => x.Date).Select(x => AutoMapper.Map<AnnouncementViewModel>(x)).ToListAsync();
+            var model = await Context.Announcements.OrderByDescending(x => x.Date).Skip(5 * (page - 1)).Take(5).Include(x => x.Author).Select(x => AutoMapper.Map<AnnouncementViewModel>(x)).ToListAsync();
             return PartialView("Partials/_AnnouncementsPartial", model);
+        }
+        
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> DeleteAnnouncement(int id)
+        {
+            var announcement = await Context.Announcements.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (announcement == null)
+                return NotFound("Anuntul nu exista.");
+
+            Context.Announcements.Remove(announcement);
+            await Context.SaveChangesAsync();
+            return Ok();
         }
         #endregion
 

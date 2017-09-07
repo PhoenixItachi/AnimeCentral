@@ -22,7 +22,7 @@
             </div>
             <div class="nav-header-bar">
                 <a href="/" style="text-decoration:none;">
-                    <img src="~/logo-short.png"/>
+                    <img src="~/logo-short.png" />
                 </a>
                 <div class="menu-container">
                     <ul class="menu">
@@ -145,6 +145,10 @@
                         @foreach (var announcement in Model.LatestAnnouncements)
                         {
                             <div class="anns-list-item @announcement.Type.GetAnnouncementTypesCssClass() announcement-popup" data-announcement-id="@announcement.Id">
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <div class="delete-announcement" data-announcement-id="@announcement.Id"><i class="fa fa-trash" aria-hidden="true"></i></div>
+                                }
                                 <div class="ann-type">@announcement.Type.GetDisplayName()</div>
                                 <div class="ann-title">@announcement.Title</div>
                                 <div class="ann-author"><span>@announcement.Author.UserName</span>, @announcement.Date.ToString("MMMM dd, yyyy", new System.Globalization.CultureInfo("ro")).ToLower()</div>
@@ -154,7 +158,7 @@
                     <div class="page-navigator">
                         @for (int i = 0; i <= Model.AnnouncementsCount / 5; i++)
                         {
-                            <div class="page-number @(i == 0 ? "active" : string.Empty)" data-page-number="@(i+1)">@(i+1)</div>
+                            <div class="page-number @(i == 0 ? "active" : string.Empty)" data-page-number="@(i+1)">@(i + 1)</div>
                         }
                     </div>
                 </div>

@@ -201,6 +201,19 @@
                 alert("A aparut o eroare in cautarea anuntului.");
             });
         });
+
+        $(document).on("click", ".anns-list-item .delete-announcement", function (e) {
+            e.stopPropagation();
+            var confirmResult = confirm("Esti sigur?");
+            if (confirmResult == false)
+                return;
+            var annId = $(this).attr("data-announcement-id");
+            $.post("Anime/DeleteAnnouncement", { id: annId }, function (data) {
+                window.location.href = "/";
+            }).fail(function (data) {
+                alert(data.responseText);
+            });
+        })
     </script>
 </body>
 

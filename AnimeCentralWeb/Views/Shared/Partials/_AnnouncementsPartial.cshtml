@@ -4,6 +4,10 @@
     @foreach (var announcement in Model)
     {
         <div class="anns-list-item @announcement.Type.GetAnnouncementTypesCssClass() announcement-popup" data-announcement-id="@announcement.Id">
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="delete-announcement" data-announcement-id="@announcement.Id"><i class="fa fa-trash" aria-hidden="true"></i></div>
+            }
             <div class="ann-type">@announcement.Type.GetDisplayName()</div>
             <div class="ann-title">@announcement.Title</div>
             <div class="ann-author"><span>@announcement.Author.UserName</span>, @announcement.Date.ToString("MMMM dd, yyyy", new System.Globalization.CultureInfo("ro")).ToLower()</div>
