@@ -73,7 +73,7 @@ namespace AnimeCentralWeb.Controllers
 
             wr.Headers[HttpRequestHeader.Authorization] = "Basic " + authHeader;
             HttpWebResponse response = await wr.GetResponseAsync() as HttpWebResponse;
-            List<Anime> animeList = new List<Anime>();
+            List<AnimeViewModel> animeList = new List<AnimeViewModel>();
             try
             {
                 if (response.StatusCode == HttpStatusCode.NoContent)
@@ -87,8 +87,12 @@ namespace AnimeCentralWeb.Controllers
                 var list = xml.Descendants("entry").ToList()?.Take(5);
                 foreach (var anime in list)
                 {
-                    var animeObj = new Anime()
+                    var animeDB = await Context.Anime.FirstOrDefaultAsync(x => x.MalId == Int32.Parse(anime.Element("id").Value));
+
+                    var animeObj = new AnimeViewModel()
                     {
+                        Id = animeDB != null ? animeDB.Id : -1,
+                        MalId = Int32.Parse(anime.Element("id").Value),
                         Title = anime.Element("title").Value,
                         NoOfEpisodes = int.Parse(anime.Element("episodes").Value),
                         Status = anime.Element("status").Value,

@@ -21,7 +21,9 @@
                 <a class="menu-font" href="https://myanimelist.net/anime/31240/Re_Zero_kara_Hajimeru_Isekai_Seikatsu">Re:Zero kara Hajimeru Isekai Seikatsu</a>
             </div>
             <div class="nav-header-bar">
-                <img src="~/logo-short.png" />
+                <a href="/" style="text-decoration:none;">
+                    <img src="~/logo-short.png"/>
+                </a>
                 <div class="menu-container">
                     <ul class="menu">
                         <li>
@@ -435,10 +437,10 @@
         }
     })
 
-    var searchTimeOut;
+    var searchTimeOutIndex;
     $(".anime-search-input").on("input", function () {
         $(".spinner").show();
-        clearTimeout(searchTimeOut);
+        clearTimeout(searchTimeOutIndex);
         $(".no-results").hide();
         var animeSearchTitle = $(this).val();
         if(animeSearchTitle == ""){
@@ -451,7 +453,7 @@
 
         $(".anime-search-results").show();
         $(".search-value").text(animeSearchTitle);
-        searchTimeOut = setTimeout(function(){
+        searchTimeOutIndex = setTimeout(function(){
             $.ajax({
                 url: "@Url.Action("SearchAnime","Home")" + "?searchText=" + animeSearchTitle,
                 success: function (data) {
@@ -464,12 +466,21 @@
                     }
                     $(".no-results").hide();
                     var resultList = "";
-                    for(i = 0; i<data.length; i++){
+                    for (i = 0; i < data.length; i++){
                         var resultTemplate = $(".result").clone();
+                        if (data[i].id > 0) {
+                            resultTemplate.addClass("anime-popup");
+                            resultTemplate.attr("data-anime-id", '' + data[i].id);
+                            resultTemplate.removeAttr("onclick");
+                        }
+                        else {
+                            resultTemplate.removeClass("anime-popup");
+                            resultTemplate.attr("onclick", "window.open('https://myanimelist.net/anime/" + data[i].malId + "')");
+                        }
                         resultTemplate.find(".anime-image img").attr("src", data[i].image);
                         resultTemplate.find(".anime-title b").text(data[i].title);
                         resultTemplate.find(".anime-title .anime-type").text(data[i].type);
-                        resultTemplate.find(".anime-episodes").text("Episoade: " + data[i].episodes);
+                        resultTemplate.find(".anime-episodes").text("Episoade: " + data[i].noOfEpisodes);
                         resultTemplate.find(".anime-score .result-score").text(data[i].score);
                         resultTemplate.find(".anime-status").text(data[i].status);
                         resultTemplate.css("display", "table");
