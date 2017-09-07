@@ -314,6 +314,7 @@ namespace AnimeCentralWeb.Controllers
             {
                 Id = x.Id,
                 Label = x.Label,
+                Link = x.Link,
                 Origin = x.Origin
             }).ToListAsync();
 
