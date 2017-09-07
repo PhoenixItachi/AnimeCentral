@@ -101,10 +101,13 @@ namespace AnimeCentralWeb
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            var context = serviceProvider.GetService<AnimeCentralDbContext>();
-            var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
-            var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
-            await SetUserRolesAndDefaultUser(context, userManager, roleManager);
+            using (var context = serviceProvider.GetService<AnimeCentralDbContext>()) {
+                await context.Database.MigrateAsync();
+                var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
+                var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
+                await SetUserRolesAndDefaultUser(context, userManager, roleManager);
+            }
+                
         }
 
         private async Task SetUserRolesAndDefaultUser(AnimeCentralDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
