@@ -48,7 +48,11 @@ namespace AnimeCentralWeb
             services.AddDbContext<AnimeCentralDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
                 .AddEntityFrameworkStores<AnimeCentralDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -115,7 +119,7 @@ namespace AnimeCentralWeb
                 var user = new ApplicationUser();
                 user.UserName = "AdminAC";
                 user.Email = "admin@animecentral.com";
-                
+
                 string userPWD = "AdminAC123;";
 
                 var chkUser = await userManager.CreateAsync(user, userPWD);

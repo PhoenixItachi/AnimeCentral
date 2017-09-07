@@ -17,7 +17,8 @@ namespace AnimeCentralWeb.Utils
                                                                  "Sci-Fi", "Shoujo", "Shoujo Ai", "Shounen", "Shounen Ai", "Spatiu", "Sport",
                                                                  "SuperPuteri", "Supernatural", "Vampiri", "Yaoi", "Armata", "Psihologic", "Seinen",
                                                                  "Slice of Life", "Thriller" };
-
+        public const string FormErrorRequiredMessage = "Campul '{0}' este obligatoriu.";
+        public const int PartialStatusCode = 477;
         public static List<SelectListItem> GetEnumSelectList(this Type type)
         {
             var list = new List<SelectListItem>();
@@ -68,5 +69,6 @@ namespace AnimeCentralWeb.Utils
                     return string.Empty;
             }
         }
+
     }
 }

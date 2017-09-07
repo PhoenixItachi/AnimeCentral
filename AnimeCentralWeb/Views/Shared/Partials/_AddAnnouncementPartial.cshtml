@@ -10,6 +10,7 @@
     </div>
     <div class="content-body add-announcement-partial">
         <form class="add-announcement-form">
+            <div asp-validation-summary="All"></div>
             <div class="form-group">
                 <label asp-for="Title"></label>
                 <input type="text" class="form-control" asp-for="Title" />

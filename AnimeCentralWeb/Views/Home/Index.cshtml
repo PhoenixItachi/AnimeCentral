@@ -21,25 +21,12 @@
                 <a class="menu-font" href="https://myanimelist.net/anime/31240/Re_Zero_kara_Hajimeru_Isekai_Seikatsu">Re:Zero kara Hajimeru Isekai Seikatsu</a>
             </div>
             <div class="nav-header-bar">
-                <img src="Wien-subs-logo-174x75-video.png" />
+                <img src="~/logo-short.png" />
                 <div class="menu-container">
                     <ul class="menu">
                         <li>
                             <div class="menu-option-content">
-                                <a href="#">Forum</a>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="menu-option-content">
                                 <a href="#" class="get-anime-list">Proiectele Noastre</a>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="menu-option-content">
-                                <a href="#">
-                                    Cereri
-                                    <div class="description">Fara ezitari.</div>
-                                </a>
                             </div>
                         </li>
                         <li>
@@ -105,8 +92,8 @@
                                     }
                                 </div>
                                 <div class="anime-name">@anime.Title</div>
-                                <a href="https://myanimelist.net/anime/@anime.MalId" target="_blank"  class="mal-source" >
-                                    <img src="apple-touch-icon-256.png" width="25"/>
+                                <a href="https://myanimelist.net/anime/@anime.MalId" target="_blank" class="mal-source">
+                                    <img src="apple-touch-icon-256.png" width="25" />
                                 </a>
                             </div>
                         </div>
@@ -134,8 +121,8 @@
                                         <div class="slide-header">
                                             <span class="anime-title">
                                                 @rec.Title
-                                                <a href="https://myanimelist.net/anime/@rec.MalId" target="_blank"  class="mal-source">
-                                                    <img src="apple-touch-icon-256.png" width="20px"/>
+                                                <a href="https://myanimelist.net/anime/@rec.MalId" target="_blank" class="mal-source">
+                                                    <img src="apple-touch-icon-256.png" width="20px" />
                                                 </a>
                                             </span>
                                         </div>
@@ -160,6 +147,12 @@
                                 <div class="ann-title">@announcement.Title</div>
                                 <div class="ann-author"><span>@announcement.Author.UserName</span>, @announcement.Date.ToString("MMMM dd, yyyy", new System.Globalization.CultureInfo("ro")).ToLower()</div>
                             </div>
+                        }
+                    </div>
+                    <div class="page-navigator">
+                        @for (int i = 0; i <= Model.AnnouncementsCount / 5; i++)
+                        {
+                            <div class="page-number @(i == 0 ? "active" : string.Empty)" data-page-number="@(i+1)">@(i+1)</div>
                         }
                     </div>
                 </div>
@@ -402,6 +395,19 @@
             $('.nav-header-bar').removeClass('nav-header-bar-fixed');
         }
     });
+
+    $(".page-number").click(function () {
+        if ($(this).hasClass("active")) {
+            return;
+        }
+
+        $(".page-number").removeClass("active");
+        $(this).addClass("active");
+        var page = $(this).attr("data-page-number");
+        $.get("Anime/GetAnnouncementsPage", { page: page }, function (data) {
+            $(".anns-list").replaceWith(data);
+        });
+    })
 
     $('.left, .right').click(function () {
         if (scrollEnded == false)

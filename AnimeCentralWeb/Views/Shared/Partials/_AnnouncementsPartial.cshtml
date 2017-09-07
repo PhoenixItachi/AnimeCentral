@@ -1,0 +1,12 @@
+@model List<AnimeCentralWeb.Models.DomainViewModels.AnnouncementViewModel>
+@using AnimeCentralWeb.Utils
+<div class="anns-list">
+    @foreach (var announcement in Model)
+    {
+        <div class="anns-list-item @announcement.Type.GetAnnouncementTypesCssClass() announcement-popup" data-announcement-id="@announcement.Id">
+            <div class="ann-type">@announcement.Type.GetDisplayName()</div>
+            <div class="ann-title">@announcement.Title</div>
+            <div class="ann-author"><span>@announcement.Author.UserName</span>, @announcement.Date.ToString("MMMM dd, yyyy", new System.Globalization.CultureInfo("ro")).ToLower()</div>
+        </div>
+    }
+</div>

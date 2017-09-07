@@ -297,16 +297,29 @@ $(document).on("click", ".edit-anime-btn", function () {
 // Add Anime Partial/Popup Events
 $(document).on('submit', '.add-anime-form', (function (e) {
   e.preventDefault();
+  var form = $(this);
   $.post('/Anime/AddAnime', $(this).serialize(), function (result) {
     alert('Anime adaugat!');
+  }).fail(function (data) {
+    console.log(status);
+    if (data.status == 477)
+      $(form).replaceWith(data.responseText);
+    else
+      alert(data.responseText);
   });
 }));
 
 // Add Announcement Partial/Popup Events
 $(document).on('submit', '.add-announcement-form', (function (e) {
   e.preventDefault();
+  var form = $(this).closest(".content");
   $.post('/Anime/AddAnnouncement', $(this).serialize(), function (result) {
     alert('Anunt adaugat!');
+  }).fail(function (data) {
+    if (data.status == 477)
+      $(form).replaceWith(data.responseText);
+    else
+      alert(data.responseText);
   });
 }));
 
@@ -317,11 +330,11 @@ $(document).on("click", ".add-source", function () {
   $(".remove-source").show();
   source.find(".source-tag").attr("name", "Sources[" + sourcesCurrentCount + "].Label");
   source.find(".source-link").attr("name", "Sources[" + sourcesCurrentCount + "].Link");
-  $(".sources").append(source);
+  $(".sources").not(".local").append(source);
 });
 
 $(document).on("click", ".remove-source", function () {
-  var sourcesCurrentCount = $(".sources .source").length;
+  var sourcesCurrentCount = $(".sources").not(".local").find(".source").length;
 
   if (sourcesCurrentCount == 1)
     return;
@@ -330,18 +343,20 @@ $(document).on("click", ".remove-source", function () {
     $(this).hide();
 
 
-  $(".sources .source").last().remove();
+  $(".sources").not(".local").find(".source").last().remove();
 });
 
 // Edit Episode Partial/PopUp Events
 $(document).on('submit', '.edit-episode-form', function (e) {
   e.preventDefault();
-  $.post('/Anime/EditEpisode', $(this).serialize(),
-    function (result) {
-      alert('Episod a fost salvat!');
-    }
-  ).fail(function () {
-    alert('A aparut o eroare la salvare!');
+  var form = $(this).closest(".content");
+  $.post('/Anime/EditEpisode', $(this).serialize(), function (result) {
+    alert('Episod a fost salvat!');
+  }).fail(function (data) {
+    if (data.status == 477)
+      $(form).replaceWith(data.responseText);
+    else
+      alert(data.responseText);
   });
 });
 
@@ -404,18 +419,28 @@ $(document).on("click", ".by-status .option", function () {
 // Edit Anime Partial/PopUp Events
 $(document).on('submit', '.edit-anime-form', function (e) {
   e.preventDefault();
-  $.post('/Anime/EditAnime', $(this).serialize(),
-    function (result) {
-      alert('Anime editat!');
-    }
-  );
+  var form = $(this).closest(".content");
+  $.post('/Anime/EditAnime', $(this).serialize(), function (result) {
+    alert('Anime editat!');
+  }).fail(function (data) {
+    if (data.status == 477)
+      $(form).replaceWith(data.responseText);
+    else
+      alert(data.responseText);
+  });
 });
 
 // Episode Partial/PopUp Events
 $(document).on("click", ".comment-btn", function () {
   var commentContent = $(this).closest(".comment-input").val();
+  var form = $(this).closest(".new-comment-form");
   $.post("Anime/AddComment", $(this).closest(".new-comment-form").serialize(), function (data) {
     RefreshComments();
+  }).fail(function (data) {
+    if (data.status == 477)
+      $(form).replaceWith(data.responseText);
+    else
+      alert(data.responseText);
   });
 });
 
@@ -440,21 +465,30 @@ $(document).on('click', ".edit-episode", function () {
 // Login & Register Partial/PopUp Events
 $(document).on("submit", ".login-form", function (e) {
   e.preventDefault();
+  var form = $(this).closest(".content");
   $.post('Account/Login', $(this).serialize(), function (data) {
     if (data.success)
       window.location = '/';
+  }).fail(function (data) {
+    if (data.status == 477)
+      $(form).replaceWith(data.responseText);
     else
-      $(".pop-up").append(data);
+      alert(data.responseText);
   });
 });
 
 $(document).on("submit", ".register-form", function (e) {
   e.preventDefault();
+  var form = $(this).closest(".content");
   $.post('/Account/Register', $(this).serialize(), function (data) {
     if (data.success)
       window.location = '/';
+  }).fail(function (data) {
+    if (data.status == 477) {
+      $(form).replaceWith(data.responseText);
+    }
     else
-      $(".pop-up").append(data);
+      alert(data.responseText);
   });
 });
 

@@ -1,6 +1,6 @@
 ﻿@import (inline) "../css/main.css";
 
-.admin-controllers {
+.controls {
     position: fixed;
     top: 20%;
     z-index: 41;
@@ -12,12 +12,22 @@
         color: white;
         font-size: 11px;
         padding: 10px;
+        opacity: .8;
+        cursor: pointer;
+
+        &:hover {
+            opacity: 1;
+        }
 
         i {
             font-size: 20px;
             display: block;
         }
     }
+}
+
+form .validation-summary-errors {
+    color: red;
 }
 
 .anime-popup, .episode-popup {
@@ -164,6 +174,13 @@
                     color: green;
                     background-color: rgba(0,80,0,.2);
                 }
+            }
+        }
+
+        .content-body.add-anime-partial {
+            .add-anime-error {
+                padding: 5px;
+                color: red;
             }
         }
 
@@ -341,6 +358,18 @@
             .episode-commands {
                 display: inline-block;
                 padding: 5px;
+
+                .command {
+                    display: inline-block;
+                    font-size: 14px;
+                    padding: 2px;
+                    cursor: pointer;
+                    opacity: .8;
+
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
             }
 
             .comments, .comment-replies {
@@ -457,6 +486,30 @@
     }
 }
 
+.anns {
+    .page-navigator {
+        text-align: center;
+        padding: 5px;
+
+        .page-number {
+            padding: 3px;
+            background-color: white;
+            border: 1px solid black;
+            display: inline-block;
+            cursor: pointer;
+
+            &.active {
+                background-color: black;
+                color: white;
+            }
+
+            &:hover {
+                background-color: black;
+                color: white;
+            }
+        }
+    }
+}
 .anime {
     .anime-details {
         vertical-align: top;

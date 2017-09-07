@@ -36,7 +36,7 @@ namespace AnimeCentralWeb.Controllers
             }
             var anime = Context.Anime.Include(x => x.Episodes).OrderByDescending(x => x.LatestEpisode)
                 .Where(x => x.Episodes.Count != 0).Take(10).ToList()
-                .Select(x => { x.Episodes = x.Episodes.Take(2).ToList(); return AutoMapper.Map<AnimeViewModel>(x); }).ToList();
+                .Select(x => { x.Episodes = x.Episodes.OrderByDescending(y => y.Date).Take(2).ToList(); return AutoMapper.Map<AnimeViewModel>(x); }).ToList();
 
             var topAnime = await Context.Anime.Include(x => x.Episodes).Select(x => new AnimeViewModel()
             {
@@ -56,7 +56,8 @@ namespace AnimeCentralWeb.Controllers
                 LatestComments = comments,
                 TopAnime = topAnime,
                 TopEpisodes = topEpisodes,
-                LatestAnnouncements = latestAnnouncements
+                LatestAnnouncements = latestAnnouncements,
+                AnnouncementsCount = await Context.Comments.CountAsync()
             };
 
             return View(model);

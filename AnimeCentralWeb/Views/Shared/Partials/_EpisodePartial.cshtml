@@ -1,5 +1,5 @@
 @model AnimeCentralWeb.Models.DomainViewModels.EpisodeViewModel
-
+@inject SignInManager<ApplicationUser> signInManager;
 <div class="content">
     <div class="content-header">
         <div class="title">@Model.Title</div>
@@ -42,25 +42,32 @@
                 }
             </div>
             <div class="episode-commands">
-                <div class="edit-episode" data-episode-id="@Model.Id">Editeaza</div>
+                @if (User.IsInRole("Admin") || User.IsInRole("User"))
+                {
+                    <div class="edit-episode command" data-episode-id="@Model.Id"><i class="fa fa-pencil" aria-hidden="true"></i> Editeaza</div>
+                }
                 @if (Model.Next != -1)
                 {
-                    <div class="episode-popup" data-episode-id="@Model.Next">Urmatorul</div>
+                    <div class="episode-popup command" data-episode-id="@Model.Next">Urmatorul <i class="fa fa-arrow-right" aria-hidden="true"></i></div>
                 }
 
                 @if (Model.Previous != -1)
                 {
-                    <div class="episode-popup" data-episode-id="@Model.Previous">Precendentul</div>
+                    <div class="episode-popup command" data-episode-id="@Model.Previous"><i class="fa fa-arrow-left" aria-hidden="true"></i> Precendentul</div>
                 }
             </div>
             <div class="view-count"><i class="fa fa-eye" aria-hidden="true"></i> Vizionari: @Model.ViewCount</div>
-            <div class="new-comment">
-                <form class="new-comment-form">
-                    <input type="hidden" name="EpisodeId" value="@Model.Id" />
-                    <textarea class="comment-input" name="Content" placeholder="Scrie un comentariu..." />
-                    <div class="comment-btn"><a>Comenteaza</a></div>
-                </form>
-            </div>
+            @if (signInManager.IsSignedIn(User))
+            {
+                <div class="new-comment">
+                    <form class="new-comment-form">
+                        <div asp-validation-summary="All"></div>
+                        <input type="hidden" name="EpisodeId" value="@Model.Id" />
+                        <textarea class="comment-input" name="Content" placeholder="Scrie un comentariu..." />
+                        <div class="comment-btn"><a>Comenteaza</a></div>
+                    </form>
+                </div>
+            }
             <div class="comments-container"></div>
         </div>
     </div>

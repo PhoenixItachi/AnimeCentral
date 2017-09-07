@@ -11,5 +11,6 @@ namespace AnimeCentralWeb.Models
         public List<AnimeViewModel> TopAnime { get; set; }
         public List<EpisodeViewModel> TopEpisodes { get; set; }
         public List<AnnouncementViewModel> LatestAnnouncements { get; set; }
+        public int AnnouncementsCount;
     }
 }

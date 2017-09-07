@@ -11,6 +11,7 @@
     </div>
     <div class="content-body add-episode-partial">
         <form class="add-announcement-form">
+            <div asp-validation-summary="All"></div>
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="AuthorId"/>
             <div class="form-group">

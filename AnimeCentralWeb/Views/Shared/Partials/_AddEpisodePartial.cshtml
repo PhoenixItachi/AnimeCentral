@@ -10,6 +10,7 @@
     </div>
     <div class="content-body add-episode-partial">
         <form class="add-episode-form">
+            <div asp-validation-summary="All"></div>
             <input type="hidden" asp-for="AnimeId" />
             <div class="form-group">
                 <label asp-for="Order"></label>
@@ -27,7 +28,7 @@
                 </div>
             </div>
 
-            <div class="sources form-inline">
+            <div class="sources local form-inline">
                 <div class="source">
                     <label>Sursa locala:</label><input name="LocalSource" class="episode-local-file" type="file" />
                 </div>
@@ -40,6 +41,7 @@
 
         $(document).on("submit", '.add-episode-form', function (e) {
             e.preventDefault();
+            var form = $(this).closest(".content");
             var data = new FormData(this);
             $.ajax({
                 type: "POST",
@@ -50,7 +52,10 @@
             }).done(function (data) {
                 alert('Episod adaugat!');
             }).fail(function (data) {
-                alert('Episodul exista deja sau o eroare a aparut in procesul de adaugare!');
+                if (data.status == 477)
+                    $(form).replaceWith(data.responseText);
+                else
+                    alert(data.responseText);
             });
 
         });

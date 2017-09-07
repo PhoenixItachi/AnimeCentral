@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using AnimeCentralWeb.Models;
 using AnimeCentralWeb.Models.AccountViewModels;
 using AnimeCentralWeb.Services;
+using AnimeCentralWeb.Utils;
 
 namespace AnimeCentralWeb.Controllers
 {
@@ -85,6 +86,7 @@ namespace AnimeCentralWeb.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+            Response.StatusCode = AnimeUtils.PartialStatusCode;
             return PartialView("Partials/_LoginPartial", model);
         }
 
@@ -119,14 +121,19 @@ namespace AnimeCentralWeb.Controllers
                     //var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User created a new account with password.");
-                    return Json(new { success = true });
+                    result = await _userManager.AddToRoleAsync(user, "User");
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        _logger.LogInformation(3, "User created a new account with password.");
+                        return Json(new { success = true });
+                    }
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
+            Response.StatusCode = AnimeUtils.PartialStatusCode;
             return PartialView("Partials/_RegisterPartial", model);
         }
 
