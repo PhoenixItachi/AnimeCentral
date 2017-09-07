@@ -28,6 +28,7 @@
                             <label asp-for="NoOfEpisodes"></label>: <span class="noOfEpisodes">@Model.NoOfEpisodes</span><br />
                             <label asp-for="Status"></label>: <span class="noOfEpisodes">@Model.Status</span><br />
                             <label asp-for="Synonyms"></label>: <span class="noOfEpisodes">@Model.Synonyms</span><br />
+                            <label asp-for="Genres"></label>: <span class="noOfEpisodes">@Model.Genres</span><br />
                         </div>
                     </div>
                 </td>
@@ -36,7 +37,7 @@
                         <tr>
                             <td data-tab-target="#1" class="tab-label active">Descriere<hr /></td>
                             <td data-tab-target="#2" class="tab-label">Episoade<hr /></td>
-                            <td data-tab-target="#3" class="tab-label">Recenzii<hr /></td>
+                            @*<td data-tab-target="#3" class="tab-label">Recenzii<hr /></td>*@
                         </tr>
                     </table>
                     <div class="tabs">
@@ -56,10 +57,10 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="tab" data-tab-id="#3">
+                        @*<div class="tab" data-tab-id="#3">
                             Recenzii
                             <div class="tab-commands"></div>
-                        </div>
+                        </div>*@
                     </div>
                 </td>
             </tr>

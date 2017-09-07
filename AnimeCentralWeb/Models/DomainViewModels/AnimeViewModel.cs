@@ -49,6 +49,7 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         [Display(Name = "Rezumat")]
         public string Synopsis { get; set; }
 
+        [Display(Name = "Genuri")]
         [Required(ErrorMessage = AnimeUtils.FormErrorRequiredMessage)]
         public string Genres { get; set; }
 
