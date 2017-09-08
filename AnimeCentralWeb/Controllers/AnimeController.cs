@@ -258,6 +258,13 @@ namespace AnimeCentralWeb.Controllers
                 return PartialView("Partials/_AddEpisodePartial", model);
             }
 
+            if(model.Sources.Count == 0 && model.LocalSource == null)
+            {
+                Response.StatusCode = AnimeUtils.PartialStatusCode;
+                ModelState.AddModelError(string.Empty, "Este nevoie de cel putin o sursa locala sau externa.");
+                return PartialView("Partials/_AddEpisodePartial", model);
+            }
+
             var anime = await Context.Anime.Include(x => x.Episodes).FirstOrDefaultAsync(x => x.Id == model.AnimeId);
             if (anime == null)
                 return NotFound("Anime-ul nu exista.");
@@ -268,7 +275,7 @@ namespace AnimeCentralWeb.Controllers
             var episode = AutoMapper.Map<Episode>(model);
             episode.Sources = model.Sources.Select(x => AutoMapper.Map<Source>(x)).ToList();
 
-            var video = Request.Form.Files["LocalSource"];
+            var video = model.LocalSource;
             if (video != null && video.Length != 0)
             {
                 if (!VideoUtils.VideoAcceptedFormats.Contains(video.ContentType.ToLower()))

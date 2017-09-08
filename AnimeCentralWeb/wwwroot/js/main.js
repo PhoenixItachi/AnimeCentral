@@ -301,7 +301,6 @@ $(document).on('submit', '.add-anime-form', (function (e) {
   $.post('/Anime/AddAnime', $(this).serialize(), function (result) {
     alert('Anime adaugat!');
   }).fail(function (data) {
-    console.log(status);
     if (data.status == 477)
       $(form).replaceWith(data.responseText);
     else

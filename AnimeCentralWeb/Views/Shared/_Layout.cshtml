@@ -54,18 +54,18 @@
             @if (!User.Identity.IsAuthenticated)
             {
                 <div class="command register-account">
-                    <i class="fa fa-registered" aria-hidden="true"></i>
+                    <i class="fa fa-fw fa-registered" aria-hidden="true"></i>
                     <span>Inregistreaza-te</span>
                 </div>
                 <div class="command login-account">
-                    <i class="fa fa-registered" aria-hidden="true"></i>
+                    <i class="fa fa-fw fa-sign-in" aria-hidden="true"></i>
                     <span>Logeaza-te</span>
                 </div>
             }
             else
             {
                 <div class="command logout-account" onclick="$('#logout-form').submit()">
-                    <i class="fa fa-registered" aria-hidden="true"></i>
+                    <i class="fa fa-sign-out" aria-hidden="true"></i>
                     <span>Logout</span>
                     <form method="post" asp-action="Logout" asp-controller="Account" id="logout-form" asp-antiforgery="true"></form>
                 </div>

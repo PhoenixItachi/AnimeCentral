@@ -16,7 +16,7 @@
                     @{
                         @foreach (var source in Model.Sources)
                         {
-                            <td style="display:table-cell" data-tab-target="#@(Model.Sources.IndexOf(source))" class="tab-label @(Model.Sources.IndexOf(source) == 0 ? "active" : "")">@source.Label<hr /></td>
+                            <td data-tab-target="#@(Model.Sources.IndexOf(source))" class="tab-label @(Model.Sources.IndexOf(source) == 0 ? "active" : "")">@source.Label<hr /></td>
                         }
                     }
                 </tr>
@@ -33,7 +33,7 @@
                         }
                         else
                         {
-                            <video width="100%" height="100%" controls preload="auto">
+                            <video width="100%" height="100%" controls preload="metadata">
                                 <source src="/Anime/VideoStream/@Model.Id" type="video/mp4" />
                                 <source src="/Anime/VideoStream/@Model.Id" type="video/ogg" />
                             </video>
@@ -44,16 +44,17 @@
             <div class="episode-commands">
                 @if (User.IsInRole("Admin") || User.IsInRole("User"))
                 {
-                    <div class="edit-episode command" data-episode-id="@Model.Id"><i class="fa fa-pencil" aria-hidden="true"></i> Editeaza</div>
-                }
-                @if (Model.Next != -1)
-                {
-                    <div class="episode-popup command" data-episode-id="@Model.Next">Urmatorul <i class="fa fa-arrow-right" aria-hidden="true"></i></div>
+                    <div class="edit-episode command" data-episode-id="@Model.Id" title="Editeaza Episodul"><i class="fa fa-pencil" aria-hidden="true"></i></div>
                 }
 
                 @if (Model.Previous != -1)
                 {
-                    <div class="episode-popup command" data-episode-id="@Model.Previous"><i class="fa fa-arrow-left" aria-hidden="true"></i> Precendentul</div>
+                    <div class="episode-popup command" data-episode-id="@Model.Previous" title="Episodul Precendent"><i class="fa fa-arrow-left" aria-hidden="true"></i></div>
+                }
+
+                @if (Model.Next != -1)
+                {
+                    <div class="episode-popup command" data-episode-id="@Model.Next" title="Urmatorul Episod"><i class="fa fa-arrow-right" aria-hidden="true"></i></div>
                 }
             </div>
             <div class="view-count"><i class="fa fa-eye" aria-hidden="true"></i> Vizionari: @Model.ViewCount</div>

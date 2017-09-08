@@ -1,4 +1,5 @@
 ﻿using AnimeCentralWeb.Utils;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -27,6 +28,9 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         public int Next { get; set; }
 
         public int Previous { get; set; }
+
+        [Display(Name = "Sursa locala")]
+        public IFormFile LocalSource { get; set; }
 
         public AnimeViewModel Anime { get; set; }
         public virtual List<SourceViewModel> Sources { get; set; }

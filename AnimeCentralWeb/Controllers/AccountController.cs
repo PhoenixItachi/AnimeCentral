@@ -80,6 +80,7 @@ namespace AnimeCentralWeb.Controllers
                 }
                 else
                 {
+                    Response.StatusCode = AnimeUtils.PartialStatusCode;
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return PartialView("Partials/_LoginPartial", model);
                 }
