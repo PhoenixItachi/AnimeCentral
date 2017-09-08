@@ -54,6 +54,7 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         public string Genres { get; set; }
 
         public int AnimeViews { get; set; }
+        public int TranslatedEpisodes { get; set; }
 
         public List<EpisodeViewModel> Episodes { get; set; }
     }

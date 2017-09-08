@@ -25,7 +25,7 @@
                             </div>
                         </div>
                         <div class="details">
-                            <label asp-for="NoOfEpisodes"></label>: <span class="noOfEpisodes">@Model.NoOfEpisodes</span><br />
+                            <label asp-for="NoOfEpisodes"></label>: <span class="noOfEpisodes">@(Model.NoOfEpisodes == 0 ? "?" : Model.NoOfEpisodes.ToString())</span><br />
                             <label asp-for="Status"></label>: <span class="noOfEpisodes">@Model.Status</span><br />
                             <label asp-for="Synonyms"></label>: <span class="noOfEpisodes">@Model.Synonyms</span><br />
                             <label asp-for="Genres"></label>: <span class="noOfEpisodes">@Model.Genres</span><br />
@@ -48,7 +48,17 @@
                             <div class="anime-episodes-list">
                                 @foreach (var episode in Model.Episodes)
                                 {
-                                    <div class="anime-episode episode-popup" data-episode-id="@episode.Id">Episodul #@episode.Order@(string.IsNullOrEmpty(episode.Title) ? "" : ": " + episode.Title)</div>
+                                    <div class="anime-episode episode-popup" data-episode-id="@episode.Id">
+                                        <div class="left-part">Episodul #@episode.Order@(string.IsNullOrEmpty(episode.Title) ? "" : ": " + episode.Title)</div>
+                                        <div class="right-part">
+                                            @episode.Date.ToString("d MMM,yyyy", new System.Globalization.CultureInfo("ro")).Replace(".", string.Empty).ToLower()
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <div class="edit-episode command" data-episode-id="@Model.Id" title="Editeaza Episodul"><i class="fa fa-pencil" aria-hidden="true"></i></div>
+                                            }
+                                        </div>
+
+                                    </div>
                                 }
                             </div>
                             @if (User.IsInRole("Admin"))

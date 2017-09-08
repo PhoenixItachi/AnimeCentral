@@ -38,7 +38,9 @@ namespace AnimeCentralWeb.Controllers
         public async Task<ActionResult> GetAllAnime()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            var model = Context.Anime.Select(x => AutoMapper.Map<Anime, AnimeViewModel>(x)).ToList();
+            var model = await Context.Anime.Select(x => AutoMapper.Map<Anime, AnimeViewModel>(x)).ToListAsync();
+            model.ForEach(x => x.TranslatedEpisodes = Context.Episodes.Count(y => y.AnimeId == x.Id));
+
             return PartialView("Partials/_AnimeList", model);
         }
 

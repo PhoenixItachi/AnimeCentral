@@ -46,7 +46,7 @@
                             <img src="apple-touch-icon-256.png" width="25" />
                         </a>
                         <div class="anime-name">@anime.Title </div>
-                        <div class="anime-status">@anime.TranslateStatus.GetDisplayName()</div>
+                        <div class="anime-status">@anime.TranslateStatus.GetDisplayName() (@(anime.TranslatedEpisodes)/@(anime.NoOfEpisodes == 0 ? "?" : anime.NoOfEpisodes.ToString()))</div>
                     </div>
                 </div>
             }

@@ -181,7 +181,7 @@ function srcFacebookFormat(width, height) {
   return "https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fwiensub%2F&tabs&width=" + width + "&height=" + height + "&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId=531637330233211";
 }
 
-
+var searchTimeOut;
 $(document).on("input", ".add-anime-partial .anime-search-input", function () {
   var partial = $(".add-anime-partial");
   var spinner = partial.find(".spinner");

@@ -178,7 +178,9 @@ form .validation-summary-errors {
 
             form {
                 padding: 5px;
-
+                textarea{
+                    resize: vertical;
+                }
                 .saveCommand {
                     width: 100%;
                     padding: 5px;
@@ -652,8 +654,23 @@ form .validation-summary-errors {
 
             .anime-episode {
                 padding-left: 5px;
+                padding-right: 5px;
                 background-color: rgba(0,0,0,.6);
                 margin-bottom: 2px;
+                display: flex;
+                justify-content: space-between;
+
+                .left-part {
+                    display: inline-block;
+                }
+
+                .right-part {
+                    display: inline-block;
+
+                    div {
+                        display: inline-block;
+                    }
+                }
 
                 &:hover {
                     background-color: rgba(0,0,0,1);
