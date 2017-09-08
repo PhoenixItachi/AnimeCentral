@@ -20,13 +20,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.min.css" />
     <link rel="stylesheet" href="~/css/site.min.css">
     <link rel="manifest" href="~/manifest.json">
     <title>@ViewData["Title"] - @User.Identity.Name - Anime Central</title>
 
     <!-- Imported js and css -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
     <!-- My custom js and css -->
     <script src="~/site.min.js"></script>
 
@@ -96,7 +97,7 @@
 
     <script>
         $(".add-anime").click(function () {
-            $(".pop-up").css("z-index", 300);
+            $(".pop-up").css("z-index", 41);
             $(".pop-up").css("opacity", 1);
             $.get("/Anime/GetAddAnimePartial", function (data) {
                 $(".pop-up").append(data);
@@ -104,7 +105,7 @@
         });
 
         $(".add-announcement").click(function () {
-            $(".pop-up").css("z-index", 300);
+            $(".pop-up").css("z-index", 41);
             $(".pop-up").css("opacity", 1);
             $.get("/Anime/GetAddAnnouncementPartial", function (data) {
                 $(".pop-up").append(data);
@@ -112,7 +113,7 @@
         });
 
         $(".register-account").click(function () {
-            $(".pop-up").css("z-index", 300);
+            $(".pop-up").css("z-index", 41);
             $(".pop-up").css("opacity", 1);
             $.get("/Account/Register", function (data) {
                 $(".pop-up").append(data);
@@ -120,7 +121,7 @@
         });
 
         $(".login-account").click(function () {
-            $(".pop-up").css("z-index", 300);
+            $(".pop-up").css("z-index", 41);
             $(".pop-up").css("opacity", 1);
             $.get("/Account/Login", function (data) {
                 $(".pop-up").append(data);
@@ -132,7 +133,7 @@
             if (clear == "true")
                 $(".pop-up").find(".content").not(".spinner-container").remove();
 
-            $(".pop-up").css("z-index", 300);
+            $(".pop-up").css("z-index", 41);
             $(".pop-up").css("opacity", 1);
             $.get("Anime/GetAllAnime", function (data) {
                 $(".pop-up").append(data);
@@ -165,7 +166,7 @@
             if (clear == "true")
                 $(".pop-up").find(".content").not(".spinner-container").remove();
 
-            $(".pop-up").css("z-index", 300);
+            $(".pop-up").css("z-index", 41);
             $(".pop-up").css("opacity", 1);
             if (animeId != null) {
                 $.get("Anime/GetAnimeByIdPartial?id=" + animeId, function (data) {
@@ -179,7 +180,7 @@
         $(document).on("click", ".episode-popup", function (event) {
             event.stopPropagation();
             var episodeId = $(this).attr("data-episode-id");
-            $(".pop-up").css("z-index", 300);
+            $(".pop-up").css("z-index", 41);
             $(".pop-up").css("opacity", 1);
             $.get("Anime/GetEpisodePartial?id=" + episodeId, function (data) {
                 $(".pop-up .content").each(function () {
@@ -195,7 +196,7 @@
         $(document).on("click", ".announcement-popup", function (event) {
             event.stopPropagation();
             var announcementId = $(this).attr("data-announcement-id");
-            $(".pop-up").css("z-index", 300);
+            $(".pop-up").css("z-index", 41);
             $(".pop-up").css("opacity", 1);
             $.get("Anime/GetAnnouncementPartial?id=" + announcementId, function (data) {
                 $(".pop-up").append(data);

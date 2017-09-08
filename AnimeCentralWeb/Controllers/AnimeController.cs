@@ -57,6 +57,12 @@ namespace AnimeCentralWeb.Controllers
                     Response.StatusCode = AnimeUtils.PartialStatusCode;
                     return PartialView("_Partials/_AddAnimeForm", model);
                 }
+
+                var genres = model.Genres.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim());
+                if (genres.Any(x => !AnimeUtils.Genres.Select(y => y.ToLower()).Contains(x.Trim().ToLower())))
+                    return BadRequest("Unul sau mai multe genuri invalide.");
+
+                model.Genres = string.Join(", ", genres);
                 var anime = AutoMapper.Map<AnimeViewModel, Anime>(model);
 
                 anime.TranslateStatus = TranslateStatus.InCursDeTraducere;

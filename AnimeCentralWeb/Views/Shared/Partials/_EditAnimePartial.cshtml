@@ -1,4 +1,5 @@
 @model AnimeCentralWeb.Models.DomainViewModels.AnimeViewModel
+@using AnimeCentralWeb.Utils
 
 <div class="content">
     <div class="content-header">
@@ -50,7 +51,7 @@
 
             <div class="form-group">
                 <label asp-for="Genres"></label>
-                <input class="form-control" asp-for="Genres" />
+                <input class="form-control" asp-for="Genres" data-list="@string.Join(",",AnimeUtils.Genres)" data-multiple/>
             </div>
 
             <div class="form-group">
