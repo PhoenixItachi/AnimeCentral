@@ -419,8 +419,11 @@ $(document).on("click", ".by-status .option", function () {
 $(document).on('submit', '.edit-anime-form', function (e) {
   e.preventDefault();
   var form = $(this).closest(".content");
+  var body = $(this).closest(".content-body");
+  $(body).showSpinner();
   $.post('/Anime/EditAnime', $(this).serialize(), function (result) {
     alert('Anime editat!');
+    $(body).hideSpinner();
   }).fail(function (data) {
     if (data.status == 477)
       $(form).replaceWith(data.responseText);
@@ -533,3 +536,39 @@ $(document).on("click", ".genre-filter .search-button", function () {
 $(document).on("click", ".mal-source", function (event) {
   event.stopPropagation();
 });
+
+
+// Extensions
+
+// Spinner
+$.fn.showSpinner = function () {
+  var container = $(this);
+  var spinner = $(container).children(".spinner-injected");
+  if ($(spinner).length != 0) {
+    $(spinner).show();
+    return;
+  }
+  else {
+    var spinner = CreateSpinner();
+    $(container).append(spinner);
+
+  }
+}
+
+$.fn.hideSpinner = function () {
+  var container = $(this);
+  var spinner = $(container).children(".spinner-injected");
+  if (spinner.length != 0)
+    $(spinner.hide());
+};
+
+function CreateSpinner() {
+  return $("<div class='spinner-injected'>"
+    + "<div class='spinner'>"
+    + "<div class='bounce1'></div>"
+    + "<div class='bounce2'></div>"
+    + "<div class='bounce3'></div>"
+    + "<span> Se incarca...</span>"
+    + "</div>"
+    + "</div>");
+}

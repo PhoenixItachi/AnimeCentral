@@ -1,5 +1,62 @@
 ﻿@import (inline) "../css/main.css";
 
+
+.spinner-injected {
+    position: absolute;
+    background-color: rgba(0, 0, 0, .4);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+
+    .spinner {
+        background-color: white;
+        position: relative;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+
+        div {
+            background-color: black;
+            padding: 5px;
+        }
+
+        span {
+            color: black;
+            font-weight: bold;
+            display: block;
+        }
+    }
+}
+.pages {
+    .page-container{
+        position: relative;
+    }
+    .page-navigator {
+        text-align: center;
+        padding: 5px;
+
+        .page-number {
+            padding: 3px;
+            background-color: white;
+            border: 1px solid black;
+            display: inline-block;
+            cursor: pointer;
+
+            &.active {
+                background-color: black;
+                color: white;
+            }
+
+            &:hover {
+                background-color: black;
+                color: white;
+            }
+        }
+    }
+}
+
+
 .controls {
     position: fixed;
     top: 20%;
@@ -499,34 +556,17 @@ form .validation-summary-errors {
                 background-color: black;
                 padding: 5px;
             }
+
+            span{
+                color: black; 
+                font-weight: bold;
+                display: block;
+            }
         }
     }
 }
 
 .anns {
-    .page-navigator {
-        text-align: center;
-        padding: 5px;
-
-        .page-number {
-            padding: 3px;
-            background-color: white;
-            border: 1px solid black;
-            display: inline-block;
-            cursor: pointer;
-
-            &.active {
-                background-color: black;
-                color: white;
-            }
-
-            &:hover {
-                background-color: black;
-                color: white;
-            }
-        }
-    }
-
     .anns-list {
         .anns-list-item {
             position: relative;

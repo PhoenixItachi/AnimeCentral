@@ -139,9 +139,9 @@
                 </div>
                 <!-- ANIME RECOMANDATION SLIDESHOW END -->
                 <!-- ANNOUNCEMETNS START -->
-                <div class="anns">
+                <div class="anns pages">
                     <div class="anns-header"><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i> NEWS</div>
-                    <div class="anns-list">
+                    <div class="anns-list page-container">
                         @foreach (var announcement in Model.LatestAnnouncements)
                         {
                             <div class="anns-list-item @announcement.Type.GetAnnouncementTypesCssClass() announcement-popup" data-announcement-id="@announcement.Id">
@@ -403,14 +403,16 @@
     });
 
     $(".page-number").click(function () {
+        var pagesContainer = $(this).closest(".pages");
+        var page = $(pagesContainer).find(".page-container");
         if ($(this).hasClass("active")) {
             return;
         }
-
-        $(".page-number").removeClass("active");
+        $(pagesContainer).find(".page-number").removeClass("active");
         $(this).addClass("active");
-        var page = $(this).attr("data-page-number");
-        $.get("Anime/GetAnnouncementsPage", { page: page }, function (data) {
+        $(page).showSpinner();
+        var pageNumber = $(this).attr("data-page-number");
+        $.get("Anime/GetAnnouncementsPage", { page: pageNumber }, function (data) {
             $(".anns-list").replaceWith(data);
         });
     })

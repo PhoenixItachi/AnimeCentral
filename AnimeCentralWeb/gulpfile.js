@@ -9,7 +9,9 @@ var gulp = require("gulp"),
   del = require("del"),
   gutil = require('gulp-util'),
   bundleconfig = require("./bundleconfig.json"),
-  less = require('gulp-less');
+  less = require('gulp-less'),
+  plumber = require('gulp-plumber'),
+  notify = require('gulp-notify');
 var regex = {
   css: /\.css$/,
   html: /\.(html|htm)$/,
@@ -20,13 +22,17 @@ var regex = {
 gulp.task("min", ["min:js", "min:css", "min:html", "less"]);
 
 gulp.task("min:js", function () {
+
   var tasks = getBundles(regex.js).map(function (bundle) {
     return gulp.src(bundle.inputFiles, { base: "." })
+      .pipe(plumber({
+        errorHandler: reportError
+      }))
       .pipe(concat(bundle.outputFileName))
       .pipe(uglify())
-      .pipe(gulp.dest("."));
+      .pipe(gulp.dest("."))
+      .on('error', reportError);
   });
-  return merge(tasks);
 });
 
 gulp.task("min:css", function () {
@@ -133,4 +139,15 @@ function getBundles(regexPattern) {
   return bundleconfig.filter(function (bundle) {
     return regexPattern.test(bundle.outputFileName);
   });
+}
+
+var reportError = function (error) {
+  notify({
+    title: 'Gulp Task Error',
+    message: 'Check the console.'
+  }).write(error);
+
+  console.log(error.toString());
+
+  this.emit('end');
 }

@@ -1,6 +1,6 @@
 @model List<AnimeCentralWeb.Models.DomainViewModels.AnnouncementViewModel>
 @using AnimeCentralWeb.Utils
-<div class="anns-list">
+<div class="anns-list page-container">
     @foreach (var announcement in Model)
     {
         <div class="anns-list-item @announcement.Type.GetAnnouncementTypesCssClass() announcement-popup" data-announcement-id="@announcement.Id">
