@@ -1,0 +1,15 @@
+{
+  "name": "bbcode",
+  "homepage": "https://github.com/DigitalRootsCRM/bbcode",
+  "version": "0.1.0",
+  "_release": "0.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.1.0",
+    "commit": "a5ff762875dc2177cbdf797282ae73ffceb35f15"
+  },
+  "_source": "https://github.com/DigitalRootsCRM/bbcode.git",
+  "_target": "0.1.0",
+  "_originalSource": "bbcode",
+  "_direct": true
+}

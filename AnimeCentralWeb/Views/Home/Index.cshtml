@@ -320,10 +320,16 @@
             <div class="messages-box">
             </div>
             <div class="message-input-box">
-                <form class="message-form">
-                    <textarea type="text" class="message-input" placeholder="Trimite mesaj..."></textarea>
-                </form>
-                
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <div class="message-login-needed">Trebuie sa te <a class="command login-account" style="text-decoration:none; cursor:pointer">logezi</a> daca vrei sa folosesti chat-ul.</div>
+                }
+                else
+                {
+                    <form class="message-form">
+                        <textarea type="text" class="message-input" placeholder="Trimite mesaj..."></textarea>
+                    </form>
+                }
             </div>
         </div>
     </div>

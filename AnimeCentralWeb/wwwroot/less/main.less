@@ -25,11 +25,11 @@
         transition: max-height .5s;
         max-height: 0px;
         overflow: hidden;
-        background-color: white;
         box-shadow: -1px -1px .5px black;
         position: relative;
+        background: url("../images/chat-back.png") no-repeat -50% bottom, white;
 
-        .spinner-injected{
+        .spinner-injected {
             display: none;
         }
 
@@ -54,12 +54,18 @@
             margin-bottom: 5px;
             border: 1px solid black;
             overflow-y: auto;
+            background-color: rgba(255,255,255, .7);
 
             .message-entry {
                 padding: 10px;
                 border-bottom: 1px solid black;
                 text-align: left;
                 position: relative;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: rgba(238,238,238,.9);
+                }
 
                 .message-user {
                     display: inline-block;
@@ -70,6 +76,7 @@
                         border-radius: 30px;
                         border: 2px solid black;
                         display: inline-block;
+                        padding: 0px;
                     }
 
                     .user-name {
@@ -81,6 +88,13 @@
 
                 .message-content {
                     display: inline-block;
+                    word-break: break-all;
+
+                    .bbcode_image {
+                        width: 100%;
+                        padding: 2px;
+                        display: block;
+                    }
                 }
 
                 .message-date {
@@ -91,6 +105,7 @@
                     font-size: 10px;
                     color: rgba(51, 51, 51, .4);
                     cursor: pointer;
+
                     &:hover {
                         color: rgba(51, 51, 51, 1);
                     }
@@ -109,12 +124,14 @@
                 border: 1px solid black;
                 border-radius: 2px;
                 outline: none;
+                background-color: rgba(255,255,255, .7);
             }
         }
 
         &.chat-showed {
             max-height: 550px;
-            .spinner-injected{
+
+            .spinner-injected {
                 display: initial;
             }
         }
@@ -148,10 +165,12 @@
         }
     }
 }
+
 .pages {
-    .page-container{
+    .page-container {
         position: relative;
     }
+
     .page-navigator {
         text-align: center;
         padding: 5px;
@@ -205,7 +224,7 @@
             opacity: 1;
 
             span {
-                width:inherit;
+                width: inherit;
                 font-size: inherit;
             }
         }
@@ -247,7 +266,8 @@ form .validation-summary-errors {
         width: 65%;
         opacity: 0;
         transition: all 250ms linear;
-        @media @mobile, @tablet{
+
+        @media @mobile, @tablet {
             width: 95%;
         }
 
@@ -358,9 +378,11 @@ form .validation-summary-errors {
 
             form {
                 padding: 5px;
-                textarea{
+
+                textarea {
                     resize: vertical;
                 }
+
                 .saveCommand {
                     width: 100%;
                     padding: 5px;
@@ -680,8 +702,8 @@ form .validation-summary-errors {
                 padding: 5px;
             }
 
-            span{
-                color: black; 
+            span {
+                color: black;
                 font-weight: bold;
                 display: block;
             }

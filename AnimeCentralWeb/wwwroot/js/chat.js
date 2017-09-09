@@ -47,6 +47,6 @@ function newMessage(user, message) {
     + "<img src='" + user.image + "' class='profile-pic' />"
     + "<div class='user-name'>" + user.username + ":</div>"
     + "</div>"
-    + "<div class='message-content'>" + message.content + "</div>"
+    + "<div class='message-content'>" + bbcode.render(message.content) + "</div>"
     + "</div>");
 }
