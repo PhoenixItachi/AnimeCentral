@@ -37,8 +37,8 @@
                                     <td class="comment-avatar">  <img src="~/images/DefaultAvatar.jpg" class="component-shadow" /></td>
                                     <td class="comment-details">
                                         <div class="comment-user">
-                                            @comment.User.UserName - @if (userManager.GetUserId(User) == comment.User.Id)
-                                            { <div class="delete-comment" data-comment-id="@reply.Id">Sterge</div> }
+                                            @reply.User.UserName @if (userManager.GetUserId(User) == reply.User.Id)
+                                            {<span> - </span><div class="delete-comment" data-comment-id="@reply.Id">Sterge</div> }
                                         </div>
                                         <div class="comment-content">@reply.Content</div>
                                     </td>

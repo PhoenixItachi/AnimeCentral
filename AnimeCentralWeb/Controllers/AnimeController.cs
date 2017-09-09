@@ -402,7 +402,7 @@ namespace AnimeCentralWeb.Controllers
         [HttpGet]
         public async Task<ActionResult> GetComments(int id)
         {
-            var model = await Context.Comments.Where(x => x.EpisodeId == id).Include(x => x.Replies).Include(x => x.User).Select(x => AutoMapper.Map<CommentViewModel>(x)).ToListAsync();
+            var model = await Context.Comments.Where(x => x.EpisodeId == id).Include(x => x.User).Include(x => x.Replies).ThenInclude(x => x.User).Select(x => AutoMapper.Map<CommentViewModel>(x)).ToListAsync();
             return PartialView("Partials/_CommentsPartial", model);
         }
 

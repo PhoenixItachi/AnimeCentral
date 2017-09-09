@@ -46,10 +46,16 @@
 
     <div class="form-group">
         <label asp-for="Synopsis"></label>
-        <textarea asp-for="Synopsis" class="form-control"></textarea>
+        <textarea asp-for="Synopsis" class="form-control" data-bbcode></textarea>
     </div>
 
     <input type="hidden" asp-for="MalId"/>
 
     <a class="saveCommand" style="text-decoration:none" onclick="$('.add-anime-form').submit()">Adauga</a>
+    <script>
+        $("*[data-bbcode]").each(function () {
+            $(this).val(bbcode.render($(this).val()));
+            $(this).removeAttr("data-bbcode");
+        })
+    </script>
 </form>

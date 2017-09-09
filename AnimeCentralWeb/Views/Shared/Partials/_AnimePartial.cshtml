@@ -1,6 +1,7 @@
 @model AnimeCentralWeb.Models.DomainViewModels.AnimeViewModel
 @using AnimeCentralWeb.Domain
 @using AnimeCentralWeb.Utils
+@using Ganss.XSS
 
 <div class="content">
     <div class="content-header">
@@ -45,7 +46,7 @@
                     </table>
                     <div class="tabs">
                         <div class="tab active" data-tab-id="#1">
-                            <div>@Html.Raw(Model.Synopsis.Replace("\\n", string.Empty))</div>
+                            <div>@Html.Raw(new HtmlSanitizer().Sanitize(Model.Synopsis))</div>
                         </div>
                         <div class="tab" data-tab-id="#2">
                             <div class="anime-episodes-list">
