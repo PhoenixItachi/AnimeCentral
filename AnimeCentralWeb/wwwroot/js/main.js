@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
   var width = $(".place").width();
   $(".place").height(width / 79 * 106);
   $(".score").each(function () {
@@ -644,3 +643,4 @@ function split(val) {
 function extractLast(term) {
   return split(term).pop();
 }
+

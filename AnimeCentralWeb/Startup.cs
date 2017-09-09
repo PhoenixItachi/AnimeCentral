@@ -17,6 +17,7 @@ using AnimeCentralWeb.AutoMapper;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using System.Data.SqlClient;
+using Microsoft.AspNetCore.Http;
 
 namespace AnimeCentralWeb
 {
@@ -62,17 +63,19 @@ namespace AnimeCentralWeb
             });
 
             services.AddMvc();
+            services.AddSignalR();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<UserManager<ApplicationUser>>();
             // Configure AutoMapper
             Mapper.Initialize(c => c.AddProfiles(new[] { typeof(ModelViewToDomainConfigurationProfile), typeof(DomainToModelViewConfigurationProfile) }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -101,10 +104,15 @@ namespace AnimeCentralWeb
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            using (var context = serviceProvider.GetService<AnimeCentralDbContext>()) {
+            app.UseSignalR();
+            var serviceProvider = app.ApplicationServices;
+            using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope()) {
+
+                var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+                var roleManager = scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+                var context = scope.ServiceProvider.GetService<AnimeCentralDbContext>();
+
                 await context.Database.MigrateAsync();
-                var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
-                var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
                 await SetUserRolesAndDefaultUser(context, userManager, roleManager);
             }
                 
