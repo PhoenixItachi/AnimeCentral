@@ -455,8 +455,10 @@ $(document).on("click", ".delete-comment", function () {
   })
 });
 
-$(document).on('click', ".edit-episode", function () {
+$(document).on('click', ".edit-episode", function (e) {
   var episodeId = $(this).attr("data-episode-id");
+  e.stopPropagation();
+  console.log("ASD");
   $.get("Anime/GetEditEpisodePartial?id=" + episodeId, function (data) {
     $(".pop-up").append(data);
   }).fail(function () {

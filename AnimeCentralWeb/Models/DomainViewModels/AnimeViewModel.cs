@@ -35,12 +35,14 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         [Required(ErrorMessage = AnimeUtils.FormErrorRequiredMessage)]
         public string Status { get; set; }
 
+        [Display(Name = "Status Traducere")]
         public TranslateStatus TranslateStatus { get; set; }
 
         [Display(Name = "Coperta")]
         [Required(ErrorMessage = AnimeUtils.FormErrorRequiredMessage)]
         public string Image { get; set; }
 
+        [Display(Name = "Banner")]
         public string BigImage { get; set; }
 
         [Display(Name = "Sinonime")]

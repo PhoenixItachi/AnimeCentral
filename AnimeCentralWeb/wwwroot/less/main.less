@@ -1,6 +1,9 @@
 ﻿@import (inline) "../css/main.css";
 
 
+@mobile: ~"only screen and (max-width: 529px)";
+@tablet: ~"only screen and (min-width: 530px) and (max-width: 949px)";
+
 .spinner-injected {
     position: absolute;
     background-color: rgba(0, 0, 0, .4);
@@ -127,6 +130,9 @@ form .validation-summary-errors {
         width: 65%;
         opacity: 0;
         transition: all 250ms linear;
+        @media @mobile, @tablet{
+            width: 95%;
+        }
 
         &.spinner-container {
             top: 50%;

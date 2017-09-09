@@ -111,6 +111,7 @@ namespace AnimeCentralWeb.Controllers
                 anime.Score = model.Score;
                 anime.EpisodeLength = model.EpisodeLength;
                 anime.BigImage = model.BigImage;
+                anime.TranslateStatus = model.TranslateStatus;
 
                 Context.Update(anime);
                 await Context.SaveChangesAsync();

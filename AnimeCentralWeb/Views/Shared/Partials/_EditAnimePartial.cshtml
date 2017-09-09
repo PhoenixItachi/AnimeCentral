@@ -1,5 +1,6 @@
 @model AnimeCentralWeb.Models.DomainViewModels.AnimeViewModel
 @using AnimeCentralWeb.Utils
+@using AnimeCentralWeb.Domain
 
 <div class="content">
     <div class="content-header">
@@ -66,7 +67,7 @@
 
             <div class="form-group">
                 <label asp-for="TranslateStatus"></label>
-                <input asp-for="TranslateStatus" class="form-control" />
+                <select asp-items="@Html.GetEnumSelectList<TranslateStatus>()" asp-for="TranslateStatus"  class="form-control"></select>
             </div>
 
             <input type="hidden" asp-for="MalId" />
