@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Hubs;
+using System;
 using System.Threading.Tasks;
 
 namespace AnimeCentralWeb.Hubs
@@ -13,26 +14,17 @@ namespace AnimeCentralWeb.Hubs
     {
         private UserManager<ApplicationUser> UserManager;
         private IHttpContextAccessor HttpContextAccessor;
-        private AnimeCentralDbContext Context;
-        public ChatHub(UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor, AnimeCentralDbContext context)
+        public ChatHub(UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
             UserManager = userManager;
             HttpContextAccessor = httpContextAccessor;
-            Context = context;
         }
         
-        public async void join() {
-            var user = await UserManager.GetUserAsync(HttpContextAccessor.HttpContext.User);
-            if(user != null)
-                Clients.All.broadcastMessage(new { username = user.UserName, image = user.Image}, $"{user.UserName} s-a logat.");
-        }
-
-        public async Task send(string message)
+        public async void send(string message)
         {
             var user = await UserManager.GetUserAsync(HttpContextAccessor.HttpContext.User);
-
             if (user != null)
-                Clients.All.broadcastMessage(new { username = user.UserName, image = user.Image }, message);
+                Clients.All.broadcastMessage(new { username = user.UserName, image = user.Image != null ? user.Image.ToString() : "images/DefaultAvatar.jpg" }, new { content = message, date = DateTime.Now.ToString("d/M/yyyy hh:mm")});
         }
     }
 }

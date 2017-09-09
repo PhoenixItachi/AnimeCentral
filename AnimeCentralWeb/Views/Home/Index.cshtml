@@ -303,12 +303,28 @@
         <span class="show-chat">
             <i class="fa fa-angle-double-up" aria-hidden="true"></i> LIVE CHAT
         </span>
-        <div class="chat">
-            <script id="cid0020000150618151304" data-cfasync="false" async src="https://st.chatango.com/js/gz/emb.js" style="width: 100%;height: 100%;">
+        <div class="chat chat-signalR">
+            @*<script id="cid0020000150618151304" data-cfasync="false" async src="https://st.chatango.com/js/gz/emb.js" style="width: 100%;height: 100%;">
                 {
                     "handle":"wien-subs2", "arch":"js", "styles":{ "a":"000000", "b":100, "c":"FFFFFF", "d":"FFFFFF", "k":"000000", "l":"000000", "m":"000000", "n":"FFFFFF", "p":"10", "q":"000000", "r":100, "fwtickm":1, "showx":0 }
                 }
-            </script>
+            </script>*@
+
+            <div class="chat-header">
+                <div class="chat-title">Anime Central</div>
+                @if (User.Identity.Name != null)
+                {
+                    <div class="chat-user">Bine ai venit, @User.Identity.Name!</div>
+                }
+            </div>
+            <div class="messages-box">
+            </div>
+            <div class="message-input-box">
+                <form class="message-form">
+                    <textarea type="text" class="message-input" placeholder="Trimite mesaj..."></textarea>
+                </form>
+                
+            </div>
         </div>
     </div>
 
@@ -377,9 +393,7 @@
         </div>*@
     <!-- FOOTER END -->
 
-    <div class="chat-signalR">
-
-    </div>
+    
 </body>
 
 </html>
