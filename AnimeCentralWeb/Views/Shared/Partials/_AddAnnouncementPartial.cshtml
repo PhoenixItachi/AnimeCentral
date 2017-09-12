@@ -8,7 +8,7 @@
         <i class="fa fa-times close-pop-up command" aria-hidden="true"></i>
     </div>
     <div class="content-body add-announcement-partial">
-        <form class="add-announcement-form">
+        <form class="add-announcement-form custom-form">
             <div asp-validation-summary="All"></div>
             <div class="form-group">
                 <label asp-for="Title"></label>
@@ -23,7 +23,7 @@
                 <textarea type="text" asp-for="Content" class="form-control" />
             </div>
 
-            <a class="saveCommand" style="text-decoration:none" onclick="$('.add-announcement-form').submit()">Adauga</a>
+            <button type="submit" class="btn btn-save">Adauga</button>
         </form>
     </div>
 </div>

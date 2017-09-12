@@ -10,6 +10,7 @@ namespace AnimeCentralWeb.Models.AccountViewModels
     {
         [Required]
         [EmailAddress]
+        [Display(Prompt = "Email Account...")]
         public string Email { get; set; }
     }
 }

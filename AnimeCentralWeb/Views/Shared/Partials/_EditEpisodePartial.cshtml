@@ -10,7 +10,7 @@
         <div class="close-pop-up command"><i class="fa fa-times" aria-hidden="true"></i></div>
     </div>
     <div class="content-body edit-episode-partial">
-        <form class="edit-episode-form">
+        <form class="edit-episode-form custom-form">
             <div asp-validation-summary="All"></div>
             <input type="hidden" asp-for="AnimeId" />
             <input type="hidden" asp-for="Id" />
@@ -37,7 +37,7 @@
                     <label asp-for="LocalSource"></label><input asp-for="LocalSource" class="episode-local-file" type="file" />
                 </div>
             </div>
-            <a class="saveCommand" style="text-decoration:none" onclick="$('.edit-episode-form').submit()">Salveaza</a>
+            <button class="btn btn-save" type="submit">Salveaza</button>
         </form>
     </div>
     <script>

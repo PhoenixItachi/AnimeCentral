@@ -1,5 +1,6 @@
 ﻿@model AnimeCentralWeb.Models.HomeViewModel
 @using AnimeCentralWeb.Utils
+@using Ganss.XSS
 <!DOCTYPE html>
 @{
     Layout = "_Layout";
@@ -128,8 +129,8 @@
                                                 </a>
                                             </span>
                                         </div>
-                                        <div class="anime-description">
-                                            @Html.Raw(rec.Synopsis.Replace("\\n", string.Empty))
+                                        <div class="anime-description" data-bbcode>
+                                            @Html.Raw(new HtmlSanitizer().Sanitize(rec.Synopsis))
                                         </div>
                                     </div>
                                 </div>
@@ -180,12 +181,12 @@
                             <div class="genre-list">
                                 @foreach (var genre in AnimeCentralWeb.Utils.AnimeUtils.Genres.Take(15))
                                 {
-                                    <span>@genre</span>
+                                    <span class="bubble bubble-white">@genre</span>
                                 }
                                 <div class="more-genre" style="display: none;">
                                     @foreach (var genre in AnimeCentralWeb.Utils.AnimeUtils.Genres.Skip(15))
                                     {
-                                        <span>@genre</span>
+                                        <span class="bubble bubble-white">@genre</span>
                                     }
                                 </div>
                                 <i class="fa fa-angle-double-down more-genre-btn" aria-hidden="true"></i>
@@ -401,6 +402,11 @@
 
 
 <script>
+    $("*[data-bbcode]").each(function () {
+            $(this).val(bbcode.render($(this).val()));
+            $(this).html(bbcode.render($(this).html()));
+        $(this).removeAttr("data-bbcode");
+    })
     var menuHeight = $('.nav-header-bar').height();
     var scrollEnded = true;
 

@@ -53,6 +53,7 @@ namespace AnimeCentralWeb
             {
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
+                options.SignIn.RequireConfirmedEmail = true;
             })
                 .AddEntityFrameworkStores<AnimeCentralDbContext>()
                 .AddDefaultTokenProviders();
@@ -72,6 +73,9 @@ namespace AnimeCentralWeb
             services.AddSingleton<UserManager<ApplicationUser>>();
             // Configure AutoMapper
             Mapper.Initialize(c => c.AddProfiles(new[] { typeof(ModelViewToDomainConfigurationProfile), typeof(DomainToModelViewConfigurationProfile) }));
+
+            // Configure SendGrid
+            services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

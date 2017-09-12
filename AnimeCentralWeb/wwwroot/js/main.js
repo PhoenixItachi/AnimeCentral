@@ -281,8 +281,27 @@ $(document).on("click", ".add-episode", function () {
   }).fail(function () {
     alert("A aparut o eroare in adaugarea episodul.");
   });
-
 })
+
+$(document).on("submit", '.add-episode-form', function (e) {
+  e.preventDefault();
+  var form = $(this).closest(".content");
+  $.ajax({
+    type: "POST",
+    url: "/Anime/AddEpisode",
+    data: new FormData(this),
+    processData: false,
+    contentType: false
+  }).done(function (data) {
+    alert('Episod adaugat!');
+  }).fail(function (data) {
+    if (data.status == 477)
+      $(form).replaceWith(data.responseText);
+    else
+      alert(data.responseText);
+  });
+
+});
 
 $(document).on("click", ".edit-anime-btn", function () {
   var animeId = $(this).attr("data-anime-id");
@@ -432,10 +451,10 @@ $(document).on('submit', '.edit-anime-form', function (e) {
 });
 
 // Episode Partial/PopUp Events
-$(document).on("click", ".comment-btn", function () {
-  var commentContent = $(this).closest(".comment-input").val();
+$(document).on("submit", ".new-comment-form", function (event) {
+  event.preventDefault();
   var form = $(this).closest(".new-comment-form");
-  $.post("Anime/AddComment", $(this).closest(".new-comment-form").serialize(), function (data) {
+  $.post("Anime/AddComment", $(this).serialize(), function (data) {
     RefreshComments();
   }).fail(function (data) {
     if (data.status == 477)
@@ -538,6 +557,47 @@ $(document).on("click", ".mal-source", function (event) {
   event.stopPropagation();
 });
 
+// Forgot Password Form
+$(document).on("submit", ".forgot-password-form", function (event) {
+  event.preventDefault();
+  var form = $(this).closest(".content");
+  $.post("Account/ForgotPassword", $(this).serialize(), function (result) {
+    alert("Cerere de resetare a parolei trimisa.");
+  }).fail(function (data) {
+    if (data.status == 477)
+      $(form).replaceWith(data.responseText);
+    else
+      alert(data.responseText);
+  });
+})
+
+$(document).on("click", ".forgot-password-popup", function () {
+  $.get("Account/ForgotPassword", function (result) {
+    $(".pop-up").append(result);
+  });
+});
+
+// Resend Activation Link Form
+$(document).on("submit", ".resend-activation-link", function (event) {
+  event.preventDefault();
+  var form = $(this).closest(".content");
+  $.post("Account/ResendActivationLink", $(this).serialize(), function () {
+    window.location = "/";
+  }).fail(function (data) {
+    if (data.status == 477) {
+      $(form).replaceWith(data);
+    }
+    else {
+      alert(data);
+    }
+  })
+})
+
+$(document).on("click", ".resend-activation-link-popup", function () {
+  $.get("Account/ResendActivationLink", function (result) {
+    $(".pop-up").append(result);
+  });
+});
 
 // Extensions
 

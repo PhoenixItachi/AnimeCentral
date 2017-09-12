@@ -23,8 +23,8 @@
                             @if (User.IsInRole("Admin"))
                             {
                                 <div class="commands">
-                                    <div class="edit-anime-btn command" data-anime-id="@Model.Id">Editeaza</div>
-                                    <select class="set-translate-status command" asp-for="@Model.TranslateStatus" asp-items="@typeof(TranslateStatus).GetEnumSelectList()" data-anime-id="@Model.Id"></select>
+                                    <div class="edit-anime-btn command bubble bubble-lightgreen" data-anime-id="@Model.Id">Editeaza</div>
+                                    <select class="set-translate-status command bubble bubble-lightblue" asp-for="@Model.TranslateStatus" asp-items="@typeof(TranslateStatus).GetEnumSelectList()" data-anime-id="@Model.Id"></select>
                                 </div>
                             }
                         </div>

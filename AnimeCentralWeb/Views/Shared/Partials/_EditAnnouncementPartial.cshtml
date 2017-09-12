@@ -10,7 +10,7 @@
         <i class="fa fa-times close-pop-up command" aria-hidden="true"></i>
     </div>
     <div class="content-body add-episode-partial">
-        <form class="add-announcement-form">
+        <form class="add-announcement-form custom-form">
             <div asp-validation-summary="All"></div>
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="AuthorId"/>
@@ -27,7 +27,7 @@
                 <textarea type="text" asp-for="Content" class="form-control" />
             </div>
 
-            <a class="saveCommand" style="text-decoration:none" onclick="$('.add-announcement-form').submit()">Adauga</a>
+            <button class="btn btn-save" type="submit">Adauga</button>
         </form>
     </div>
 </div>

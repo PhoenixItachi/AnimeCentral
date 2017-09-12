@@ -116,16 +116,14 @@ namespace AnimeCentralWeb.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
-                    // Send an email with this link
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                    //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                    await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                        $"Please confirm your account by clicking this link: <a clicktracking=off href='{callbackUrl}'>link</a>");
                     result = await _userManager.AddToRoleAsync(user, "User");
                     if (result.Succeeded)
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        //await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation(3, "User created a new account with password.");
                         return Json(new { success = true });
                     }
@@ -256,13 +254,43 @@ namespace AnimeCentralWeb.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResendActivationLink()
+        {
+            return PartialView("Partials/_ResendActivationLinkPartial");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResendActivationLink(ForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = AnimeUtils.PartialStatusCode;
+                return PartialView("Partials/_ResendActivationPartial", model);
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            if (user == null)
+                return Ok();
+
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+            await _emailSender.SendEmailAsync(user.Email, "Confirm your account",
+                $"Please confirm your account by clicking this link: <a clicktracking=off href='{callbackUrl}'>link</a>");
+
+            return Ok();
+        }
+
         //
         // GET: /Account/ForgotPassword
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ForgotPassword()
         {
-            return View();
+            return PartialView("Partials/_ForgotPasswordPartial");
         }
 
         //
@@ -276,22 +304,17 @@ namespace AnimeCentralWeb.Controllers
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
-                {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
-                }
+                    return Ok();
 
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
-                // Send an email with this link
-                //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                //var callbackUrl = Url.Action(nameof(ResetPassword), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                //   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
-                //return View("ForgotPasswordConfirmation");
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var callbackUrl = Url.Action(nameof(ResetPassword), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
+                   $"Please reset your password by clicking here: <a clicktracking=off href='{callbackUrl}'>link</a>");
+                return Ok();
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View("Partials/_ForgotPasswordPartial", model);
         }
 
         //

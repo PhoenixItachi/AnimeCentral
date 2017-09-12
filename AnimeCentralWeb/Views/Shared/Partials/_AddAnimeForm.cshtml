@@ -1,7 +1,7 @@
 @model AnimeCentralWeb.Models.DomainViewModels.AnimeViewModel
 @using AnimeCentralWeb.Utils
 
-<form asp-controller="Anime" asp-action="AddAnime" class="add-anime-form">
+<form asp-controller="Anime" asp-action="AddAnime" class="add-anime-form custom-form">
     <div asp-validation-summary="All"></div>
     <div class="form-group">
         <label asp-for="Title"></label>
@@ -51,7 +51,7 @@
 
     <input type="hidden" asp-for="MalId"/>
 
-    <a class="saveCommand" style="text-decoration:none" onclick="$('.add-anime-form').submit()">Adauga</a>
+    <button class="btn btn-save" type="submit">Adauga</button>
     <script>
         $("*[data-bbcode]").each(function () {
             $(this).val(bbcode.render($(this).val()));

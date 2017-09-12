@@ -1,0 +1,24 @@
+@model ForgotPasswordViewModel
+<div class="content">
+    <div class="content-header">
+        <div class="title">Recuperare Parola</div>
+    </div>
+    <div class="commands text-right">
+        <i class="fa fa-times close-pop-up command" aria-hidden="true"></i>
+    </div>
+    <div class="content-body forgot-password-partial">
+        <form class="resend-activation-link custom-form text-center">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <div>
+                    <input asp-for="Email" class="form-control text-center text-bold" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div>
+                    <button type="submit" class="btn btn-save">Trimite</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

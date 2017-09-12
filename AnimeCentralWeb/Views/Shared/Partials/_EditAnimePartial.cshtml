@@ -12,7 +12,7 @@
         <div class="close-pop-up command"><i class="fa fa-times" aria-hidden="true"></i></div>
     </div>
     <div class="content-body edit-anime-partial">
-        <form asp-controller="Anime" asp-action="EditAnime" class="edit-anime-form">
+        <form asp-controller="Anime" asp-action="EditAnime" class="edit-anime-form custom-form">
             <div asp-validation-summary="All"></div>
             <div class="form-group">
                 <label asp-for="Title"></label>
@@ -73,7 +73,7 @@
             <input type="hidden" asp-for="MalId" />
             <input type="hidden" asp-for="Id" />
 
-            <a class="saveCommand" style="text-decoration:none" onclick="$('.edit-anime-form').submit()">Salveaza</a>
+            <button type="submit" class="btn btn-save">Salveaza</button>
         </form>
     </div>
 </div>

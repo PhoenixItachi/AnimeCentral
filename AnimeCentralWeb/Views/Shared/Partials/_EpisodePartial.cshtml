@@ -61,11 +61,11 @@
             @if (signInManager.IsSignedIn(User))
             {
                 <div class="new-comment">
-                    <form class="new-comment-form">
+                    <form class="new-comment-form custom-form">
                         <div asp-validation-summary="All"></div>
                         <input type="hidden" name="EpisodeId" value="@Model.Id" />
-                        <textarea class="comment-input" name="Content" placeholder="Scrie un comentariu..." />
-                        <div class="comment-btn"><a>Comenteaza</a></div>
+                        <textarea class="comment-input form-control" name="Content" placeholder="Scrie un comentariu..." />
+                        <button class="btn btn-comment">Comenteaza</button>
                     </form>
                 </div>
             }

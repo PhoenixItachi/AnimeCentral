@@ -7,10 +7,10 @@
     </div>
     <div class="commands text-right">
         <div class="back-to-anime anime-popup command" data-anime-id="@Model.AnimeId" data-popup-clear="true"><i class="fa fa-chevron-left" aria-hidden="true"></i> Anime</div>
-        <i class="fa fa-times close-pop-up command" aria-hidden="true"></i>
+        <div class="command close-pop-up"><i class="fa fa-times" aria-hidden="true"></i></div>
     </div>
     <div class="content-body add-episode-partial">
-        <form class="add-episode-form">
+        <form class="add-episode-form custom-form">
             <div asp-validation-summary="All"></div>
             <input type="hidden" asp-for="AnimeId" />
             <div class="form-group">
@@ -34,31 +34,10 @@
                     <label asp-for="LocalSource"></label><input asp-for="LocalSource" class="episode-local-file" type="file" />
                 </div>
             </div>
-            <a class="saveCommand" style="text-decoration:none" onclick="$('.add-episode-form').submit()">Adauga</a>
+            <button class="btn btn-save" type="submit">Adauga</button>
         </form>
     </div>
     <script>
         $(".remove-source").hide();
-
-        $(document).on("submit", '.add-episode-form', function (e) {
-            e.preventDefault();
-            var form = $(this).closest(".content");
-            $.ajax({
-                type: "POST",
-                url: "/Anime/AddEpisode",
-                data: new FormData(this),
-                processData: false,
-                contentType: false
-            }).done(function (data) {
-                alert('Episod adaugat!');
-            }).fail(function (data) {
-                if (data.status == 477)
-                    $(form).replaceWith(data.responseText);
-                else
-                    alert(data.responseText);
-            });
-
-        });
-
     </script>
 </div>

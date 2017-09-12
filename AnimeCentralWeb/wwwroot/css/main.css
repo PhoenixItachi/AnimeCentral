@@ -119,7 +119,6 @@ table {
     /* Opera < 12.1 */
     animation: fadein 1.5s;
     padding: 5px;
-    height: 100px;
     padding: 0;
     text-align: center;
     background-color: rgba(0, 0, 0, 0.8);
@@ -135,12 +134,14 @@ table {
     /* Standard syntax */
     transition: height 300ms;
     transition: background 300ms linear;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .nav-header-bar-fixed {
     position: fixed;
     top: 0;
-    height: 60px;
+    bottom:unset;
     background: rgba(0, 0, 0, 0.8);
 }
 
@@ -161,7 +162,7 @@ table {
 
 .nav-header-bar img {
     display: inline-block;
-    height: 80%;
+    height: 50px;
     margin-right: 10px;
 }
 
@@ -169,19 +170,16 @@ table {
     list-style-type: none;
     padding: 0;
     margin: 0;
-    height: 100%;
 }
 
 .menu-container {
     display: inline-block;
-    height: 100%;
     vertical-align: top;
 }
 
 .menu li {
     margin-left: 15px;
     margin-right: 15px;
-    height: 100%;
     display: inline-block;
     transition: margin-right 300ms;
     transition: margin-left 300ms;
@@ -211,7 +209,6 @@ a:focus {
 
 .menu-option-content {
     display: table;
-    height: 100%;
 }
 
 .nav-header-bar-fixed .menu a {
@@ -640,28 +637,6 @@ a:focus {
 
     .search-details .more-genre-btn {
         vertical-align: middle;
-    }
-
-.genre-list span {
-    display: inline-block;
-    margin-bottom: 2px;
-    padding: 1px 2px 1px 2px;
-    font-size: 12px;
-    background-color: white;
-    border-radius: 5px;
-    color: black;
-    font-weight: bold;
-    border: 1px solid black;
-    transition: all 200ms ease-in-out;
-    opacity: .85;
-}
-
-
-
-    .genre-list span:hover {
-        background-color: black;
-        color: white;
-        opacity: 1;
     }
 
 .filter-header {

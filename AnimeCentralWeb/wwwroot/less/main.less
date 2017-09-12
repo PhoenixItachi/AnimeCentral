@@ -3,7 +3,41 @@
 
 @mobile: ~"only screen and (max-width: 529px)";
 @tablet: ~"only screen and (min-width: 530px) and (max-width: 949px)";
+@text-shadow-black: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+@text-shadow-white: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
 
+
+.nav-header-bar {
+    & > *{
+        display:inline-block;
+        vertical-align: middle;
+    }
+}
+
+.page-container {
+    height: 100%;
+    width: 100%;
+
+    .error-page {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    .custom-form {
+        width: 50%;
+        margin: auto;
+        background-color: rgba(255,255,255,.8);
+    }
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+// Chat
 .chat-box {
     position: fixed;
     right: 0px;
@@ -138,6 +172,7 @@
     }
 }
 
+// Spinner
 .spinner-injected {
     position: absolute;
     background-color: rgba(0, 0, 0, .4);
@@ -166,6 +201,7 @@
     }
 }
 
+// Pagination
 .pages {
     .page-container {
         position: relative;
@@ -195,7 +231,7 @@
     }
 }
 
-
+// Admin & User Controls
 .controls {
     position: fixed;
     top: 20%;
@@ -236,14 +272,62 @@
     }
 }
 
-form .validation-summary-errors {
-    color: red;
+// Form
+.custom-form {
+
+    &.text-center {
+        input, textarea, select {
+            text-align: center;
+        }
+    }
+
+    textarea {
+        resize: vertical;
+    }
+
+    .validation-summary-errors {
+        color: red;
+    }
+
+    .btn {
+        padding: 5px;
+        text-align: center;
+        display: block;
+        border: 1px solid;
+        cursor: pointer;
+        width: 100%;
+        opacity: 0.8;
+        font-weight: bold;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    .btn-save {
+        border-color: green;
+        color: green;
+        background-color: rgba(0,80,0,.2);
+    }
+
+    .btn-comment {
+        width: 14%;
+        display: inline-block;
+        vertical-align: top;
+        text-align: center;
+        padding-left: 5px;
+        padding-right: 5px;
+        border-color: green;
+        color: green;
+        background-color: rgba(0,80,0,.2);
+    }
 }
 
 .anime-popup, .episode-popup {
     cursor: pointer;
 }
 
+// Pop-Up
 .pop-up {
     z-index: -1;
     opacity: 0;
@@ -287,7 +371,8 @@ form .validation-summary-errors {
             }
         }
 
-        .commands {
+        & > .commands {
+
             .command {
                 cursor: pointer;
                 padding: 10px;
@@ -335,21 +420,19 @@ form .validation-summary-errors {
             background-color: white;
             margin: auto;
             margin-bottom: 2%;
-        }
 
-        .content-body.anime {
-            & > table {
-                height: 100%;
-
-                .anime-details, .anime-description {
-                    height: 100%;
-                }
+            & > .custom-form {
+                padding: 10px;
             }
         }
 
-        .content-body.add-anime-partial, .content-body.edit-anime-partial, .add-announcement-partial, .content-body.add-episode-partial {
+        .content-body.add-anime-partial {
+            padding: 10px;
+        }
+
+
+        .content-body.add-anime-partial, .content-body.edit-anime-partial, .add-announcement-partial, .content-body.add-episode-partial, .content-body.forgot-password-partial {
             width: 100% !important;
-            padding: 20px;
 
             .anime-search {
                 display: block;
@@ -373,25 +456,6 @@ form .validation-summary-errors {
                     div {
                         background-color: white;
                     }
-                }
-            }
-
-            form {
-                padding: 5px;
-
-                textarea {
-                    resize: vertical;
-                }
-
-                .saveCommand {
-                    width: 100%;
-                    padding: 5px;
-                    text-align: center;
-                    display: block;
-                    border: 1px solid green;
-                    color: green;
-                    background-color: rgba(0,80,0,.2);
-                    cursor: pointer;
                 }
             }
         }
@@ -452,21 +516,11 @@ form .validation-summary-errors {
                         background-color: rgba(144,238,144, .3);
 
                         & > label {
-                            font-size: 12px;
+                            font-size: 11px;
                         }
 
-                        .option.active label {
-                            font-weight: bold;
-                            background-color: rgba(0,0,0,1);
-                            color: white;
-                        }
-
-                        .option label {
-                            font-weight: normal;
-                            background-color: rgba(0,0,0,.4);
-                            color: white;
-                            padding: 2px;
-                            font-family: 'Trebuchet MS','Lucida Sans Unicode','Lucida Grande','Lucida Sans',Arial,sans-serif;
+                        .option {
+                            font-size: 13px;
                         }
                     }
 
@@ -514,8 +568,6 @@ form .validation-summary-errors {
         }
 
         .content-body.add-episode-partial, .content-body.edit-episode-partial {
-            padding: 5px;
-
             label {
                 font-size: 12px;
             }
@@ -533,20 +585,6 @@ form .validation-summary-errors {
             .add-source, .remove-source {
                 text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
                 color: white;
-            }
-
-            .add-episode-form, .edit-episode-form {
-                padding: 5px;
-
-                .saveCommand {
-                    width: 100%;
-                    padding: 5px;
-                    text-align: center;
-                    display: block;
-                    border: 1px solid green;
-                    color: green;
-                    background-color: rgba(0,80,0,.2);
-                }
             }
         }
 
@@ -684,7 +722,6 @@ form .validation-summary-errors {
         }
 
         .content-body.register-partial, .content-body.login-partial {
-            padding: 10px;
             text-align: center;
 
             input {
@@ -711,6 +748,7 @@ form .validation-summary-errors {
     }
 }
 
+// Announcements
 .anns {
     .anns-list {
         .anns-list-item {
@@ -731,6 +769,7 @@ form .validation-summary-errors {
     }
 }
 
+// Anime Item
 .anime {
     .anime-details {
         vertical-align: top;
@@ -753,20 +792,9 @@ form .validation-summary-errors {
                 text-align: right;
 
                 .command {
-                    opacity: .85;
-                    background-color: lightgreen;
-                    border-radius: 2px;
-                    padding: 2px;
                     font-size: 10px;
-
-                    &.set-translate-status {
-                        display: block;
-                        background-color: lightblue;
-                    }
-
-                    &:hover {
-                        opacity: 1;
-                    }
+                    clear: both;
+                    float: right;
                 }
             }
 
@@ -791,6 +819,7 @@ form .validation-summary-errors {
     }
 }
 
+// Multi Tab
 .multi-tab {
     width: 100%;
     position: relative;
@@ -889,22 +918,67 @@ form .validation-summary-errors {
     }
 }
 
+// Genre Filters
 .genre-filter {
     .search-details {
         .genre-list {
-            span {
-                cursor: pointer;
-            }
-
-            span.active {
-                background-color: black;
-                color: white;
-                opacity: 1;
-            }
+            font-size: 12px;
         }
 
         .search-button {
             cursor: pointer;
+        }
+    }
+}
+
+// Bubbles
+.bubble {
+    padding: 1px 2px 1px 2px;
+    font-size: inherit;
+    border-radius: 5px;
+    font-weight: bold;
+    border: 1px solid;
+    transition: all 200ms ease-in-out;
+    opacity: .8;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 1px;
+
+    &.bubble-white {
+        color: black;
+        background-color: white;
+        border-color: black;
+
+        &:hover, &.active {
+            color: white;
+            background-color: black;
+            opacity: 1;
+        }
+    }
+
+    &.bubble-lightgreen {
+        color: white;
+        text-shadow: @text-shadow-black;
+        background-color: lightgreen;
+        border-color: black;
+
+        &:hover, &.active {
+            opacity: 1;
+            color: black;
+            text-shadow: @text-shadow-white
+        }
+    }
+
+    &.bubble-lightblue {
+        color: white;
+        text-shadow: @text-shadow-black;
+        background-color: lightblue;
+        border-color: black;
+
+        &:hover, &.active {
+            opacity: 1;
+            color: black;
+            text-shadow: @text-shadow-white
         }
     }
 }
