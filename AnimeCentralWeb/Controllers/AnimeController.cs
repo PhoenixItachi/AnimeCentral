@@ -267,6 +267,9 @@ namespace AnimeCentralWeb.Controllers
                 return PartialView("Partials/_AddEpisodePartial", model);
             }
 
+            if (await Context.Episodes.AnyAsync(x => x.AnimeId == model.AnimeId && x.Order == model.Order))
+                return BadRequest("Episdul exista deja.");
+
             if(model.Sources.Count == 0 && model.LocalSource == null)
             {
                 Response.StatusCode = AnimeUtils.PartialStatusCode;

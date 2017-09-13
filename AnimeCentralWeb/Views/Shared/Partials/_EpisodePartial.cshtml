@@ -82,14 +82,8 @@
           $.get("Anime/GetComments?id=" + @Model.Id, function (data) {
             $(".comments-container").html(data);
           }).fail(function (data) {
-            alert("A aparut o problema in afisarea ultimelor comentarii comentarilor.");
+              toastr.error(data.responseText);
           });
         }
-
-        $(".episode-frame").load(function () {
-            $(".video-js").css("height", "100%");
-            $(".video-js").css("padding-top", "0");
-        });
-
     </script>
 </div>

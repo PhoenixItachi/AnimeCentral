@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.min.css" />
     <link rel="stylesheet" href="~/css/site.min.css">
+    <link rel="stylesheet" href="~/lib/toastr/toastr.css">
     <link rel="manifest" href="~/manifest.json">
     <title>@ViewData["Title"] - @User.Identity.Name - Anime Central</title>
 
@@ -30,6 +31,7 @@
     <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
     <script src="~/lib/signalr/jquery.signalR.min.js"></script>
     <script src="~/lib/bbcode/src/bbcode.js"></script>
+    <script src="~/lib/toastr/toastr.min.js"></script>
     <!-- My custom js and css -->
     <script src="~/js/chat.js"></script>
     <script src="~/site.min.js"></script>
@@ -44,11 +46,11 @@
             <div class="admin-controls">
                 <div class="command add-anime">
                     <i class="fa fa-fw fa-plus" aria-hidden="true"></i>
-                    <span>Adauga Anime</span>
+                    <span>Anime</span>
                 </div>
                 <div class="command add-announcement">
                     <i class="fa fa-fw fa-plus" aria-hidden="true"></i>
-                    <span>Adauga Anunt</span>
+                    <span>Anunt</span>
                 </div>
             </div>
         }
@@ -99,8 +101,6 @@
     @RenderSection("Scripts", required: false)
 
     <script>
-
-
         $(".add-anime").click(function () {
             $(".pop-up").css("z-index", 41);
             $(".pop-up").css("opacity", 1);
@@ -176,8 +176,8 @@
             if (animeId != null) {
                 $.get("Anime/GetAnimeByIdPartial?id=" + animeId, function (data) {
                     $(data).appendTo(".pop-up");
-                }).fail(function () {
-                    alert("A aparut o problema in cautarea anime-ului dorit. Incercati mai tarziu.");
+                }).fail(function (data) {
+                    toastr.error(data.responseText);
                 })
             }
         });
@@ -193,8 +193,8 @@
                         $(this).remove();
                 });
                 $(".pop-up").append(data);
-            }).fail(function () {
-                alert("A aparut o eroare in cautarea episodului.");
+            }).fail(function (data) {
+                toastr.error(data.responseText);
             });
         });
 
@@ -205,8 +205,8 @@
             $(".pop-up").css("opacity", 1);
             $.get("Anime/GetAnnouncementPartial?id=" + announcementId, function (data) {
                 $(".pop-up").append(data);
-            }).fail(function () {
-                alert("A aparut o eroare in cautarea anuntului.");
+            }).fail(function (data) {
+                toastr.error(data.responseText);
             });
         });
 
@@ -219,7 +219,7 @@
             $.post("Anime/DeleteAnnouncement", { id: annId }, function (data) {
                 window.location.href = "/";
             }).fail(function (data) {
-                alert(data.responseText);
+                toastr.error(data.responseText);
             });
         })
     </script>

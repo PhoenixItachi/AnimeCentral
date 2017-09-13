@@ -1,4 +1,24 @@
 $(document).ready(function () {
+
+  // Init toastr
+  toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
+
   var width = $(".place").width();
   $(".place").height(width / 79 * 106);
   $(".score").each(function () {
@@ -278,8 +298,8 @@ $(document).on("click", ".add-episode", function () {
   var animeId = $(this).attr("data-anime-id");
   $.get("Anime/GetAddEpisodePartial?animeId=" + animeId, function (data) {
     $(".pop-up").append(data);
-  }).fail(function () {
-    alert("A aparut o eroare in adaugarea episodul.");
+  }).fail(function (data) {
+    toastr.error(data.responseText);
   });
 })
 
@@ -293,12 +313,12 @@ $(document).on("submit", '.add-episode-form', function (e) {
     processData: false,
     contentType: false
   }).done(function (data) {
-    alert('Episod adaugat!');
+    toastr.success('Episod adaugat!');
   }).fail(function (data) {
     if (data.status == 477)
       $(form).replaceWith(data.responseText);
     else
-      alert(data.responseText);
+      toastr.error(data.responseText);
   });
 
 });
@@ -308,7 +328,7 @@ $(document).on("click", ".edit-anime-btn", function () {
   $.get("Anime/GetEditAnimePartial?id=" + animeId, function (data) {
     $(".pop-up").append(data);
   }).fail(function (data) {
-    alert("A aparut o eroare in cautarea episodului.");
+    toastr.error(data.responseText);
   })
 });
 
@@ -317,12 +337,12 @@ $(document).on('submit', '.add-anime-form', (function (e) {
   e.preventDefault();
   var form = $(this);
   $.post('/Anime/AddAnime', $(this).serialize(), function (result) {
-    alert('Anime adaugat!');
+    toastr.success('Anime adaugat!');
   }).fail(function (data) {
     if (data.status == 477)
       $(form).replaceWith(data.responseText);
     else
-      alert(data.responseText);
+      toastr.error(data.responseText);
   });
 }));
 
@@ -331,12 +351,12 @@ $(document).on('submit', '.add-announcement-form', (function (e) {
   e.preventDefault();
   var form = $(this).closest(".content");
   $.post('/Anime/AddAnnouncement', $(this).serialize(), function (result) {
-    alert('Anunt adaugat!');
+    toastr.success('Anunt adaugat!');
   }).fail(function (data) {
     if (data.status == 477)
       $(form).replaceWith(data.responseText);
     else
-      alert(data.responseText);
+      toastr.error(data.responseText);
   });
 }));
 
@@ -368,12 +388,12 @@ $(document).on('submit', '.edit-episode-form', function (e) {
   e.preventDefault();
   var form = $(this).closest(".content");
   $.post('/Anime/EditEpisode', $(this).serialize(), function (result) {
-    alert('Episod a fost salvat!');
+    toastr.success('Episod a fost salvat!');
   }).fail(function (data) {
     if (data.status == 477)
       $(form).replaceWith(data.responseText);
     else
-      alert(data.responseText);
+      toastr.error(data.responseText);
   });
 });
 
@@ -440,13 +460,13 @@ $(document).on('submit', '.edit-anime-form', function (e) {
   var body = $(this).closest(".content-body");
   $(body).showSpinner();
   $.post('/Anime/EditAnime', $(this).serialize(), function (result) {
-    alert('Anime editat!');
+    toastr.success('Anime editat!');
     $(body).hideSpinner();
   }).fail(function (data) {
     if (data.status == 477)
       $(form).replaceWith(data.responseText);
     else
-      alert(data.responseText);
+      toastr.error(data.responseText);
   });
 });
 
@@ -460,7 +480,7 @@ $(document).on("submit", ".new-comment-form", function (event) {
     if (data.status == 477)
       $(form).replaceWith(data.responseText);
     else
-      alert(data.responseText);
+      toastr.error(data.responseText);
   });
 });
 
@@ -469,7 +489,7 @@ $(document).on("click", ".delete-comment", function () {
   $.post("Anime/DeleteComment?id=" + commentId, function () {
     RefreshComments();
   }).fail(function (data) {
-    alert(data.responseText);
+    toastr.error(data.responseText);
   })
 });
 
@@ -479,8 +499,8 @@ $(document).on('click', ".edit-episode", function (e) {
   console.log("ASD");
   $.get("Anime/GetEditEpisodePartial?id=" + episodeId, function (data) {
     $(".pop-up").append(data);
-  }).fail(function () {
-    alert("A aparut o problema!");
+  }).fail(function (data) {
+    toastr.error(data.responseText);
   });
 })
 
@@ -495,7 +515,7 @@ $(document).on("submit", ".login-form", function (e) {
     if (data.status == 477)
       $(form).replaceWith(data.responseText);
     else
-      alert(data.responseText);
+      toastr.error(data.responseText);
   });
 });
 
@@ -510,7 +530,7 @@ $(document).on("submit", ".register-form", function (e) {
       $(form).replaceWith(data.responseText);
     }
     else
-      alert(data.responseText);
+      toastr.error(data.responseText);
   });
 });
 
@@ -521,9 +541,9 @@ $(document).on("change", ".set-translate-status", function () {
   console.log(newStatus);
   console.log(animeId);
   $.post("/Anime/SetAnimeTranslateStatus", { Id: animeId, TranslateStatus: newStatus }, function () {
-    alert("Status modificat");
-  }).fail(function () {
-    alert("A aparut o problema");
+    toastr.success("Status modificat");
+  }).fail(function (data) {
+    toastr.error(data.responseText);
   });
 });
 
@@ -562,12 +582,12 @@ $(document).on("submit", ".forgot-password-form", function (event) {
   event.preventDefault();
   var form = $(this).closest(".content");
   $.post("Account/ForgotPassword", $(this).serialize(), function (result) {
-    alert("Cerere de resetare a parolei trimisa.");
+    toastr.success("Cerere de resetare a parolei trimisa.");
   }).fail(function (data) {
     if (data.status == 477)
       $(form).replaceWith(data.responseText);
     else
-      alert(data.responseText);
+      toastr.error(data.responseText);
   });
 })
 
@@ -588,7 +608,7 @@ $(document).on("submit", ".resend-activation-link", function (event) {
       $(form).replaceWith(data);
     }
     else {
-      alert(data);
+      toastr.error(data.responseText);
     }
   })
 })

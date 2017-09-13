@@ -10,11 +10,11 @@ namespace AnimeCentralWeb.Models.DomainViewModels
         public int Id { get; set; }
         public string AuthorId { get; set; }
 
-        [Display(Name = "Titlu")]
+        [Display(Name = "Titlu", Prompt = "Titlu")]
         [Required(ErrorMessage = AnimeUtils.FormErrorRequiredMessage)]
         public string Title { get; set; }
 
-        [Display(Name = "Continut")]
+        [Display(Name = "Continut", Prompt = "Continut")]
         [Required(ErrorMessage = AnimeUtils.FormErrorRequiredMessage)]
         public string Content { get; set; }
 
