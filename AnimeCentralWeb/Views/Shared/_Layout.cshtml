@@ -100,7 +100,7 @@
 
     <script>
 
-        
+
         $(".add-anime").click(function () {
             $(".pop-up").css("z-index", 41);
             $(".pop-up").css("opacity", 1);
@@ -117,7 +117,7 @@
             })
         });
 
-        $(".register-account").click(function () {
+        $(document).on("click", ".register-account", function () {
             $(".pop-up").css("z-index", 41);
             $(".pop-up").css("opacity", 1);
             $.get("/Account/Register", function (data) {

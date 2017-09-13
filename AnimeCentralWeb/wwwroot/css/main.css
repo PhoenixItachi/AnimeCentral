@@ -201,11 +201,11 @@ table {
         text-decoration: none;
     }
 
-a:focus {
+/*a:focus {
     opacity: 1;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     text-decoration: none;
-}
+}*/
 
 .menu-option-content {
     display: table;
