@@ -1,6 +1,7 @@
 ﻿@model AnimeCentralWeb.Models.HomeViewModel
 @using AnimeCentralWeb.Utils
 @using Ganss.XSS
+@inject UserManager<ApplicationUser> _userManager
 <!DOCTYPE html>
 @{
     Layout = "_Layout";
@@ -27,6 +28,21 @@
                 </a>
                 <div class="menu-container">
                     <ul class="menu">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li>
+                                <div class="menu-option-content">
+                                    <a class="command profile" data-user-id="@_userManager.GetUserId(User)">
+                                        @{
+                                            var user = await _userManager.GetUserAsync(User);
+                                        }
+                                        <img src="@(string.IsNullOrEmpty(user.Image) ? "/images/DefaultAvatar.jpg" : user.Image)" />
+                                        <span>@user.UserName</span>
+                                    </a>
+                                </div>
+                            </li>
+
+                                            }
                         <li>
                             <div class="menu-option-content">
                                 <a href="#" class="get-anime-list">Proiectele Noastre</a>
@@ -64,6 +80,7 @@
                                 </div>
                             </div>
                         </li>
+
                     </ul>
                 </div>
 

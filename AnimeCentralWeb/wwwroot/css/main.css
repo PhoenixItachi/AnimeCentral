@@ -170,6 +170,9 @@ table {
     list-style-type: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .menu-container {
@@ -183,6 +186,11 @@ table {
     display: inline-block;
     transition: margin-right 300ms;
     transition: margin-left 300ms;
+    margin-top: auto;
+    margin-bottom: auto;
+    cursor: pointer;
+    padding-top:5px;
+    padding-bottom: 5px;
 }
 
 .menu a {
@@ -558,11 +566,13 @@ table {
         font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         color: rgba(255, 255, 255, 0.95);
         text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-        font-size: 18px;
+        font-size: 17px;
         font-weight: bold;
         opacity: 0.9;
         width: 80%;
-        white-space: normal;
+        overflow:hidden;
+        max-height: 90%;
+        word-break: break-word;
     }
 
     .item-overlay .episodes {

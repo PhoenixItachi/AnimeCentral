@@ -37,14 +37,15 @@
         <div class="anime-list">
             @foreach (var anime in Model)
             {
-                <div class="anime-list-item anime-popup" data-name="@anime.Title.ToLower()" data-genre="@anime.Genres" data-status="@anime.TranslateStatus.GetDisplayName()" data-anime-id="@anime.Id" data-popup-clear="true">
-                    <img src="@anime.Image" />
-                    <div class="item-overlay">
-                        <a href="https://myanimelist.net/anime/@(anime.MalId)" target="_blank" class="mal-source">
-                            <img src="apple-touch-icon-256.png" width="25" />
-                        </a>
-                        <div class="anime-name">@anime.Title </div>
-                        <div class="anime-status">@anime.TranslateStatus.GetDisplayName() (@(anime.TranslatedEpisodes)/@(anime.NoOfEpisodes == 0 ? "?" : anime.NoOfEpisodes.ToString()))</div>
+                <div class="anime-list-item col-lg-2 col-md-3 col-sm-3 col-xs-4" data-name="@anime.Title.ToLower()" data-genre="@anime.Genres" data-status="@anime.TranslateStatus.GetDisplayName()" >
+                    <div class="anime-popup" style="background-image:url(@anime.Image)" data-anime-id="@anime.Id" data-popup-clear="true">
+                        <div class="item-overlay">
+                            <a href="https://myanimelist.net/anime/@(anime.MalId)" target="_blank" class="mal-source">
+                                <img src="apple-touch-icon-256.png" width="25" />
+                            </a>
+                            <div class="anime-name">@anime.Title </div>
+                            <div class="anime-status">@anime.TranslateStatus.GetDisplayName() (@(anime.TranslatedEpisodes)/@(anime.NoOfEpisodes == 0 ? "?" : anime.NoOfEpisodes.ToString()))</div>
+                        </div>
                     </div>
                 </div>
             }

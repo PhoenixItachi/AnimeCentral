@@ -15,6 +15,22 @@
         display: inline-block;
         vertical-align: middle;
     }
+
+    .menu-option-content {
+        .profile {
+            img {
+                max-height: 1.5em;
+                max-width: 1.5em;
+                border-radius: 100%;
+                border: 2px solid white;
+                margin-right: 0px;
+            }
+
+            span {
+                vertical-align: middle;
+            }
+        }
+    }
 }
 
 .single-form-page {
@@ -375,7 +391,8 @@
         padding: 3px;
         width: 100%;
         opacity: 0;
-        &:focus{
+
+        &:focus {
             opacity: 1;
         }
     }
@@ -552,28 +569,34 @@
                 display: flex;
                 flex-flow: wrap;
                 background-color: white;
-                margin: auto;
 
                 .anime-list-item {
                     position: relative;
                     display: inline-block;
+                    padding: 0px;
+                    text-overflow: ellipsis;
+                    .anime-popup {
+                        width: 100%;
+                        padding-top: 155.5%;
+                        background-size: 100% 100%;
 
-                    .anime-status {
-                        font-size: 12px;
-                        position: absolute;
-                        bottom: 5px;
-                        right: 5px;
-                    }
+                        .anime-status {
+                            font-size: 12px;
+                            position: absolute;
+                            bottom: 5px;
+                            right: 5px;
+                        }
 
-                    img {
-                        width: 200px;
-                        height: 311px;
-                    }
-
-                    .mal-source {
                         img {
-                            width: 25px;
-                            height: auto;
+                            width: 200px;
+                            height: 311px;
+                        }
+
+                        .mal-source {
+                            img {
+                                width: 25px;
+                                height: auto;
+                            }
                         }
                     }
                 }
