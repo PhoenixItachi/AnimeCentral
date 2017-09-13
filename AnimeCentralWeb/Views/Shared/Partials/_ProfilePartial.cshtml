@@ -1,0 +1,68 @@
+@model ApplicationUser
+@inject UserManager<ApplicationUser> _userManager
+<div class="content">
+    <div class="commands text-right">
+        <i class="fa fa-times close-pop-up command" aria-hidden="true"></i>
+    </div>
+    @if (Model.Id == _userManager.GetUserId(User))
+    {
+        <div class="content-body profile-partial">
+            <table>
+                <tr>
+                    <td class="left-side" width="30%">
+                        <div class="username">@Model.UserName</div>
+                        <div class="avatar-container">
+                            <img src="@(string.IsNullOrEmpty(Model.Image) ? "images/DefaultAvatar.jpg" : Model.Image)" class="profile-image" width="100%" />
+                            <form class="change-image-form">
+                                <input type="hidden" asp-for="Id" class="form-control" />
+                                <div class="input-with-btn">
+                                    <input type="text" asp-for="Image" class="form-control" />
+                                    <button type="submit" class="btn btn-edit btn-on-input">Salveaza</button>
+                                </div>
+                            </form>
+                        </div>
+                    </td>
+                    <td class="right-side">
+                        <form class="change-profile-form">
+                            <input type="hidden" asp-for="Id" />
+                            <div class="form-group">
+                                <input type="text" asp-for="Status" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <textarea asp-for="Bio" class="form-control" />
+                            </div>
+                            <button class="btn btn-save">Salveza</button>
+                        </form>
+
+                        <form class="change-password-form">
+                            <div class="form-group">
+                                <input type="hidden" asp-for="Id" />
+                                <input type="text" name="Password" class="form-control" />
+                                <input type="text" name="ConfirmPassword" class="form-control" />
+                            </div>
+                            <button class="btn btn-save">Modifica Parola</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="content-body profile-partial">
+            <table>
+                <tr>
+                    <td class="left-side">
+                        <img src="@(string.IsNullOrEmpty(Model.Image) ? "images/DefaultAvatar.jpg" : Model.Image)" class="profile-image" width="100%" />
+                        <div class="username">@Model.UserName</div>
+                        <div class="status">@Model.Status</div>
+                    </td>
+                    <td class="right-side">
+                        <div class="bio">@Model.Bio</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+
+</div>

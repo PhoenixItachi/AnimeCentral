@@ -70,6 +70,10 @@
             }
             else
             {
+                <div class="command profile" data-user-id="@_userManager.GetUserId(User)">
+                    <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>
+                    <span>Profilul Meu</span>
+                </div>
                 <div class="command logout-account" onclick="$('#logout-form').submit()">
                     <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>
                     <span>Logout</span>
@@ -131,6 +135,20 @@
             $.get("/Account/Login", function (data) {
                 $(".pop-up").append(data);
             })
+        })
+
+        $(document).on("click", ".command.profile", function () {
+            var userId = $(this).attr("data-user-id");
+            $(".pop-up").css("z-index", 41);
+            $(".pop-up").css("opacity", 1);
+            $.get("/Account/Profile?userId=" + userId, function (data) {
+                $(".pop-up").append(data);
+            }).fail(function (data) {
+                if (data.status == 500)
+                    toastr.error("A aparut o problema in rezolvarea cererii.");
+                else
+                    toastr.error(data.responseText);
+            });
         })
 
         $(document).on("click", ".get-anime-list", function () {

@@ -479,6 +479,17 @@ namespace AnimeCentralWeb.Controllers
             return View();
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Profile(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound("Utilizatorul nu exista");
+
+            return PartialView("Partials/_ProfilePartial", user);
+        }
+
         #region Helpers
 
         private void AddErrors(IdentityResult result)

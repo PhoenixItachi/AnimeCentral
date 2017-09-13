@@ -7,9 +7,12 @@
 @text-shadow-white: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
 
 
+
+
+
 .nav-header-bar {
-    & > *{
-        display:inline-block;
+    & > * {
+        display: inline-block;
         vertical-align: middle;
     }
 }
@@ -18,11 +21,12 @@
     height: 100vh;
     width: 100vw;
     display: flex;
-    .confirmation{
+
+    .confirmation {
         font-size: 20px;
         font-weight: bold;
-    } 
-    
+    }
+
     .page-container {
         margin: auto;
         width: 50%;
@@ -42,7 +46,8 @@
 .text-bold {
     font-weight: bold;
 }
-.cursor-pointer{
+
+.cursor-pointer {
     cursor: pointer;
 }
 
@@ -297,29 +302,37 @@
     .validation-summary-errors {
         color: red;
     }
+}
 
-    .btn {
-        padding: 5px;
-        text-align: center;
-        display: block;
-        border: 1px solid;
-        cursor: pointer;
-        width: 100%;
-        opacity: 0.8;
-        font-weight: bold;
 
-        &:hover {
-            opacity: 1;
-        }
+// Buttons
+.btn {
+    padding: 5px;
+    text-align: center;
+    display: block;
+    border: 1px solid;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.8;
+    font-weight: bold;
+
+    &:hover {
+        opacity: 1;
     }
 
-    .btn-save {
+    &.btn-save {
         border-color: green;
         color: green;
         background-color: rgba(0,80,0,.2);
     }
 
-    .btn-comment {
+    &.btn-edit {
+        border-color: lightskyblue;
+        color: lightskyblue;
+        background-color: rgba( 135,206,250,.2);
+    }
+
+    &.btn-comment {
         width: 14%;
         display: inline-block;
         vertical-align: top;
@@ -330,12 +343,53 @@
         color: green;
         background-color: rgba(0,80,0,.2);
     }
+
+    &:focus {
+        color: inherit;
+    }
+}
+
+.input-with-btn {
+    position: relative;
+
+    & > .btn-on-input {
+        width: auto;
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        height: 100%;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }
+}
+
+
+.avatar-container {
+    position: relative;
+    padding: 0px !important;
+
+    .change-image-form {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding: 3px;
+        width: 100%;
+        opacity: 0;
+        &:focus{
+            opacity: 1;
+        }
+    }
+
+    &:hover {
+        .change-image-form {
+            opacity: 1;
+        }
+    }
 }
 
 .anime-popup, .episode-popup {
     cursor: pointer;
 }
-
 // Pop-Up
 .pop-up {
     z-index: -1;
@@ -439,6 +493,21 @@
             padding: 10px;
         }
 
+        .content-body.profile-partial {
+            .left-side {
+                padding: 10px;
+            }
+
+            .username {
+                text-align: center;
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            .right-side {
+                padding: 10px;
+            }
+        }
 
         .content-body.add-anime-partial, .content-body.edit-anime-partial, .add-announcement-partial, .content-body.add-episode-partial, .content-body.forgot-password-partial {
             width: 100% !important;
@@ -756,7 +825,6 @@
         }
     }
 }
-
 // Announcements
 .anns {
     .anns-list {
@@ -777,7 +845,6 @@
         }
     }
 }
-
 // Anime Item
 .anime {
     .anime-details {
@@ -827,7 +894,6 @@
         }
     }
 }
-
 // Multi Tab
 .multi-tab {
     width: 100%;
@@ -926,7 +992,6 @@
         }
     }
 }
-
 // Genre Filters
 .genre-filter {
     .search-details {
@@ -939,7 +1004,6 @@
         }
     }
 }
-
 // Bubbles
 .bubble {
     padding: 1px 2px 1px 2px;
