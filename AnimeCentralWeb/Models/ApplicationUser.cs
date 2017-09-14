@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace AnimeCentralWeb.Models
 {
@@ -7,7 +8,9 @@ namespace AnimeCentralWeb.Models
     {
         public string Image { get; set; }
         public string NotificationTokens { get; set; }
+        [Display(Prompt = "Status")]
         public string Status { get; set; }
+        [Display(Prompt = "Despre tine")]
         public string Bio { get; set; }
 
     }

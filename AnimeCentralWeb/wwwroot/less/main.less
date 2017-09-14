@@ -67,6 +67,18 @@
     cursor: pointer;
 }
 
+.hidden-input {
+    border: 0;
+    box-shadow: none;
+    resize: vertical;
+    &::-webkit-scrollbar{
+        background: transparent;
+    }
+    &:hover, &:focus {
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+        font-style: unset;
+    }
+}
 // Chat
 .chat-box {
     position: fixed;
@@ -512,7 +524,8 @@
 
         .content-body.profile-partial {
             .left-side {
-                padding: 10px;
+                vertical-align: top;
+                box-shadow: 0px 0px 7px black;
             }
 
             .username {
@@ -522,7 +535,11 @@
             }
 
             .right-side {
-                padding: 10px;
+                vertical-align: top;
+
+                form {
+                    padding: 10px;
+                }
             }
         }
 
@@ -575,6 +592,7 @@
                     display: inline-block;
                     padding: 0px;
                     text-overflow: ellipsis;
+
                     .anime-popup {
                         width: 100%;
                         padding-top: 155.5%;
