@@ -490,7 +490,6 @@ table {
 }
 
 .news-list {
-    white-space: nowrap;
     overflow-x: hidden;
     position: relative;
     display: flex;

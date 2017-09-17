@@ -607,6 +607,30 @@ $(document).on("click", ".resend-activation-link-popup", function () {
   });
 });
 
+// Profile Events
+$(document).on("click", ".profile-info .status, .profile-info .bio", function () {
+  var profileInfo = $(this).closest(".profile-info");
+  var profileForm = $(profileInfo).siblings(".change-profile-info-form");
+  if (profileForm.length != 0) {
+    profileForm.show();
+    profileInfo.hide();
+  }
+});
+
+$(document).on("click", ".change-profile-info-form .discard-changes", function () {
+  var profileForm = $(this).closest(".change-profile-info-form");
+  var profileInfo = $(profileForm).siblings(".profile-info");
+  if (profileInfo != null) {
+    var profileInputs = $(profileForm).find("*");
+    $(profileInputs).each(function () {
+      var initialValue = $(this).attr("data-initial-value");
+      if (initialValue != null)
+        $(this).val(initialValue);
+    })
+    profileInfo.show();
+    profileForm.hide();
+  }
+})
 // Extensions
 
 // Spinner
